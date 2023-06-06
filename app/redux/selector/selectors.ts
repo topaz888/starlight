@@ -1,0 +1,2 @@
+export const getConnectedDevice = (state: { bluetooth: { connectedDevice: string; }; }) => state.bluetooth.connectedDevice
+export const getLedStaticMode = (state: { led: { getLedStaticMode: number; }; }) => state.led.getLedStaticMode
