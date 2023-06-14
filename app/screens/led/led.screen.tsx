@@ -1,14 +1,13 @@
 import { Text, Alert, SafeAreaView, View, StyleSheet, TouchableOpacity } from  'react-native';
 import { RootState } from '../../redux/store';
-import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CTAButton from '../../components/buttons/CTAButton';
 import { sendMessage, startLEDControl } from '../../redux/bluetooth/bluetooth.reducer';
 import { Message } from "../../models/BluetoothPeripheral";
 import { moveNextMode, movePrevMode } from '../../redux/led/led.reducer';
 import { useEffect } from 'react';
-import { delay } from 'redux-saga/effects';
 
-const LEDScreen = () => {
+const LedScreen = () => {
   const dispatch = useDispatch();
 
   const ConnectedDevice = useSelector(
@@ -129,4 +128,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LEDScreen;
+export default LedScreen;

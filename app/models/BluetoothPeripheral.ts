@@ -6,5 +6,5 @@ export type BluetoothPeripheral = {
 
 export type Message = {
     deviceId: string | null;
-    message: number;
+    message: number | string;
 }

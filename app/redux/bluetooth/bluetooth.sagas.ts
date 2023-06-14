@@ -1,5 +1,5 @@
 import { call, put, take, takeEvery, select } from "redux-saga/effects";
-import { sagaActionConstants } from "./bluetooth.reducer";
+import { bluetoothActionConstants } from "./bluetooth.reducer";
 import { AnyAction, PayloadAction } from "@reduxjs/toolkit";
 import { END, TakeableChannel, eventChannel } from "redux-saga";
 // import { Device } from "react-native-ble-plx";
@@ -14,7 +14,7 @@ import {BluetoothPeripheral, Message} from '../../models/BluetoothPeripheral'
 function* watchForPeripherals(): Generator<AnyAction, void, any> {
   const isPermissionsEnabled: boolean = yield call(bluetoothLeManager.requestAndroid31Permissions);
   yield put({
-    type: sagaActionConstants.REQUEST_PERMISSIONS,
+    type: bluetoothActionConstants.REQUEST_PERMISSIONS,
     payload:isPermissionsEnabled
   })
   if(isPermissionsEnabled){
@@ -26,7 +26,7 @@ function* watchForPeripherals(): Generator<AnyAction, void, any> {
         while (true) {
           const response = yield take(channel);
           yield put({
-            type: sagaActionConstants.ON_DEVICE_DISCOVERED,
+            type: bluetoothActionConstants.ON_DEVICE_DISCOVERED,
             payload: {
               id: response.payload.id,
               name: response.payload.name,
@@ -41,35 +41,32 @@ function* watchForPeripherals(): Generator<AnyAction, void, any> {
 }
 
 function* connectToPeripheral(action: {
-  type: typeof sagaActionConstants.INITIATE_CONNECTION,
+  type: typeof bluetoothActionConstants.INITIATE_CONNECTION,
   payload: BluetoothPeripheral,
 }) {
   const peripheral = action.payload;
   yield call(bluetoothLeManager.connectToPeripheral, action.payload.id);
   yield put({
-    type: sagaActionConstants.CONNECTION_SUCCESS,
+    type: bluetoothActionConstants.CONNECTION_SUCCESS,
     payload: peripheral,
   });
   yield call(bluetoothLeManager.stopScanningForPeripherals);
-  yield put({
-    type: sagaActionConstants.START_RECEIVE_MESSAGE,
-  });
 }
 
 function* getMessage(): Generator<AnyAction, void, any> {
-  const listenMessage = () =>
+  const onListenMessage = () =>
     eventChannel(emitter => {
       bluetoothLeManager.startStreamingData(emitter);
       return () => {
         bluetoothLeManager.stopScanningForPeripherals();
       };
     });
-  const channel: TakeableChannel<string> = yield call(listenMessage);
+  const channel: TakeableChannel<string> = yield call(onListenMessage);
   try {
     while (true) {
       const response = yield take(channel);
       yield put({
-        type: sagaActionConstants.UPDATE_RECEIVE_MESSAGE,
+        type: bluetoothActionConstants.UPDATE_RECEIVE_MESSAGE,
         payload: response.payload,
       });
     }
@@ -79,23 +76,23 @@ function* getMessage(): Generator<AnyAction, void, any> {
 }
 
 function* setMessage(action: {
-  type: typeof sagaActionConstants.SEND_MESSAGE,
+  type: typeof bluetoothActionConstants.SEND_MESSAGE,
   payload: Message,
 }) {
   yield call(bluetoothLeManager.sendSignal, action.payload);
 }
 
 export function* bluetoothSaga() {
-    yield takeEvery(sagaActionConstants.SCAN_FOR_PERIPHERALS,
+    yield takeEvery(bluetoothActionConstants.SCAN_FOR_PERIPHERALS,
       watchForPeripherals,
       );
-    yield takeEvery(sagaActionConstants.INITIATE_CONNECTION,
+    yield takeEvery(bluetoothActionConstants.INITIATE_CONNECTION,
       connectToPeripheral
       );
-    yield takeEvery(sagaActionConstants.START_RECEIVE_MESSAGE,
+    yield takeEvery(bluetoothActionConstants.START_RECEIVE_MESSAGE,
       getMessage
       );
-    yield takeEvery(sagaActionConstants.SEND_MESSAGE,
+    yield takeEvery(bluetoothActionConstants.SEND_MESSAGE,
       setMessage
       );
 }

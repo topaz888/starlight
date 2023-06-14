@@ -4,7 +4,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from './screens/home/home.screen';
 import BTScreen from './screens/BT/BT.screen';
 import BlueToothConnectScreen from './screens/bluetooth/bluetooth.connect.screen';
-import LEDScreen from './screens/led/led.screen';
+import LedScreen from './screens/led/led.screen';
+import LedUserDefinedScreen from './screens/led/led.usesrdefined.screen';
+import LedChoiceScreen from './screens/led/led.choice.screen';
 
 const Stack = createStackNavigator();
 
@@ -15,7 +17,9 @@ const AppNavigator = () => {
                 <Stack.Screen name="Home" component={HomeScreen}></Stack.Screen>
                 <Stack.Screen name="BT" component={BTScreen}></Stack.Screen>
                 <Stack.Screen name="BTC" component={BlueToothConnectScreen}></Stack.Screen>
-                <Stack.Screen name="LED" component={LEDScreen}></Stack.Screen>
+                <Stack.Screen name="LED" component={LedScreen}></Stack.Screen>
+                <Stack.Screen name="LEDUD" component={LedUserDefinedScreen}></Stack.Screen>
+                <Stack.Screen name="LEDC" component={LedChoiceScreen}></Stack.Screen>
             </Stack.Navigator>
         </NavigationContainer>
     );

@@ -40,7 +40,8 @@ interface BluetoothLowEnergyApi {
 
 function useBLE(): BluetoothLowEnergyApi {
   const bleManager = useMemo(() => new BleManager(), []);
-  const [allDevices, setAllDevices] = useState<Device[]>([]);  const [connectedDevice, setConnectedDevice] = useState<Device | null>(null);
+  const [allDevices, setAllDevices] = useState<Device[]>([]);  
+  const [connectedDevice, setConnectedDevice] = useState<Device | null>(null);
   const [rvSignal, setrvSignal] = useState<number>(0);
   const [signalError, setsignalError] = useState<BleError | null>(null)
 

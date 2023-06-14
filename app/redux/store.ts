@@ -6,12 +6,14 @@ import { all, fork } from 'redux-saga/effects';
 import { rootReducer } from './root.reducer';
 import logger from 'redux-logger';
 import { useDispatch } from 'react-redux';
+import { ledSaga } from './led/led.saga';
 
 
 const sagaMiddleware = createSagaMiddleware();
 const rootSaga = function* rootSaga() {
   yield all([
-    fork(bluetoothSaga)
+    fork(bluetoothSaga),
+    fork(ledSaga)
   ])
 }
 

@@ -3,6 +3,7 @@ import { Text, Button, Alert, SafeAreaView, View } from  'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { HeaderBackButton } from '@react-navigation/elements';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
+import Slider from '@react-native-community/slider';
 
 interface BTScreenProps {
     navigation: NavigationProp<any,any>;
@@ -38,6 +39,14 @@ const BTScreen = (props:BTScreenProps) => {
             <TouchableOpacity onPress={() => Alert.alert('Button 4')}>
                 <Text>Button 4</Text>
             </TouchableOpacity>
+
+            <Slider
+  style={{width: 200, height: 40}}
+  minimumValue={0}
+  maximumValue={1}
+  minimumTrackTintColor="#FFFFFF"
+  maximumTrackTintColor="#000000"
+/>
         </View>
     );
 }

@@ -76,7 +76,7 @@ const bluetoothReducer = createSlice({
   },
 });
 
-export const sagaActionConstants = {
+export const bluetoothActionConstants = {
     REQUEST_PERMISSIONS: bluetoothReducer.actions.requestPermissions.type,
     SCAN_FOR_PERIPHERALS: bluetoothReducer.actions.scanForPeripherals.type,
     ON_DEVICE_DISCOVERED: bluetoothReducer.actions.bluetoothPeripheralsFound.type,

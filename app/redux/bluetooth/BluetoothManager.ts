@@ -118,7 +118,6 @@ class BluetoothLeManager {
     let rvsignal: number = -1;
     const rawData = this.decodeRequest(characteristic.value);
     rvsignal = rawData.charCodeAt(0);
-    console.log(`send : ${rvsignal}`);
     emitter({payload: rvsignal})
     console.log(`Receive : ${rvsignal}`);
   };
@@ -134,16 +133,20 @@ class BluetoothLeManager {
       );
   }; 
 
-  encodeRequest = (val : number) => {
-    console.log(`send : ${val}`);
-    let rawData = Buffer.from(`${val}`, 'utf8').toString('base64');
+  encodeRequest = (message : Message) => {
+    let val = message.message;
+    if(typeof val == 'string'){
+      val = +val;
+    }
+    let rawData = Buffer.from(`${val.toString(16)}`, 'utf-8').toString('base64');
+    console.log(`send: ${val.toString(16)} => ${rawData}`);
     return rawData;
   }
 
   sendSignal =async (
     message: Message
   ) => {
-    const request = this.encodeRequest(message.message);
+    const request = this.encodeRequest(message);
     if(message.deviceId!=null){
         try {
             await this.device?.discoverAllServicesAndCharacteristics();
@@ -155,10 +158,10 @@ class BluetoothLeManager {
             ) 
         }
         catch (e) {
-            console.log(e);
+            console.log("sned signal"+e);
         };
       }
-    }
+  }
 }
 
 const bluetoothLeManager = new BluetoothLeManager();
