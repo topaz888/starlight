@@ -4,25 +4,39 @@ import { call, put } from 'redux-saga/effects';
 import ledController from './LedController';
 
 type ledState = {
-    ledStaticMessage: Record<number, LedStaticModeMessage>;
+    ledStaticMessage: {mode:number, 
+                       cycle:number, 
+                       delay:number, 
+                       brightness: number,
+                       waitTime:number,
+                       waitTimeLen: number,
+                    }[]
+    customName: string[];
     ledKey: number;
     ledStaticMode: number;
-    ledMode: string;
+    ledMode: number;
     ledCycle: number;
     ledDelay: number;
     ledBrightness: number;
+    ledwaitTime:number;
+    ledwaitTimeLen:number;
+
     isUpdating: boolean;
     isUploading:boolean;
 }
 
 const initialState:ledState = {
-    ledStaticMessage: {},
+    ledStaticMessage: [],
+    customName:[],
     ledKey: 0,
     ledStaticMode: 1,
-    ledMode: 'N/A',
+    ledMode: 0,
     ledCycle: 0,
     ledDelay: 0,
     ledBrightness: 0,
+    ledwaitTime:0,
+    ledwaitTimeLen:0,
+
     isUpdating: false,
     isUploading: false,
 }
@@ -47,36 +61,71 @@ const ledReducer = createSlice({
             else if(state.ledStaticMode == minMode)
                 state.ledStaticMode = maxMode;
         },
+        updateCustomName: (state,action)=>{
+            console.log("CustomName");
+            state.customName = action.payload;
+        },
         updateledKey: (state,action)=>{
+            console.log("key");
             state.ledKey = action.payload;
             state.isUpdating = true;
         },
         updateledMode: (state,action)=>{
+            console.log("mode");
             state.ledMode = action.payload;
             state.isUpdating = true;
         },
         updateledCycle: (state,action)=>{
+            console.log("cycle");
             state.ledCycle = action.payload;
             state.isUpdating = true;
         },
         updateledDelay: (state,action)=>{
+            console.log("delay");
             state.ledDelay = action.payload;
             state.isUpdating = true;
         },
         updateledBrightness: (state,action)=>{
+            console.log("brightness");
             state.ledBrightness = action.payload;
             state.isUpdating = true;
         },
         updateledStaticMessage: state=>{
-            const staticModeMessage: LedStaticModeMessage = {cycle: state.ledCycle,
-                                                             delay: state.ledDelay,
-                                                             brightness: state.ledBrightness,
-                                                            };
+            console.log("updateledStaticMessage");
+            const staticModeMessage = {
+                                        mode: state.ledMode,
+                                        cycle: state.ledCycle,
+                                        delay: state.ledDelay,
+                                        brightness: state.ledBrightness,
+                                        waitTime: state.ledwaitTime,
+                                        waitTimeLen: state.ledwaitTimeLen,
+                                    };
             state.ledStaticMessage[state.ledKey] = staticModeMessage;
             state.isUpdating = false;
         },
+
+        updateledwaitTime: (state,action)=>{
+            console.log("waitTime");
+            state.ledwaitTime = action.payload;
+            state.isUpdating = true;
+        },
+
+        updateledwaitTimeLen: (state,action)=>{
+            console.log("waitTimeLen");
+            state.ledwaitTimeLen = action.payload;
+            state.isUpdating = true;
+        },
+
+        updateledMessageByData: (state,action)=>{
+            state.ledStaticMessage = action.payload;
+            state.ledMode = state.ledStaticMessage[0]?.mode ?? 0;
+            state.isUpdating = false;
+        },
+
         setledStaticMessage: state =>{
+            console.log(state.ledStaticMessage);
             const key = state.ledKey;
+            state.ledMode = state.ledStaticMessage[key]?.mode ?? 0;
             state.ledBrightness = state.ledStaticMessage[key]?.brightness ?? 0;
             state.ledCycle = state.ledStaticMessage[key]?.cycle ?? 0;
             state.ledDelay = state.ledStaticMessage[key]?.delay ?? 0;
@@ -89,6 +138,7 @@ const ledReducer = createSlice({
 
 export const ledActionConstants = {
     UPDATE_KEY: ledReducer.actions.updateledKey.type,
+    UPDATE_MODE: ledReducer.actions.updateledMode.type,
     UPDATE_BRIGHTNESS: ledReducer.actions.updateledBrightness.type,
     UPDATE_CYCLE: ledReducer.actions.updateledCycle.type, 
     UPDATE_DELAY: ledReducer.actions.updateledDelay.type,
@@ -100,6 +150,7 @@ export const ledActionConstants = {
 export const {
     moveNextMode,
     movePrevMode,
+    updateCustomName,
     updateledKey,
     updateledMode,
     updateledCycle,
@@ -107,6 +158,9 @@ export const {
     updateledBrightness,
     setledStaticMessage,
     uploadMessage,
+    updateledMessageByData,
+    updateledwaitTime,
+    updateledwaitTimeLen
 } = ledReducer.actions
 
 

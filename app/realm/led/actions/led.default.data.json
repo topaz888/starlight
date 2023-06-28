@@ -1,0 +1,216 @@
+{
+    "staticMode": {
+      "mode": {
+        "1": {
+            "message": {
+                "cycle": "[1,0,0,1]",
+                "delay": "null",
+                "brightness": "[100,0,0,100]"
+            }
+        },
+        "2": {
+            "message": {
+                "cycle": "[0,1,0,1]",
+                "delay": "null",
+                "brightness": "[0,100,0,100]"
+            }
+        },
+        "3": {
+            "message": {
+                "cycle": "[0,0,1,1]",
+                "delay": "null",
+                "brightness": "[0,0,100,100]"
+            }
+        },
+        "4": {
+            "message": {
+                "cycle": "[1,1,0,1]",
+                "delay": "null",
+                "brightness": "[100,100,0,100]"
+            }
+        },
+        "5": {
+            "message": {
+                "cycle": "[0,1,1,1]",
+                "delay": "null",
+                "brightness": "[0,100,100,100]"
+            }
+        },
+        "6": {
+            "message": {
+                "cycle": "[1,0,1,1]",
+                "delay": "null",
+                "brightness": "[100,0,100,100]"
+            }
+        },
+        "7": {
+            "message": {
+                "cycle": "[1,1,1,1]",
+                "delay": "null",
+                "brightness": "[100,100,100,100]"
+            }
+        },
+        "8": {
+            "message": {
+                "cycle": "[0.5,0.5,0.5,0.5]",
+                "delay": "null",
+                "brightness": "[100,100,100,100]"
+            }
+        },
+        "9": {
+            "message": {
+                "cycle": "[0.5,0.5,0.5,0.5]",
+                "delay": "null",
+                "brightness": "[100,100,100,100]"
+            }
+        },
+        "10": {
+            "message": {
+                "cycle": "[0.1,0,0,1]",
+                "delay": "null",
+                "brightness": "[100,0,0,100]"
+            }
+        },
+        "11": {
+            "message": {
+                "cycle": "[0,0.1,0,1]",
+                "delay": "null",
+                "brightness": "[0,100,0,100]"
+            }
+        },
+        "12": {
+            "message": {
+                "cycle": "[0,0,0.1,1]",
+                "delay": "null",
+                "brightness": "[0,0,100,100]"
+            }
+        },
+        "13": {
+            "message": {
+                "cycle": "[0.1,0.1,0.1,1]",
+                "delay": "null",
+                "brightness": "[100,100,100,100]"
+            }
+        },
+        "14": {
+            "message": {
+                "cycle": "[0.1,0.1,0.1,1]",
+                "delay": "null",
+                "brightness": "[100,100,100,100]"
+            }
+        },
+        "15": {
+            "message": {
+                "cycle": "[0.1,0.1,0.1,1]",
+                "delay": "null",
+                "brightness": "[100,100,100,50]"
+            }
+        },
+        "16": {
+            "message": {
+                "cycle": "[2,0,0,1]",
+                "delay": "{0,0,0,0}",
+                "brightness": "[100,0,0,70]"
+            }
+        },
+        "17": {
+            "message": {
+                "cycle": "[1,1,1,1]",
+                "delay": "null",
+                "brightness": "[0,100,0,70]"
+            }
+        },
+        "18": {
+            "message": {
+                "cycle": "[1,1,1,1]",
+                "delay": "null",
+                "brightness": "[100,100,100,100]"
+            }
+        },
+        "19": {
+            "message": {
+                "cycle": "[1,1,1,1]",
+                "delay": "null",
+                "brightness": "[100,100,100,100]"
+            }
+        },
+        "20": {
+            "message": {
+                "cycle": "[1,1,1,1]",
+                "delay": "null",
+                "brightness": "[100,100,100,100]"
+            }
+        },
+        "21": {
+            "message": {
+                "cycle": "[1,1,1,1]",
+                "delay": "null",
+                "brightness": "[100,100,100,100]"
+            }
+        },
+        "22": {
+            "message": {
+                "cycle": "[1,1,1,1]",
+                "delay": "null",
+                "brightness": "[100,100,100,100]"
+            }
+        },
+        "23": {
+            "message": {
+                "cycle": "[1,1,1,1]",
+                "delay": "null",
+                "brightness": "[100,100,100,100]"
+            }
+        },
+        "24": {
+            "message": {
+                "cycle": "[1,1,1,1]",
+                "delay": "null",
+                "brightness": "[100,100,100,100]"
+            }
+        },
+        "25": {
+            "message": {
+                "cycle": "[1,1,1,1]",
+                "delay": "null",
+                "brightness": "[100,100,100,100]"
+            }
+        },
+        "26": {
+            "message": {
+                "cycle": "[1,1,1,1]",
+                "delay": "null",
+                "brightness": "[100,100,100,100]"
+            }
+        },
+        "27": {
+            "message": {
+                "cycle": "[1,1,1,1]",
+                "delay": "null",
+                "brightness": "[100,100,100,100]"
+            }
+        },
+        "28": {
+            "message": {
+                "cycle": "[1,1,1,1]",
+                "delay": "null",
+                "brightness": "[100,100,100,100]"
+            }
+        },
+        "29": {
+            "message": {
+                "cycle": "[1,1,1,1]",
+                "delay": "null",
+                "brightness": "[100,100,100,100]"
+            }
+        },
+        "30": {
+            "message": {
+                "cycle": "[1,1,1,1]",
+                "delay": "null",
+                "brightness": "[100,100,100,100]"
+            }
+        }
+      }
+    }
+}

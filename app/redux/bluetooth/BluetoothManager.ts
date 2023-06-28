@@ -138,8 +138,13 @@ class BluetoothLeManager {
     if(typeof val == 'string'){
       val = +val;
     }
-    let rawData = Buffer.from(`${val.toString(16)}`, 'utf-8').toString('base64');
-    console.log(`send: ${val.toString(16)} => ${rawData}`);
+    let rawData = '';
+    try{
+      rawData = Buffer.from(`${val.toString(16)}`, 'utf-8').toString('base64');
+      console.log(`send: ${val.toString(16)} => ${rawData}`);
+    }catch(e){
+      console.log(e)
+    }
     return rawData;
   }
 

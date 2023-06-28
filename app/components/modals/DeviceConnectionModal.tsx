@@ -7,10 +7,13 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
+  View,
 } from 'react-native';
 import {BluetoothPeripheral} from '../../models/BluetoothPeripheral';
 import CTAButton from '../buttons/CTAButton';
+import { screenWidth } from '../constant/constant';
 
+const _screenWidth = screenWidth;
 type DeviceModalListItemProps = {
   item: ListRenderItemInfo<BluetoothPeripheral>;
   connectToPeripheral: (device: BluetoothPeripheral) => void;
@@ -64,7 +67,9 @@ const DeviceModal: FC<DeviceModalProps> = props => {
           data={devices}
           renderItem={renderDeviceModalListItem}
         />
-        <CTAButton title= "Close" onPress={closeModal} />
+        <View style={modalStyle.buttonContainer}>
+          <CTAButton title= "Close" onPress={closeModal} />
+        </View>
       </SafeAreaView>
     </Modal>
   );
@@ -79,6 +84,11 @@ const modalStyle = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
+  buttonContainer: {
+    position:'absolute',
+    bottom: 20,
+    left: _screenWidth/2-150,
+},
   modalCellOutline: {
     borderWidth: 1,
     borderColor: 'black',

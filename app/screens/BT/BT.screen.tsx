@@ -1,9 +1,10 @@
 import React, { useState, useEffect }from 'react';
-import { Text, Button, Alert, SafeAreaView, View } from  'react-native';
+import { Text, Button, Alert, SafeAreaView, View, StyleSheet } from  'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { HeaderBackButton } from '@react-navigation/elements';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import Slider from '@react-native-community/slider';
+import DialogInput from '../../components/dialogInput/CustomDialogInput';
 
 interface BTScreenProps {
     navigation: NavigationProp<any,any>;
@@ -22,9 +23,13 @@ const BTScreen = (props:BTScreenProps) => {
                                     )});
     }); 
 
+    function setVisible(arg0: boolean): void {
+        throw new Error('Function not implemented.');
+    }
+
     return (
         <View>
-             <TouchableOpacity onPress={() => Alert.alert('Button 1')}>
+             <TouchableOpacity style={styles.activeButtonContiner} onPress={() => Alert.alert('Button 1')}>
                 <Text>Button 1</Text>
             </TouchableOpacity>
             
@@ -50,5 +55,18 @@ const BTScreen = (props:BTScreenProps) => {
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    activeButtonContiner: {
+        height: 55,
+        width: 70,
+        marginHorizontal: "auto",
+        backgroundColor: '#D9C2F5',
+        borderRadius: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 10,
+      },
+})
 
 export default BTScreen;

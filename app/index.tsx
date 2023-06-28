@@ -2,11 +2,11 @@ import React from 'react';
 import AppNavigator from './app.navigator';
 import { Provider as PaperProvider } from 'react-native-paper';
 
-const Home = () => {
 
+const Home = () => {
   return (
     <PaperProvider>
-      <AppNavigator />
+        <AppNavigator/>
     </PaperProvider>
   );
 }

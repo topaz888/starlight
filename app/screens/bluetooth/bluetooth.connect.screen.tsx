@@ -11,8 +11,9 @@ import { scanForPeripherals, initiateConnection } from "../../redux/bluetooth/bl
 import CTAButton from "../../components/buttons/CTAButton";
 import { BluetoothPeripheral } from "../../models/BluetoothPeripheral";
 import DeviceModal from "../../components/modals/DeviceConnectionModal";
+import { screenWidth } from "../../components/constant/constant";
 
-
+const _screenWidth = screenWidth;
 const BlueToothConnectScreen = () => {
     const dispatch = useDispatch();
     const devices = useSelector(
@@ -51,6 +52,7 @@ const BlueToothConnectScreen = () => {
           </Text>
         )}
       </View>
+      <View style={styles.buttonContainer}>
       <CTAButton
         title="Connect"
         onPress={() => {
@@ -58,6 +60,7 @@ const BlueToothConnectScreen = () => {
           setIsModalVisible(true);
         }}
       />
+      </View>
       <DeviceModal
         devices={devices}
         visible={isModalVisible}
@@ -78,6 +81,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  buttonContainer: {
+    position:'absolute',
+    bottom: 20,
+    left: _screenWidth/2-150,
+},
   heartRateTitleText: {
     fontSize: 30,
     fontWeight: 'bold',

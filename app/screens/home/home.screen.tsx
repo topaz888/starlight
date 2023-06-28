@@ -11,6 +11,10 @@ interface HomeScreenProps {
 const HomeScreen = (props: HomeScreenProps) => {
     return (
         <View>
+            <TouchableOpacity onPress={() => props.navigation.navigate({name: 'LEDS',params: {  ...props.route.params }})}>
+                <Text>Start</Text>
+            </TouchableOpacity>
+
             <TouchableOpacity onPress={() => props.navigation.navigate({name: 'BTC',params: {  ...props.route.params }})}>
                 <Text>BTConnect</Text>
             </TouchableOpacity>
@@ -27,10 +31,14 @@ const HomeScreen = (props: HomeScreenProps) => {
                 <Text>UserDefine</Text>
             </TouchableOpacity>
 
+            <TouchableOpacity onPress={() => props.navigation.navigate({name: 'LEDCU',params: {  ...props.route.params }})}>
+                <Text>Custom</Text>
+            </TouchableOpacity>
+
             <TouchableOpacity onPress={() => props.navigation.navigate({name: 'BT',params: {  ...props.route.params }})}>
                 <Text>BlueTooth</Text>
             </TouchableOpacity>
-
+            
             <TouchableOpacity onPress={() => Alert.alert('Wifi Undefined')}>
                 <Text>Wifi</Text>
             </TouchableOpacity>

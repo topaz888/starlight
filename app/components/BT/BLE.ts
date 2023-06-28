@@ -13,7 +13,6 @@ import {
 import DeviceInfo from "react-native-device-info";
 
 import base64 from 'react-native-base64';
-import {atob, btoa} from 'react-native-quick-base64';
 
 const ESP32_UUID = '4fafc201-1fb5-459e-8fcc-c5c9c331914b';
 const ESP32_CHARACTERISTIC = 'beb5483e-36e1-4688-b7f5-ea07361b26a8';

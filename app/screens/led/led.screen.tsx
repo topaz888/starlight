@@ -24,7 +24,6 @@ const LedScreen = () => {
   useEffect(() => {
     if(isConnected)
       sdMessage(ConnectedDevice,ledStaticMode)
-    console.log("current user changed", ledStaticMode)
   },[ledStaticMode])
 
 

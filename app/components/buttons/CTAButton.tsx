@@ -6,7 +6,7 @@ type CTAButtonProps = {title: string; onPress: () => void};
 
 const CTAButton: FC<CTAButtonProps> = props => {
   return (
-    <TouchableOpacity style={styles.ButtonContiner} onPress={props.onPress} key={1}>
+    <TouchableOpacity style={styles.ButtonContiner} onPress={props.onPress} key={1} activeOpacity={0.5}>
       <Text style={styles.ButtonText}>{props.title}</Text>
     </TouchableOpacity>
   );
@@ -14,7 +14,8 @@ const CTAButton: FC<CTAButtonProps> = props => {
 
 const styles = StyleSheet.create({
   ButtonContiner: {
-    height: 55,
+    height: 40,
+    width: 300,
     marginHorizontal: "auto",
     backgroundColor: '#7735C2',
     borderRadius: 8,

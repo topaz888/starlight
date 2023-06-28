@@ -70,8 +70,10 @@ const bluetoothReducer = createSlice({
     receiveMessage: (state, action) => {
       state.receiveMessage = action.payload;
     },
-    sendMessage: (state, _) => {
+    sendMessage: (state, action) => {
       state.isSendMessage = true;
+      if(action.payload.deviceId == null)
+        action.payload.deviceId = state.connectedDevice;
     },
   },
 });
