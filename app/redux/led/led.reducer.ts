@@ -1,21 +1,16 @@
 import {createSlice, Dictionary, PayloadAction} from '@reduxjs/toolkit';
-import { LedStaticModeMessage } from '../../models/LedMessage';
+import { messageNumber } from '../../models/LedMessage';
 import { call, put } from 'redux-saga/effects';
 import ledController from './LedController';
 
 type ledState = {
-    ledStaticMessage: {mode:number, 
-                       cycle:number, 
-                       delay:number, 
-                       brightness: number,
-                       waitTime:number,
-                       waitTimeLen: number,
-                    }[]
+    ledCustomMessage: messageNumber[]
     customName: string[];
     ledKey: number;
     ledStaticMode: number;
     ledMode: number;
     ledCycle: number;
+    ledCycle2: number;
     ledDelay: number;
     ledBrightness: number;
     ledwaitTime:number;
@@ -26,14 +21,15 @@ type ledState = {
 }
 
 const initialState:ledState = {
-    ledStaticMessage: [],
+    ledCustomMessage: [],
     customName:[],
     ledKey: 0,
     ledStaticMode: 1,
     ledMode: 0,
     ledCycle: 0,
+    ledCycle2: 0,
     ledDelay: 0,
-    ledBrightness: 0,
+    ledBrightness: 67,
     ledwaitTime:0,
     ledwaitTimeLen:0,
 
@@ -80,6 +76,11 @@ const ledReducer = createSlice({
             state.ledCycle = action.payload;
             state.isUpdating = true;
         },
+        updateledCycle2: (state,action)=>{
+            console.log("cycle2");
+            state.ledCycle2 = action.payload;
+            state.isUpdating = true;
+        },
         updateledDelay: (state,action)=>{
             console.log("delay");
             state.ledDelay = action.payload;
@@ -90,17 +91,18 @@ const ledReducer = createSlice({
             state.ledBrightness = action.payload;
             state.isUpdating = true;
         },
-        updateledStaticMessage: state=>{
-            console.log("updateledStaticMessage");
-            const staticModeMessage = {
+        updateledCustomMessage: state=>{
+            console.log("updateledCustomMessage");
+            const staticModeMessage:messageNumber = {
                                         mode: state.ledMode,
                                         cycle: state.ledCycle,
+                                        cycle2: state.ledCycle2,
                                         delay: state.ledDelay,
                                         brightness: state.ledBrightness,
                                         waitTime: state.ledwaitTime,
                                         waitTimeLen: state.ledwaitTimeLen,
                                     };
-            state.ledStaticMessage[state.ledKey] = staticModeMessage;
+            state.ledCustomMessage[state.ledKey] = staticModeMessage;
             state.isUpdating = false;
         },
 
@@ -117,18 +119,18 @@ const ledReducer = createSlice({
         },
 
         updateledMessageByData: (state,action)=>{
-            state.ledStaticMessage = action.payload;
-            state.ledMode = state.ledStaticMessage[0]?.mode ?? 0;
+            state.ledCustomMessage = action.payload;
+            state.ledMode = state.ledCustomMessage[0]?.mode ?? 0;
             state.isUpdating = false;
         },
 
         setledStaticMessage: state =>{
-            console.log(state.ledStaticMessage);
+            console.log("setledStaticMessage");
             const key = state.ledKey;
-            state.ledMode = state.ledStaticMessage[key]?.mode ?? 0;
-            state.ledBrightness = state.ledStaticMessage[key]?.brightness ?? 0;
-            state.ledCycle = state.ledStaticMessage[key]?.cycle ?? 0;
-            state.ledDelay = state.ledStaticMessage[key]?.delay ?? 0;
+            state.ledMode = state.ledCustomMessage[key]?.mode ?? 0;
+            state.ledBrightness = state.ledCustomMessage[key]?.brightness ?? 0;
+            state.ledCycle = state.ledCustomMessage[key]?.cycle ?? 0;
+            state.ledDelay = state.ledCustomMessage[key]?.delay ?? 0;
         },
         uploadMessage: (state, _) => {
             state.isUploading = true;
@@ -142,7 +144,7 @@ export const ledActionConstants = {
     UPDATE_BRIGHTNESS: ledReducer.actions.updateledBrightness.type,
     UPDATE_CYCLE: ledReducer.actions.updateledCycle.type, 
     UPDATE_DELAY: ledReducer.actions.updateledDelay.type,
-    UPDATE_STATIC_MESSAGE: ledReducer.actions.updateledStaticMessage.type,
+    UPDATE_CUSTOM_MESSAGE: ledReducer.actions.updateledCustomMessage.type,
     SET_LED_STATIC_MESSAGE: ledReducer.actions.setledStaticMessage.type,
     UPLOAD_MESSAGE: ledReducer.actions.uploadMessage.type,
   };
@@ -154,6 +156,7 @@ export const {
     updateledKey,
     updateledMode,
     updateledCycle,
+    updateledCycle2,
     updateledDelay,
     updateledBrightness,
     setledStaticMessage,

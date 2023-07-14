@@ -4,15 +4,16 @@ import CTAButton from '../../components/buttons/CTAButton';
 import DataSlider from "../../components/sliders/DataSlider";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { updateledBrightness, updateledCycle, updateledDelay, updateledKey, setledStaticMessage, uploadMessage, updateledMode, updateledwaitTime, updateledwaitTimeLen } from "../../redux/led/led.reducer";
+import { updateledBrightness, updateledCycle, updateledDelay, updateledKey, setledStaticMessage, uploadMessage, updateledMode, updateledwaitTime, updateledwaitTimeLen, updateledCycle2 } from "../../redux/led/led.reducer";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import { handleAddLed } from "../../realm/led/actions/led.actions";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { screenWidth } from "../../components/constant/constant";
 import LedToggleButton from "../../components/buttons/ToggleButton";
 import ModeToggleButton from "../../components/buttons/ModeToggleButton";
 import CustomTab from "../../components/tabbBar/CustomTab";
 import BreathToggleButton from "../../components/buttons/BreathToggleButton";
+import { messageNumber } from "../../models/LedMessage";
 
 const _screenWidth = screenWidth;
 
@@ -22,13 +23,7 @@ interface LedScreenProps {
   }
 
 const LedCustomScreen = (props:LedScreenProps) =>{
-    const [modeId, useModeId] = useState();
-    useEffect(() =>{
-        let tempModeId = props.route?.params?.modeId;
-        if (tempModeId!=null) {
-            useModeId(tempModeId);
-        }
-      },[props]); 
+    const modeId = useMemo<string>(()=>{return (props.route.params?.modeId)}, [props.route.params?.modeId])
 
     const ledKey = useSelector(
         (state: RootState) => state.led.ledKey,
@@ -41,6 +36,10 @@ const LedCustomScreen = (props:LedScreenProps) =>{
     const ledCycle = useSelector(
         (state: RootState) => state.led.ledCycle,
       );
+    
+    const ledCycle2 = useSelector(
+        (state: RootState) => state.led.ledCycle2,
+      );
 
     const ledDelay = useSelector(
         (state: RootState) => state.led.ledDelay,
@@ -51,7 +50,7 @@ const LedCustomScreen = (props:LedScreenProps) =>{
     );
 
     const ledMessage = useSelector(
-        (state: RootState) => state.led.ledStaticMessage,
+        (state: RootState) => state.led.ledCustomMessage,
     );
 
     const ledWaitTime = useSelector(
@@ -77,6 +76,10 @@ const LedCustomScreen = (props:LedScreenProps) =>{
         dispatch(updateledCycle(message));
     }
 
+    const updataLedCycle2 = (message: string) => {
+        dispatch(updateledCycle2(message));
+    }
+
     const updataLedDelay = (message: string) => {
         dispatch(updateledDelay(message));
     }
@@ -94,13 +97,13 @@ const LedCustomScreen = (props:LedScreenProps) =>{
     }
 
 
-    const uploadMessage = (message: { mode:number, cycle: number; delay: number; brightness: number; 
-                                    waitTime:number, waitTimeLen:number }[]) => {
+    const uploadMessage = async (message: messageNumber[]) => {
         console.log("test1");
         try{
-            // if(!modeId) throw new Error("Error:MODEID IS NULL");
             console.log(message);
-            handleAddLed(modeId??null, message);
+            const success = await handleAddLed(modeId??null, message);
+            if(!success) throw new Error("Error: Inserting an item");
+            else props.navigation.goBack();
         }catch(e){
             console.log(e);
         }
@@ -112,20 +115,46 @@ const LedCustomScreen = (props:LedScreenProps) =>{
 
     const viewLedParameter = () =>{
         return(
-            <View style={styles.controlPanel}>
-                <View style={styles.dataContainer}>
-                    <Text style={styles.Text}>Cycle</Text>
-                    <DataSlider minVal={0} maxVal={100} step={1} onPress={updataLedCycle} value={ledCycle}/>
+            <>{ledMode===0?
+                <View style={styles.controlPanel}>
+                    <View style={styles.dataContainer}>
+                        <Text style={styles.Text}>Brightness</Text>
+                        <DataSlider minVal={0} maxVal={1000} step={10} onPress={updataLedBrightness} value={ledBrightness}/>
+                    </View>
                 </View>
-                <View style={styles.dataContainer}>
-                    <Text style={styles.Text}>Delay</Text>
-                    <DataSlider minVal={0} maxVal={10} step={2.5} onPress={updataLedDelay} value={ledDelay}/>
+                :
+                ledMode===1?
+                <View style={styles.controlPanel}>
+                    <View style={styles.dataContainer}>
+                        <Text style={styles.Text}>Bright Cycle</Text>
+                        <DataSlider minVal={0} maxVal={100} step={1} onPress={updataLedCycle} value={ledCycle}/>
+                    </View>
+                    <View style={styles.dataContainer}>
+                        <Text style={styles.Text}>Dark Cycle</Text>
+                        <DataSlider minVal={0} maxVal={100} step={1} onPress={updataLedCycle2} value={ledCycle2}/>
+                    </View>
+                    <View style={styles.dataContainer}>
+                        <Text style={styles.Text}>Brightness</Text>
+                        <DataSlider minVal={0} maxVal={1000} step={10} onPress={updataLedBrightness} value={ledBrightness}/>
+                    </View>
                 </View>
-                <View style={styles.dataContainer}>
-                    <Text style={styles.Text}>Brightness</Text>
-                    <DataSlider minVal={0} maxVal={1000} step={10} onPress={updataLedBrightness} value={ledBrightness}/>
+                :
+                ledMode===2 &&
+                <View style={styles.controlPanel}>
+                    <View style={styles.dataContainer}>
+                        <Text style={styles.Text}>Cycle</Text>
+                        <DataSlider minVal={0} maxVal={100} step={1} onPress={updataLedCycle} value={ledCycle}/>
+                    </View>
+                    <View style={styles.dataContainer}>
+                        <Text style={styles.Text}>Delay</Text>
+                        <DataSlider minVal={0} maxVal={10} step={2.5} onPress={updataLedDelay} value={ledDelay}/>
+                    </View>
+                    <View style={styles.dataContainer}>
+                        <Text style={styles.Text}>Brightness</Text>
+                        <DataSlider minVal={0} maxVal={1000} step={10} onPress={updataLedBrightness} value={ledBrightness}/>
+                    </View>
                 </View>
-            </View>   
+            }</>
         )
     }
 
@@ -141,12 +170,8 @@ const LedCustomScreen = (props:LedScreenProps) =>{
                 ledMode===1 ?
                 <View style={styles.controlPanel}>
                     <View style={styles.dataContainer}>
-                    <Text style={styles.Text}>Bright Time</Text>
+                    <Text style={styles.Text}>Wait Time</Text>
                         <DataSlider minVal={0} maxVal={100} step={1} onPress={updataLedWaitTime} value={ledWaitTime}/>
-                    </View>
-                    <View style={styles.dataContainer}>
-                        <Text style={styles.Text}>Dark Time</Text>
-                        <DataSlider minVal={0} maxVal={100} step={1} onPress={updataLedWaitTimeLen} value={ledWaitTimeLen}/>
                     </View>
                 </View>
                 :
@@ -164,6 +189,7 @@ const LedCustomScreen = (props:LedScreenProps) =>{
             }</>
         )
     }
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.dataContainer}>
@@ -205,7 +231,7 @@ const LedCustomScreen = (props:LedScreenProps) =>{
                     <CustomTab title={['Parameter', `Timer`]} renderView={[viewLedParameter, viewLedTimer]}/>
                 </View>
             <View style={styles.buttonContainer}>
-                <CTAButton title={'upload'} onPress={()=>{uploadMessage(ledMessage)}}/>
+                <CTAButton title={'upload'} onPress={async ()=>{await uploadMessage(ledMessage)}}/>
             </View>
         </SafeAreaView>
     );

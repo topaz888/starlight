@@ -1,47 +1,62 @@
-export type LedUserDefinedMessage = {
-    mode: string;
-    delay: number;
-    brightness: number;
-    cycle: number;
-    waitingTime: number;
-    length: number;
-}
-
-export type LedStaticModeMessage = {
-    delay: number;
-    cycle: number;
-    brightness: number;
-}
-
-export type BigIntLedStaticModeMessage = {
-    delay: bigint;
-    cycle: bigint;
-    brightness: bigint;
-}
-
 export type LedMessage = {
-    message: Record<number, LedStaticModeMessage>;
+    messages: messageNumber[];
     deviceId: string | null;
 }
 
 export enum dataIndex {
     mode = 0,
     cycle,
+    cycle2,
     delay,
     brightness,  
     waitTime,
     waitTimeLen,
 }
-
+//realm LedRealm message type
 export type message = {
-    brightness: string,
-    cycle: string, 
-    delay: string, 
     ledId: string,
     mode: string,
-    waitTime: string,
-    waitTimeLen: string
+    cycle: string,
+    cycle2: string|null,
+    delay: string|null, 
+    brightness: string,
+    waitTime: string|null,
+    waitTimeLen: string|null
 }
+
+export type messageNumber = {
+    mode: number|null,
+    delay: number|null, 
+    brightness: number|null,
+    cycle: number|null,
+    cycle2: number|null,
+    waitTime: number|null,
+    waitTimeLen: number|null
+}
+
+export type messageBigInt = {
+    mode: bigint | null;
+    delay: bigint | null;
+    cycle: bigint | null;
+    cycle2: bigint | null;
+    brightness: bigint | null;
+    packageLen: number | null;
+}
+
+export type ledArray = {
+    modeId: string;
+    cycle: string[] | undefined;
+    cycle2: string[] | undefined;
+    brightness: string[];
+}
+
+export type ledArrayNumber = {
+    modeId: string;
+    cycle: number[];
+    cycle2: number[];
+    brightness: number[];
+}
+
 
 export type realmData = {
     _id: string;
@@ -49,3 +64,9 @@ export type realmData = {
     message:message[];
     createdAt: Date;
 }[]
+
+
+export type brightAndCycleNumber = {
+    brightness: number,
+    cycle: number,
+}

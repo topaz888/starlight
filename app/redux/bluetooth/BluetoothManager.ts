@@ -148,10 +148,10 @@ class BluetoothLeManager {
     return rawData;
   }
 
-  sendSignal =async (
-    message: Message
-  ) => {
+  sendSignal = async (message: Message) => {
+    // console.log(message.message);
     const request = this.encodeRequest(message);
+    // console.log(request);
     if(message.deviceId!=null){
         try {
             await this.device?.discoverAllServicesAndCharacteristics();

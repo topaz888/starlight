@@ -1,29 +1,3 @@
-import {Realm} from '@realm/react';
-import { LedStaticModeMessage } from '../../../models/LedMessage';
-
-export const LEDSTATICREALM = {
-  name: 'LedRealm',
-  properties:{
-    ledId: 'string',
-    modeId: 'string',
-    mode:'string',
-    cycle: 'string',
-    delay: 'string',
-    brightness: 'string',
-  },
-}
-
-export const LEDSTATICLISTREALM = {
-  name: 'LedListRealm',
-  properties:{
-    _id: 'objectId',
-    modeId: 'string?',
-    message: { type: 'list', objectType: 'LedRealm'},
-    createdAt: 'date',
-  },
-  primaryKey: '_id',
-}
-
 export const LEDREALM = {
     name: 'LedRealm',
     properties:{
@@ -31,10 +5,11 @@ export const LEDREALM = {
       modeId: 'string',
       mode:'string',
       cycle: 'string',
-      delay: 'string',
+      cycle2: 'string?',
+      delay: 'string?',
       brightness: 'string',
-      waitTime:'string',
-      waitTimeLen:'string',
+      waitTime:'string?',
+      waitTimeLen:'string?',
     },
   }
   
@@ -53,10 +28,19 @@ export const LEDLISTREALM = {
   export const PERSISTLEDREALM = {
     name: 'PersistLedRealm',
     properties:{
-      id: 'string',
-      cycle: 'string',
-      delay: 'string',
+      modeId: 'string',
+      cycle: 'string?',
       brightness: 'string',
+    }
+  }
+
+  export const PERSISTLEDARRAYREALM = {
+    name: 'PersistLedArrayRealm',
+    properties:{
+      modeId: 'string',
+      cycle: { type: 'string?[]' },
+      cycle2: { type: 'string?[]' },
+      brightness: { type: 'string?[]'},
     }
   }
   
@@ -65,7 +49,9 @@ export const PERSISTLEDLISTREALM = {
     properties:{
       _id: 'objectId',
       modeId: 'string?',
-      message: { type: 'list', objectType: 'PersistLedRealm'},
+      message: { type: 'PersistLedRealm'},
+      ledArray: {type: 'PersistLedArrayRealm?'},
+      default: 'bool',
       createdAt: 'date',
     },
     primaryKey: '_id',

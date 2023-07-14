@@ -1,7 +1,7 @@
 import { put, takeEvery } from "redux-saga/effects";
 import { ledActionConstants } from "./led.reducer";
 import ledController from "./LedController";
-import { BigIntLedStaticModeMessage, LedStaticModeMessage, LedMessage } from "../../models/LedMessage";
+import { messageBigInt, LedMessage } from "../../models/LedMessage";
 import { TakeableChannel, eventChannel } from "redux-saga";
 import { AnyAction } from "redux";
 import { bluetoothActionConstants } from "../bluetooth/bluetooth.reducer";
@@ -12,7 +12,7 @@ const call: any = Effects.call;
 
 function* updateMessage() {
     yield put({
-        type: ledActionConstants.UPDATE_STATIC_MESSAGE,
+        type: ledActionConstants.UPDATE_CUSTOM_MESSAGE,
       });
 }
 
@@ -22,24 +22,51 @@ function* uploadMessage(action:{
 }) : Generator<AnyAction, void, any>  {
     
     if(typeof(action.payload) != "string"){
-        const data: BigIntLedStaticModeMessage = yield call(ledController.deserializeWriteData,action.payload.message)
+        const data: messageBigInt = yield call(ledController.deserializeWriteData,action.payload.messages)
         
-        const cycleMessage : Message = {deviceId: action.payload.deviceId, message: data.cycle.toString()}
-        yield put({
-            type: bluetoothActionConstants.SEND_MESSAGE,
-            payload: cycleMessage,
-        })
-        const delayMessage : Message = {deviceId: action.payload.deviceId, message: data.delay.toString()}
-        yield put({
-            type: bluetoothActionConstants.SEND_MESSAGE,
-            payload: delayMessage,
-        })
-        const brightnessMessage : Message = {deviceId: action.payload.deviceId, message: data.brightness.toString()}
-        yield put({
-            type: bluetoothActionConstants.SEND_MESSAGE,
-            payload: brightnessMessage,
-        })
-    }else{const data: number = yield call(ledController.deserializeReadData,action.payload)
+        console.log(data);
+        if(data.mode){
+            const modeMessage : Message = {deviceId: action.payload.deviceId, message: data.mode.toString()}
+            yield put({
+                type: bluetoothActionConstants.SEND_MESSAGE,
+                payload: modeMessage,
+            })
+        }
+
+        if(data.delay){
+            const delayMessage : Message = {deviceId: action.payload.deviceId, message: data.delay.toString()}
+            yield put({
+                type: bluetoothActionConstants.SEND_MESSAGE,
+                payload: delayMessage,
+            })
+        }
+
+        if(data.cycle){
+            const cycleMessage : Message = {deviceId: action.payload.deviceId, message: data.cycle.toString()}
+            yield put({
+                type: bluetoothActionConstants.SEND_MESSAGE,
+                payload: cycleMessage,
+            })
+        }
+
+        if(data.cycle2){
+            const cycle2Message : Message = {deviceId: action.payload.deviceId, message: data.cycle2.toString()}
+            yield put({
+                type: bluetoothActionConstants.SEND_MESSAGE,
+                payload: cycle2Message,
+            })
+        }
+
+        if(data.brightness){
+            const brightnessMessage : Message = {deviceId: action.payload.deviceId, message: data.brightness.toString()}
+            yield put({
+                type: bluetoothActionConstants.SEND_MESSAGE,
+                payload: brightnessMessage,
+            })
+        }
+    }else{
+        //reading when the status is default
+        const data: number = yield call(ledController.deserializeReadData,action.payload)
         const message : Message = {deviceId: null, message: data}
         yield put({
             type: bluetoothActionConstants.SEND_MESSAGE,

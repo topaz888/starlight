@@ -6,7 +6,6 @@ type ToggleButtonProps = {title: string[]; onPress: Function; val:number;};
 const ModeToggleButton: FC<ToggleButtonProps> = props => {
   const [status, setStatus] = React.useState(0);
   useEffect(() => {
-      console.log(props.val)
       onButtonToggle(props.val??0);
     },[props.val]);
 

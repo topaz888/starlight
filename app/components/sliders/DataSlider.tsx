@@ -1,12 +1,17 @@
 import Slider from '@react-native-community/slider';
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import {Text, StyleSheet, View} from 'react-native';
 
 type DataSliderProps = {minVal: number; maxVal: number; step: number; onPress: Function; value: number};
 
 const DataSlider: FC<DataSliderProps> = props => {
+  const [initVal,setInitVal] = useState<number>();
+  useEffect(()=>{
+    console.log("DataSlider how many times");
+    setInitVal(props.value/1);
+    },[])
   const onValChange = (val:number) => {
-    props.onPress(val/10);
+    props.onPress(val);
   };
   return (
     <View style={styles.Continer}>
@@ -14,7 +19,7 @@ const DataSlider: FC<DataSliderProps> = props => {
         <Slider
           style={styles.slider}
           onValueChange={(val) => onValChange(val)}
-          value={props.value*10}
+          value={initVal}
           minimumValue={props.minVal}
           maximumValue={props.maxVal}
           step={props.step}

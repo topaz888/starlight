@@ -1,12 +1,14 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import {Alert, SectionList, StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavigationProp, RouteProp, useIsFocused } from '@react-navigation/native';
-import { updateledMessageByData, uploadMessage } from '../../redux/led/led.reducer';
-import { LedMessage, message, realmData } from '../../models/LedMessage';
+import { updateCustomName, updateledMessageByData, uploadMessage } from '../../redux/led/led.reducer';
+import { LedMessage, message, messageNumber, realmData } from '../../models/LedMessage';
 import DialogInput from '../../components/dialogInput/CustomDialogInput';
-import { handleListener, handleRemoveLed, handleViewAllLeds } from '../../realm/led/actions/led.actions';
+import { handleCustomName, bindListener, handleRemoveLed, removeListener, loadStaticData, getMessageByModeId, getStaticMessageByModeId } from '../../realm/led/actions/led.actions';
+import { RootState } from '../../redux/store';
+import { LedRealmContext } from '../../realm/led';
 
 interface LedScreenProps {
   navigation: NavigationProp<any,any>;
@@ -18,8 +20,11 @@ const LedChoiceScreen = (props:LedScreenProps) => {
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const [data, setData] = useState<realmData>([]);
-  const [customName, setCustomName] = useState<string[]>([]);
-  // const isFocused = useIsFocused();
+  const premiumRef = useRef<boolean>(true);
+
+  const customName = useSelector(
+    (state: RootState) => state.led.customName,
+  );
 
   const createTwoButtonAlert = (item:string) =>
   Alert.alert('Warning', 'If you choose Yes, this setting is removed.', [
@@ -31,30 +36,30 @@ const LedChoiceScreen = (props:LedScreenProps) => {
     { text: 'Yes', 
       onPress: () => handleRemoveLed(item)
     },
-  ]);
+  ])
 
-  const getAllViews = async () => {
-    return new Promise(function(resolve) {
-      try{
-        resolve(handleListener());
-      }
-      catch(e){
-        console.log(e);
-        throw new Error("getAllViews");
-      }
-    });
-  }
   useEffect(() => {
-    const fetchData = async () => {
-    const data =  await getAllViews() as realmData;
-    // setData(data);
-    // setCustomName([]);
-    // console.log(data)
-    // data.map((item)=>{
-    //   setCustomName((prev)=>[...prev,item.modeId])
-    // })
-   }
+    const fetchData = async () => { 
+      try{
+          if (premiumRef.current) {
+            loadStaticData();
+            // const data = await handleCustomName();
+            // dispatch(updateCustomName(data));
+            console.log("how many times");
+            // await bindListener(dispatch);
+            premiumRef.current = false;
+          }
+        }
+      catch(e){
+          console.log(e);
+      }
+    }
    fetchData();
+   return () => {
+                if (!premiumRef.current){
+                  removeListener();
+                  premiumRef.current = true;
+                }}
   },[])
 
   const createNewName = () => {
@@ -63,21 +68,16 @@ const LedChoiceScreen = (props:LedScreenProps) => {
   const updateledMessage = (message:message[] | undefined) => {
     try{
       if(message){
-          var newarray: {mode:number, 
-                        cycle:number, 
-                        delay:number, 
-                        brightness: number,
-                        waitTime:number,
-                        waitTimeLen: number,
-                        }[] = []
+          var newarray: messageNumber[] = []
           message.map(item=>{
           const data = 
                       {mode:+item.mode,
                         cycle:+item.cycle,
-                        delay:+item.delay,
+                        cycle2:item.cycle2===null?0:+item.cycle2,
+                        delay:item.delay===null?0:+item.delay,
                         brightness:+item.brightness,
-                        waitTime:+item.waitTime,
-                        waitTimeLen:+item.waitTimeLen,
+                        waitTime:item.waitTime===null?0:+item.waitTime,
+                        waitTimeLen:item.waitTimeLen===null?0:+item.waitTimeLen,
                       }
           newarray[+item.ledId] = data;
                     })
@@ -91,9 +91,25 @@ const LedChoiceScreen = (props:LedScreenProps) => {
       console.log(e);
     }
   }
-  const uploadStaticMessage = (message: string) => {
-    dispatch(uploadMessage(message));
+  const uploadStaticMessage = async (modeId: string) => {
+    // let message = await getMessageByModeId(modeId);
+    // if(typeof(message)!="string"){
+    //   const messagePackage: LedMessage = {deviceId: null, messages: message as messageNumber[]};
+    //   dispatch(uploadMessage(messagePackage))
+    // }else
+    let result = await getStaticMessageByModeId(modeId, dispatch);
+    if(result){
+      dispatch(uploadMessage(modeId));
+      props.navigation.navigate({ name: 'LEDS', params: { ...props.route.params, modeId: modeId }});
+    }
+      
+    // console.log(message);
   }
+
+  const uploadCustomMessage = (modeId: string) => {
+    // const message = getMessageByModeId(modeId);
+  }
+
   return (
     <View style={styles.container}>
       <SectionList
@@ -151,16 +167,16 @@ const LedChoiceScreen = (props:LedScreenProps) => {
               {ItemTouch === item&&
                 <View style={styles.containerButton}>
                   {section.title  ==='Custom' ? 
-                  <Icon name="delete" style={styles.ItemButton} onPress={() => {createTwoButtonAlert(item)} } />
+                  <><Icon name="delete" style={styles.ItemButton} onPress={() => { createTwoButtonAlert(item); } } />
+                    <Icon name="edit" style={styles.ItemButton} onPress={() => { props.navigation.navigate({ name: 'LEDCU', params: { ...props.route.params, modeId: item } }),
+                    updateledMessage(data.find(v => v.modeId === item)?.message);
+                  } } /><Icon name="caretright" style={styles.ItemButton} onPress={() => { uploadCustomMessage(item); } } /></>
                   :
-                  <Icon name="back" style={styles.ItemButton} onPress={() => {createTwoButtonAlert(item)} } />
-                  }
-                  {section.title  ==='Custom' ? 
-                  <Icon name="edit" style={styles.ItemButton} onPress={() => {props.navigation.navigate({name: 'LEDCU',params: {...props.route.params, modeId:item} }), 
-                                                                              updateledMessage(data.find(v=>v.modeId===item)?.message)}} />
-                  :
-                  <Icon name="edit" style={styles.ItemButton} onPress={() => props.navigation.navigate({name: 'LEDUD',params: {...props.route.params, modeId:item} })} />}
-                  <Icon name="caretright" style={styles.ItemButton} onPress={() => {uploadStaticMessage(item)} } />
+                  <><Icon name="back" style={styles.ItemButton} onPress={() => { createTwoButtonAlert(item); } } />
+                    <Icon name="edit" style={styles.ItemButton} onPress={() => props.navigation.navigate({ name: 'LEDUD', params: { ...props.route.params, modeId: item, title: section.title } })} />
+                    <Icon name="caretright" style={styles.ItemButton} onPress={() => { uploadStaticMessage(item); } } />
+                  </>
+                }
                 </View>
               }
           </View>
