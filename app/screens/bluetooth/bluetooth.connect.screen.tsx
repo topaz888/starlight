@@ -5,23 +5,30 @@ import {
     SafeAreaView,
     Text,
     StyleSheet,
-    View
+    View,
+    Image
   } from 'react-native';
-import { scanForPeripherals, initiateConnection } from "../../redux/bluetooth/bluetooth.reducer";
+import { scanForPeripherals, initiateConnection, disconnectPeripheral } from "../../redux/bluetooth/bluetooth.reducer";
 import CTAButton from "../../components/buttons/CTAButton";
 import { BluetoothPeripheral } from "../../models/BluetoothPeripheral";
 import DeviceModal from "../../components/modals/DeviceConnectionModal";
 import { screenWidth } from "../../components/constant/constant";
+import { NavigationProp, RouteProp } from "@react-navigation/native";
+
+interface BluetoothScreenProps {
+  navigation: NavigationProp<any,any>;
+  route: RouteProp<any,any>;
+}
 
 const _screenWidth = screenWidth;
-const BlueToothConnectScreen = () => {
+const BlueToothConnectScreen = (props: BluetoothScreenProps) => {
     const dispatch = useDispatch();
     const devices = useSelector(
       (state: RootState) => state.bluetooth.availableDevices,
     );
 
     const isConnected = useSelector(
-      (state: RootState) => !!state.bluetooth.connectedDevice,
+      (state: RootState) => state.bluetooth.connectedDevice,
     );
 
     const deviceName = useSelector(
@@ -32,6 +39,10 @@ const BlueToothConnectScreen = () => {
       dispatch(scanForPeripherals());
   };
 
+  const Disconnct = (id: string) => {
+    dispatch(disconnectPeripheral(id));
+};
+
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
   const closeModal = () => setIsModalVisible(false);
@@ -41,25 +52,37 @@ const BlueToothConnectScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.heartRateTitleWrapper}>
+      <Image style={styles.blueToothPic} source={require('../../../assets/image/bluetooth.png')}/>
+      <View style={styles.titleWrapper}>
         {isConnected ? (
           <>
-            <Text style={styles.heartRateTitleText}>Connected Decvice: {deviceName}</Text>
+            <Text style={styles.titleText}>Connected Decvice: {deviceName}</Text>
           </>
         ) : (
-          <Text style={styles.heartRateTitleText}>
-            Please Connect to esp32
+          <Text style={styles.titleText}>
+            Please search for Your pannel by clicking on "Find My Starlight Pannel"
           </Text>
         )}
       </View>
       <View style={styles.buttonContainer}>
+      {isConnected ? 
       <CTAButton
-        title="Connect"
+      title="Disconnect"
+      theme={'Dark'}
+      onPress={() => {
+        Disconnct(isConnected);
+      }}
+      />
+      :
+      <CTAButton
+        title="Find My Starlight Panel"
+        theme={'Dark'}
         onPress={() => {
           scanForDevices();
           setIsModalVisible(true);
         }}
       />
+      }
       </View>
       <DeviceModal
         devices={devices}
@@ -74,27 +97,26 @@ const BlueToothConnectScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f2f2f2',
-  },
-  heartRateTitleWrapper: {
-    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#f2f2f2',
+  },
+  blueToothPic: {
+    width: 300,
+    height: 300,
+    margin: 30,
+  },
+  titleWrapper: {
+    flex: 1,
   },
   buttonContainer: {
-    position:'absolute',
-    bottom: 20,
-    left: _screenWidth/2-150,
+    bottom: 100,
 },
-  heartRateTitleText: {
+  titleText: {
     fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginHorizontal: 20,
-  },
-  heartRateText: {
-    fontSize: 25,
-    marginTop: 15,
+    color: '#285476',
   },
 });
 

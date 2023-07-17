@@ -1,87 +1,67 @@
-import React, { useMemo } from 'react';
-import {View, Image, StyleSheet, Text} from 'react-native';
+import React, { useEffect, useMemo, useState } from 'react';
+import {View, Image, StyleSheet, Text, Alert, ActivityIndicator} from 'react-native';
 import CTAButton from '../../components/buttons/CTAButton';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import { screenHeight, screenWidth } from '../../components/constant/constant';
-import DataSlider from '../../components/sliders/DataSlider';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateledBrightness, updateledCycle, uploadMessage } from '../../redux/led/led.reducer';
 import { RootState } from '../../redux/store';
-import { LedMessage, brightAndCycleNumber, messageNumber } from '../../models/LedMessage';
-import { handlePersistAddLed } from '../../realm/led/actions/led.actions';
+import { autoPair } from '../../redux/bluetooth/bluetooth.reducer';
+import { delay } from 'redux-saga/effects';
+import Loading from '../../components/loading/CustomLoading';
 
 interface LedScreenProps {
     navigation: NavigationProp<any,any>;
     route: RouteProp<any,any>;
   }
-
   const _screenWidth = screenWidth;
   const _screenHeight = screenHeight;
 
 const LedStartScreen = (props:LedScreenProps) =>{
-    const modeId = useMemo<string>(()=>{return (props.route.params?.modeId)}, [props.route.params?.modeId])
+    const [renderAtBegin, setRenderAtBegin] = useState<boolean>(true);
     const dispatch = useDispatch();
 
-    const ledCycle = useSelector(
-        (state: RootState) => state.led.ledCycle,
-      );
+    const ledConnectedDevice = useSelector(
+        (state: RootState) => state.bluetooth.connectedDevice,
+    )
 
-    const ledBrightness = useSelector(
-        (state: RootState) => state.led.ledBrightness,
-    );
+    const bondedDevice = useSelector(
+        (state: RootState) => state.bluetooth.isNotBondedDevice,
+    )
 
-    const updataLedCycle = (message: string) => {
-        dispatch(updateledCycle(message));
+    // useEffect(() => {
+    //     console.log("LedStartScreen");
+    //     if(renderAtBegin){
+    //         dispatch(autoPair());
+    //         setRenderAtBegin(false);
+    //     }
+    //     if(!bondedDevice){
+    //         AutoPairAlert();
+    //     }
+    //   }, [,bondedDevice])
+
+    const AutoPairAlert = () =>{    
+        return Alert.alert('Warning', 'BlueTooth Pairing Request', [
+        {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+        },
+        {   text: 'Yes', 
+            onPress: () => props.navigation.navigate({name: 'BTC',params: {  ...props.route.params }})
+        },
+        ])
     }
-
-    const updataLedBrightness = (message: string) => {
-        dispatch(updateledBrightness(message));
-    }
-
-    const uploadChangeMessage = async () => {
-          var result = await handlePersistAddLed(modeId, {cycle: ledCycle, brightness: ledBrightness});
-          console.log(result);
-          if(!!result){
-            var messages: messageNumber[] = [];
-            for(let i=0; i<4; i++){
-                var temp: messageNumber = {
-                    mode: null,
-                    delay: null,
-                    brightness: result.brightness[i],
-                    cycle: result.cycle[i],
-                    cycle2: result.cycle2[i],
-                    waitTime: null,
-                    waitTimeLen: null
-                }
-                messages.push(temp);
-            }
-            const messagePackage: LedMessage = {deviceId: null, messages: messages};
-            dispatch(uploadMessage(messagePackage));
-         }
-      }
 
     return(
         <View style={styles.container}>
-        {modeId &&
-                <View style={styles.controlPanel}>
-                     <Text style={styles.TitleText}>{`Current mode: ${modeId}`}</Text>
-                    {+modeId>7 &&<View style={styles.dataContainer}>
-                        <Text style={styles.Text}>Cycle</Text>
-                        <DataSlider minVal={0} maxVal={100} step={1} onPress={updataLedCycle} value={ledCycle}/>
-                    </View>}
-                    <View style={styles.dataContainer}>
-                        <Text style={styles.Text}>Brightness</Text>
-                        <DataSlider minVal={0} maxVal={100} step={1  } onPress={updataLedBrightness} value={ledBrightness}/>
-                    </View>
-                    <CTAButton title={'Save'} onPress={async ()=>{ uploadChangeMessage()}}/>
-                </View>}
-        <Image
-            style={styles.background}
-            source={require('../../../assets/image/startScreen.jpg')}
-        />
+            <Image style={styles.bgPic} source={require('../../../assets/image/startPage.png')}/>
+            {/* <Loading timer={2}/> */}
             <View style={styles.buttonContainer}>
-                <CTAButton title={'Start'} onPress={()=>{}}/>
-                <CTAButton title={'Choose'} onPress={()=>{props.navigation.navigate({name: 'LEDC',params: {  ...props.route.params }})}}/>
+            {ledConnectedDevice ?
+                <CTAButton title={'Choose'} theme={'White'} onPress={() => { props.navigation.navigate({ name: 'LEDC', params: { ...props.route.params } }); } } />
+                :
+                <CTAButton title={'Conect Your Statlight'} theme={'White'} onPress={() => { console.log("STARTPAGE"); } } />
+            }
             </View>
         </View>
     )
@@ -90,6 +70,9 @@ const LedStartScreen = (props:LedScreenProps) =>{
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        zIndex: 0,
+        justifyContent: 'center',
+        backgroundColor: '#132D3E',
     },
     dataContainer: {
         justifyContent: "space-around",
@@ -105,9 +88,10 @@ const styles = StyleSheet.create({
         bottom: 50,
         left: _screenWidth/2-150,
     },
-    background: {
+    bgPic: {
         width: _screenWidth,
-        height: _screenHeight,
+        height: _screenHeight/2,
+        resizeMode: 'center',
     },
     TitleText: {
         fontSize: 25,

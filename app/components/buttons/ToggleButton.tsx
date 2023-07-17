@@ -1,10 +1,12 @@
 import React, {FC, useEffect} from 'react';
 import {TouchableOpacity, Text, StyleSheet} from 'react-native';
 
-type ToggleButtonProps = {title: string[]; onPress: Function};
+type ToggleButtonProps = {title: string[]; onPress: Function; theme: string};
 
 const LedToggleButton: FC<ToggleButtonProps> = props => {
   const [status, setStatus] = React.useState(0);
+  const isDarkTheme = props.theme === 'Dark';
+
   useEffect(() => {
     setStatus(0);
     props.onPress(0);
@@ -19,11 +21,17 @@ const LedToggleButton: FC<ToggleButtonProps> = props => {
     <>
     {props.title.map((item, key) =>{
       return(
+        isDarkTheme?        
+        <TouchableOpacity style={status === key ? styles.DarkActiveButtonContiner : styles.DarkButtonContiner} disabled={status === key}
+        onPress={()=>onButtonToggle(key)}  key={key}>
+        <Text style={status === key?styles.ButtonText:styles.DarkButtonText}>{item}</Text>
+        </TouchableOpacity>
+        :
         <TouchableOpacity style={status === key ? styles.activeButtonContiner : styles.ButtonContiner} disabled={status === key}
             onPress={()=>onButtonToggle(key)}  key={key}>
-          <Text style={styles.ButtonText}>{item}</Text>
+          <Text style={status === key?styles.ButtonText:styles.DarkButtonText}>{item}</Text>
         </TouchableOpacity>
-        )
+      )
       })
     }
     </>
@@ -31,10 +39,33 @@ const LedToggleButton: FC<ToggleButtonProps> = props => {
 };
 
 const styles = StyleSheet.create({
+  DarkActiveButtonContiner: {
+    height: 80,
+    width: 140,
+    borderColor: "#CFDEE7",
+    borderWidth: 3,
+    marginHorizontal: 10,
+    backgroundColor: '#3F6786',
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  DarkButtonContiner: {
+    height: 80,
+    width: 140,
+    marginHorizontal: 10,
+    backgroundColor: '#D4D6DE',
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+    elevation:4,
+  },
   activeButtonContiner: {
     height: 40,
     width: 70,
-    marginHorizontal: "auto",
+    marginHorizontal: 10,
     backgroundColor: '#D9C2F5',
     borderRadius: 8,
     justifyContent: 'center',
@@ -44,12 +75,18 @@ const styles = StyleSheet.create({
   ButtonContiner: {
     height: 40,
     width: 70,
-    marginHorizontal: "auto",
+    marginHorizontal: 10,
     backgroundColor: '#7735C2',
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 10,
+  },
+  DarkButtonText: {
+    color: '#2F587A',
+    fontWeight: 'bold',
+    fontSize: 16,
+    paddingHorizontal: 10,
   },
   ButtonText: {
     color: 'white',

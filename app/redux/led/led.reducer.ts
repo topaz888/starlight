@@ -16,6 +16,7 @@ type ledState = {
     ledwaitTime:number;
     ledwaitTimeLen:number;
 
+    databaseDefault: boolean;
     isUpdating: boolean;
     isUploading:boolean;
 }
@@ -33,6 +34,7 @@ const initialState:ledState = {
     ledwaitTime:0,
     ledwaitTimeLen:0,
 
+    databaseDefault: false,
     isUpdating: false,
     isUploading: false,
 }
@@ -124,6 +126,10 @@ const ledReducer = createSlice({
             state.isUpdating = false;
         },
 
+        updateDefault: (state,action) => {
+            state.databaseDefault = action.payload;
+        },
+
         setledStaticMessage: state =>{
             console.log("setledStaticMessage");
             const key = state.ledKey;
@@ -163,7 +169,8 @@ export const {
     uploadMessage,
     updateledMessageByData,
     updateledwaitTime,
-    updateledwaitTimeLen
+    updateledwaitTimeLen,
+    updateDefault
 } = ledReducer.actions
 
 

@@ -1,9 +1,9 @@
 import {Dispatch } from 'react';
 import 'react-native-get-random-values';
-import { ledArray, ledArrayNumber, message, messageNumber, realmData } from '../../../models/LedMessage';
+import { message, messageNumber, realmData } from '../../../models/LedMessage';
 import Realm, { BSON } from 'realm';
 import { LedRealmContext } from '..';
-import { updateCustomName, updateledBrightness, updateledCycle } from '../../../redux/led/led.reducer';
+import { updateCustomName, updateDefault, updateledBrightness, updateledCycle } from '../../../redux/led/led.reducer';
 import DataList from '../models/led.default.data';
 
 
@@ -79,25 +79,7 @@ export const handlePersistAddLed = async (_modeId: string, _message: {cycle:numb
                         items[0].message = led;
                         items[0].default = false;
                     });
-                    var tempArray:ledArray = items[0].ledArray;
-                    var resultArray:ledArrayNumber = {
-                                                        modeId:tempArray.modeId,
-                                                        cycle: [],
-                                                        cycle2: [],
-                                                        brightness: [],
-                                                    }
-                    for(let i=0; i<4; i++){
-                        if(tempArray.brightness.length){
-                            resultArray.brightness[i] = +tempArray.brightness[i] * _message.brightness;
-                        }
-                        if(tempArray.cycle?.length){
-                            resultArray.cycle[i] = +tempArray.cycle[i] * _message.cycle;
-                        }
-                        if(tempArray.cycle2?.length){
-                            resultArray.cycle2[i] = +tempArray.cycle2[i] * _message.cycle;
-                        }
-                    }
-                    return resultArray;      
+                    return true;   
                 }catch(e){
                     console.log(e)
                 }
@@ -214,7 +196,27 @@ export const getStaticMessageByModeId = async (modeId:string, dispatch:Dispatch<
         if(items.length>0){
            dispatch(updateledBrightness(items[0].message.brightness));
            dispatch(updateledCycle(items[0].message.cycle));
+           dispatch(updateDefault(items[0].default));
            return true;
+        }
+        else{
+            throw new Error("getStaticMessageByModeId");
+        }
+    }catch(e)
+    {
+        console.log(e);
+    }
+    return false; 
+}
+
+export const getLedArrayByModeId = async (modeId:string) => {
+    const realm = await Realm.open(LedRealmContext);
+    var items:any  = realm.objects("PersistLedListRealm").filtered('modeId=$0',modeId);
+    try{
+        if(items.length>0){
+            var item = items[0].ledArray;
+            console.log(item);
+          return item;
         }
         else{
             throw new Error("getStaticMessageByModeId");

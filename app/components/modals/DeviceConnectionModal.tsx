@@ -11,9 +11,12 @@ import {
 } from 'react-native';
 import {BluetoothPeripheral} from '../../models/BluetoothPeripheral';
 import CTAButton from '../buttons/CTAButton';
-import { screenWidth } from '../constant/constant';
+import { screenHeight, screenWidth } from '../constant/constant';
+import ListBUtton from '../buttons/ListButton';
 
-const _screenWidth = screenWidth;
+const _screenWidth = 400;
+const _screenHeight = 400;
+
 type DeviceModalListItemProps = {
   item: ListRenderItemInfo<BluetoothPeripheral>;
   connectToPeripheral: (device: BluetoothPeripheral) => void;
@@ -33,7 +36,7 @@ const DeviceModalListItem: FC<DeviceModalListItemProps> = props => {
     connectToPeripheral(item.item);
     closeModal();
   }, [closeModal, connectToPeripheral, item.item]);
-  return <CTAButton title={item.item.name} onPress={connectAndCloseModal} />;
+  return <ListBUtton title={item.item.name} onPress={connectAndCloseModal} />;
 };
 
 const DeviceModal: FC<DeviceModalProps> = props => {
@@ -60,15 +63,13 @@ const DeviceModal: FC<DeviceModalProps> = props => {
       visible={visible}>
       <SafeAreaView style={modalStyle.modalTitle}>
         <Text style={modalStyle.modalTitleText}>
-          Tap on a device to connect
+          Choose your device to to connect
         </Text>
-        <FlatList
-          contentContainerStyle={modalStyle.modalFlatlistContiner}
-          data={devices}
-          renderItem={renderDeviceModalListItem}
-        />
+        <View style={modalStyle.modalFlatlistContiner}>
+          <FlatList data={devices} renderItem={renderDeviceModalListItem}/>
+        </View>
         <View style={modalStyle.buttonContainer}>
-          <CTAButton title= "Close" onPress={closeModal} />
+          <CTAButton title= "Close" theme={'Dark'} onPress={closeModal} />
         </View>
       </SafeAreaView>
     </Modal>
@@ -82,20 +83,14 @@ const modalStyle = StyleSheet.create({
   },
   modalFlatlistContiner: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
+    alignItems:'center',
+    marginVertical: 40,
   },
   buttonContainer: {
-    position:'absolute',
-    bottom: 20,
-    left: _screenWidth/2-150,
-},
-  modalCellOutline: {
-    borderWidth: 1,
-    borderColor: 'black',
-    alignItems: 'center',
-    marginHorizontal: 20,
-    paddingVertical: 15,
-    borderRadius: 8,
+    justifyContent: 'flex-end',
+    alignItems:'center',
+    marginVertical: 50,
   },
   modalTitle: {
     flex: 1,
@@ -103,10 +98,11 @@ const modalStyle = StyleSheet.create({
   },
   modalTitleText: {
     marginTop: 40,
-    fontSize: 30,
+    fontSize: 20,
     fontWeight: 'bold',
-    marginHorizontal: 20,
+    marginHorizontal: 10,
     textAlign: 'center',
+    color: '#285476',
   },
 });
 

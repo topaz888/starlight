@@ -7,7 +7,7 @@ import ModeToggleButton from "../../components/buttons/ToggleButton";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
 import { updateledBrightness, updateledCycle, updateledDelay, updateledKey, setledStaticMessage, uploadMessage, updateledCycle2 } from "../../redux/led/led.reducer";
-import { LedMessage, LedStaticModeMessage } from "../../models/LedMessage";
+import { LedMessage } from "../../models/LedMessage";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import { handleAddLed } from "../../realm/led/actions/led.actions";
 import { useEffect, useState } from "react";
@@ -54,7 +54,7 @@ const LedUserDefinedScreen = (props:LedScreenProps) =>{
     );
 
     const ledMessage = useSelector(
-        (state: RootState) => state.led.ledStaticMessage,
+        (state: RootState) => state.led.ledCustomMessage,
     );
 
     const dispatch = useDispatch();
@@ -102,7 +102,7 @@ const LedUserDefinedScreen = (props:LedScreenProps) =>{
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.dataContainer}>
-                <LedToggleButton title={[`Light\n One`, `Light\n Two`, `Light\nThree`,`Light\n Four`]} onPress={updataLedKey}/>
+                <LedToggleButton title={[`Light\n One`, `Light\n Two`, `Light\nThree`,`Light\n Four`]} onPress={updataLedKey} theme={'Dark'}/>
             </View>
             <View style={styles.transmissionData}>
                 <Text style={styles.TitleText}>Recive Data</Text> 
@@ -168,7 +168,7 @@ const LedUserDefinedScreen = (props:LedScreenProps) =>{
             }
             </View>
             <View style={styles.buttonContainer}>
-                <CTAButton title={'upload'} onPress={()=>{uploadStaticMessage(ledMessage)}}/>
+                {/* <CTAButton title={'upload'} onPress={()=>{uploadStaticMessage(ledMessage)}}/> */}
             </View>
         </SafeAreaView>
     );

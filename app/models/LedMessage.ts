@@ -43,14 +43,14 @@ export type messageBigInt = {
     packageLen: number | null;
 }
 
-export type ledArray = {
+export type ledArrayNumber = {
     modeId: string;
-    cycle: string[] | undefined;
-    cycle2: string[] | undefined;
-    brightness: string[];
+    cycle: number[];
+    cycle2: number[];
+    brightness: number[];
 }
 
-export type ledArrayNumber = {
+export type ledArray = {
     modeId: string;
     cycle: number[];
     cycle2: number[];

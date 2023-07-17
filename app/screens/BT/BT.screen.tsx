@@ -5,6 +5,8 @@ import { HeaderBackButton } from '@react-navigation/elements';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import Slider from '@react-native-community/slider';
 import DialogInput from '../../components/dialogInput/CustomDialogInput';
+import CustomAlert from '../../components/dialogInput/CustomAlert';
+import CircularProgress from '../../components/pregress/CustomProgess';
 
 interface BTScreenProps {
     navigation: NavigationProp<any,any>;
@@ -28,31 +30,31 @@ const BTScreen = (props:BTScreenProps) => {
     }
 
     return (
-        <View>
-             <TouchableOpacity style={styles.activeButtonContiner} onPress={() => Alert.alert('Button 1')}>
-                <Text>Button 1</Text>
-            </TouchableOpacity>
+        <CircularProgress/>
+        // <View>
+        //      <TouchableOpacity style={styles.activeButtonContiner} onPress={() => Alert.alert('Button 1')}>
+        //         <Text>Button 1</Text>
+        //     </TouchableOpacity>
             
-            <TouchableOpacity onPress={() => Alert.alert('Button 2')}>
-                <Text>Button 2</Text>
-            </TouchableOpacity>
+        //     <TouchableOpacity onPress={() => Alert.alert('Button 2')}>
+        //         <Text>Button 2</Text>
+        //     </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => Alert.alert('Button 3')}>
-                <Text>Button 3</Text>
-            </TouchableOpacity>
+        //     <TouchableOpacity onPress={() => Alert.alert('Button 3')}>
+        //         <Text>Button 3</Text>
+        //     </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => Alert.alert('Button 4')}>
-                <Text>Button 4</Text>
-            </TouchableOpacity>
+        //     <TouchableOpacity onPress={() => Alert.alert('Button 4')}>
+        //         <Text>Button 4</Text>
+        //     </TouchableOpacity>
 
-            <Slider
-  style={{width: 200, height: 40}}
-  minimumValue={0}
-  maximumValue={1}
-  minimumTrackTintColor="#FFFFFF"
-  maximumTrackTintColor="#000000"
-/>
-        </View>
+        //     <Slider
+        //         style={{width: 200, height: 40}}
+        //         minimumValue={0}
+        //         maximumValue={1}
+        //         minimumTrackTintColor="#FFFFFF"
+        //         maximumTrackTintColor="#000000"/>
+        // </View>
     );
 }
 

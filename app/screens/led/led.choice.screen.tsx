@@ -39,7 +39,7 @@ const LedChoiceScreen = (props:LedScreenProps) => {
   ])
 
   useEffect(() => {
-    const fetchData = async () => { 
+    const fetchData = async () => {
       try{
           if (premiumRef.current) {
             loadStaticData();
@@ -92,18 +92,11 @@ const LedChoiceScreen = (props:LedScreenProps) => {
     }
   }
   const uploadStaticMessage = async (modeId: string) => {
-    // let message = await getMessageByModeId(modeId);
-    // if(typeof(message)!="string"){
-    //   const messagePackage: LedMessage = {deviceId: null, messages: message as messageNumber[]};
-    //   dispatch(uploadMessage(messagePackage))
-    // }else
     let result = await getStaticMessageByModeId(modeId, dispatch);
     if(result){
       dispatch(uploadMessage(modeId));
-      props.navigation.navigate({ name: 'LEDS', params: { ...props.route.params, modeId: modeId }});
+      props.navigation.navigate({ name: 'LEDCO', params: { ...props.route.params, modeId: modeId }});
     }
-      
-    // console.log(message);
   }
 
   const uploadCustomMessage = (modeId: string) => {

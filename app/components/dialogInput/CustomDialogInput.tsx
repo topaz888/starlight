@@ -25,7 +25,7 @@ type DialogInputProps = {
     closeDialog: ()=>void,
 }
 
-const  DialogInput: FC<DialogInputProps> = props =>{
+const DialogInput: FC<DialogInputProps> = props =>{
     const {
         isDialogVisible, title, message, hintInput,
         initValueTextInput,

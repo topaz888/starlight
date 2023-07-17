@@ -96,7 +96,6 @@ const LedCustomScreen = (props:LedScreenProps) =>{
         dispatch(updateledwaitTimeLen(message));
     }
 
-
     const uploadMessage = async (message: messageNumber[]) => {
         console.log("test1");
         try{
@@ -108,7 +107,6 @@ const LedCustomScreen = (props:LedScreenProps) =>{
             console.log(e);
         }
         console.log("test2");
-
         // const messagePackage: LedMessage = {deviceId: null, message: message};
         // dispatch(uploadMessage(messagePackage));
     }
@@ -193,7 +191,7 @@ const LedCustomScreen = (props:LedScreenProps) =>{
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.dataContainer}>
-                <LedToggleButton title={[`Light\n One`, `Light\n Two`, `Light\nThree`,`Light\n Four`]} onPress={updataLedKey}/>
+                <LedToggleButton title={[`Light\n One`, `Light\n Two`, `Light\nThree`,`Light\n Four`]} onPress={updataLedKey} theme={'Dark'}/>
             </View>
 
             <View style={styles.transmissionData}>
@@ -231,7 +229,7 @@ const LedCustomScreen = (props:LedScreenProps) =>{
                     <CustomTab title={['Parameter', `Timer`]} renderView={[viewLedParameter, viewLedTimer]}/>
                 </View>
             <View style={styles.buttonContainer}>
-                <CTAButton title={'upload'} onPress={async ()=>{await uploadMessage(ledMessage)}}/>
+                <CTAButton title={'upload'} theme={'Dark'} onPress={async ()=>{await uploadMessage(ledMessage)}}/>
             </View>
         </SafeAreaView>
     );

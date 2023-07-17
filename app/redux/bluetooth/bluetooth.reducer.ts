@@ -5,6 +5,8 @@ type BluetoothState = {
   availableDevices: Array<BluetoothPeripheral>;
   isPermissionsEnabled: boolean;
   isScanning: boolean;
+  isNotBondedDevice:boolean;
+  isAutoPairing: boolean;
   isConnectingToDevice: boolean;
   connectedDevice: string|null;
   deviceName: string|null;
@@ -18,6 +20,8 @@ const initialState: BluetoothState = {
   availableDevices: [],
   isPermissionsEnabled: false,
   isScanning: false,
+  isNotBondedDevice: true,
+  isAutoPairing: false,
   isConnectingToDevice: false,
   connectedDevice: null,
   deviceName: null,
@@ -39,6 +43,13 @@ const bluetoothReducer = createSlice({
     },
     scanForPeripherals: state => {
       state.isScanning = true;
+    },
+    autoPair: state => {
+      console.log("autopair");
+      state.isAutoPairing = true;
+    },
+    checkBondedDevice: (state,action) => {
+      state.isNotBondedDevice = action.payload;
     },
     bluetoothPeripheralsFound: (
       state: BluetoothState,
@@ -64,6 +75,12 @@ const bluetoothReducer = createSlice({
       state.connectedDevice = action.payload.id;
       state.deviceName = action.payload.name;
     },
+
+    disconnectPeripheral: (state, _) => {
+      state.connectedDevice = null;
+      state.deviceName = null;
+    },
+
     startLEDControl: state => {
       state.isStartLEDControl = true;
     },
@@ -84,9 +101,12 @@ export const bluetoothActionConstants = {
     ON_DEVICE_DISCOVERED: bluetoothReducer.actions.bluetoothPeripheralsFound.type,
     INITIATE_CONNECTION: bluetoothReducer.actions.initiateConnection.type,
     CONNECTION_SUCCESS: bluetoothReducer.actions.connectPeripheral.type,
+    DISCONNECTION_SUCCESS: bluetoothReducer.actions.disconnectPeripheral.type,
     START_RECEIVE_MESSAGE: bluetoothReducer.actions.startLEDControl.type,
     UPDATE_RECEIVE_MESSAGE: bluetoothReducer.actions.receiveMessage.type,
     SEND_MESSAGE: bluetoothReducer.actions.sendMessage.type,
+    AUTO_PAIRING: bluetoothReducer.actions.autoPair.type,
+    CHECK_BONDED_DEVICE: bluetoothReducer.actions.checkBondedDevice.type,
   };
 
 export const {
@@ -95,8 +115,10 @@ export const {
     scanForPeripherals,
     initiateConnection,
     connectPeripheral,
+    disconnectPeripheral,
     startLEDControl,
     sendMessage,
+    autoPair,
 } = bluetoothReducer.actions
 
 export default bluetoothReducer

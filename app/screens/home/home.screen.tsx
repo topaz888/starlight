@@ -23,12 +23,20 @@ const HomeScreen = (props: HomeScreenProps) => {
                 <Text>LightController</Text>
             </TouchableOpacity>
 
+            <TouchableOpacity onPress={() => props.navigation.navigate({name: 'LEDCOL',params: {  ...props.route.params }})}>
+                <Text>LightController2</Text>
+            </TouchableOpacity>
+
             <TouchableOpacity onPress={() => props.navigation.navigate({name: 'LEDC',params: {  ...props.route.params }})}>
                 <Text>Choose</Text>
             </TouchableOpacity>
 
             <TouchableOpacity onPress={() => props.navigation.navigate({name: 'LEDUD',params: {  ...props.route.params }})}>
                 <Text>UserDefine</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => props.navigation.navigate({name: 'LEDCO',params: {  ...props.route.params }})}>
+                <Text>Control</Text>
             </TouchableOpacity>
 
             <TouchableOpacity onPress={() => props.navigation.navigate({name: 'LEDCU',params: {  ...props.route.params }})}>
