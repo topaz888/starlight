@@ -94,11 +94,12 @@ class BluetoothLeManager {
     console.log("BondingPeripherals");
     var peripheral = await this.getBondedPeripherals()
     if(!peripheral){
+      console.log("start to bond")
       _default.createBond(identifier).then(() => {
           console.log('createBond success or there is already an existing one');
       })
       .catch((e) => {
-          console.log(e);
+          console.log("Error: " + e);
       })}
   };
 
@@ -134,7 +135,6 @@ class BluetoothLeManager {
   };
 
   connectToPeripheral = async (identifier: string) => {
-    console.log(identifier);
     if(identifier){
       this.device = await this.bleManager.connectToDevice(identifier);
       console.log("Conect Peripherals: " + this.device.id??"UnkownName");

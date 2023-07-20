@@ -7,15 +7,14 @@ type DataSliderProps = {minVal: number; maxVal: number; step: number; onPress: F
 const DataSlider: FC<DataSliderProps> = props => {
   const [initVal,setInitVal] = useState<number>();
   useEffect(()=>{
-    console.log("DataSlider how many times");
     setInitVal(props.value/1);
-    },[])
+    },[props.value])
   const onValChange = (val:number) => {
     props.onPress(val);
   };
   return (
     <View style={styles.Continer}>
-        <Text style={styles.text}>{props.value}</Text>
+        <Text style={styles.text}>{props.value??0}</Text>
         <Slider
           style={styles.slider}
           onValueChange={(val) => onValChange(val)}
@@ -23,7 +22,7 @@ const DataSlider: FC<DataSliderProps> = props => {
           minimumValue={props.minVal}
           maximumValue={props.maxVal}
           step={props.step}
-          minimumTrackTintColor="#FFFFFF"
+          minimumTrackTintColor="#285476"
           maximumTrackTintColor="#000000" />
     </View>
   );

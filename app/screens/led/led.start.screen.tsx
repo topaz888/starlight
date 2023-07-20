@@ -28,16 +28,16 @@ const LedStartScreen = (props:LedScreenProps) =>{
         (state: RootState) => state.bluetooth.isNotBondedDevice,
     )
 
-    // useEffect(() => {
-    //     console.log("LedStartScreen");
-    //     if(renderAtBegin){
-    //         dispatch(autoPair());
-    //         setRenderAtBegin(false);
-    //     }
-    //     if(!bondedDevice){
-    //         AutoPairAlert();
-    //     }
-    //   }, [,bondedDevice])
+    useEffect(() => {
+        console.log("LedStartScreen");
+        if(renderAtBegin){
+            dispatch(autoPair());
+            setRenderAtBegin(false);
+        }
+        if(!bondedDevice){
+            // AutoPairAlert();
+        }
+      }, [,bondedDevice])
 
     const AutoPairAlert = () =>{    
         return Alert.alert('Warning', 'BlueTooth Pairing Request', [
@@ -54,13 +54,13 @@ const LedStartScreen = (props:LedScreenProps) =>{
 
     return(
         <View style={styles.container}>
-            <Image style={styles.bgPic} source={require('../../../assets/image/startPage.png')}/>
-            {/* <Loading timer={2}/> */}
+            <Image style={styles.bgPic} source={require('../../../assets/image/fontPage.jpg')}/>
+            <Loading timer={2}/>
             <View style={styles.buttonContainer}>
             {ledConnectedDevice ?
                 <CTAButton title={'Choose'} theme={'White'} onPress={() => { props.navigation.navigate({ name: 'LEDC', params: { ...props.route.params } }); } } />
                 :
-                <CTAButton title={'Conect Your Statlight'} theme={'White'} onPress={() => { console.log("STARTPAGE"); } } />
+                <CTAButton title={'Conect Your Statlight'} theme={'White'} onPress={() => { props.navigation.navigate({ name: 'BTC', params: { ...props.route.params } }); } } />
             }
             </View>
         </View>
@@ -90,8 +90,9 @@ const styles = StyleSheet.create({
     },
     bgPic: {
         width: _screenWidth,
-        height: _screenHeight/2,
-        resizeMode: 'center',
+        height: 800,
+        top: 20,
+        resizeMode: 'stretch',
     },
     TitleText: {
         fontSize: 25,

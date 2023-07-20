@@ -10,7 +10,7 @@ type GradientProps = { fromColor: string,
 
 function Gradient({ children, fromColor, toColor, height = '100%', opacityColor1 = 1, opacityColor2 = 1, ...otherViewProps }: GradientProps) {
     const gradientUniqueId = `grad${fromColor}+${toColor}`.replace(/[^a-zA-Z0-9 ]/g, '')
-    console.log(gradientUniqueId);
+    
     return <>
         <View style={[{ ...StyleSheet.absoluteFillObject, height, zIndex: -1, top: 0, left: 0 }, otherViewProps.style]} {...otherViewProps}>
             <Svg height='100%' width="100%" style={StyleSheet.absoluteFillObject}>

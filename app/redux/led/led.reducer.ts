@@ -6,9 +6,10 @@ import ledController from './LedController';
 type ledState = {
     ledCustomMessage: messageNumber[]
     customName: string[];
-    ledKey: number;
+    ledTitleName: number; 
+    ledKey: number;//lightId 
     ledStaticMode: number;
-    ledMode: number;
+    ledMode: number;//LIGHT mODE
     ledCycle: number;
     ledCycle2: number;
     ledDelay: number;
@@ -24,13 +25,14 @@ type ledState = {
 const initialState:ledState = {
     ledCustomMessage: [],
     customName:[],
+    ledTitleName:0,
     ledKey: 0,
     ledStaticMode: 1,
     ledMode: 0,
     ledCycle: 0,
     ledCycle2: 0,
     ledDelay: 0,
-    ledBrightness: 67,
+    ledBrightness: 0,
     ledwaitTime:0,
     ledwaitTimeLen:0,
 
@@ -44,6 +46,7 @@ const ledReducer = createSlice({
     initialState: initialState,
     reducers: {
         moveNextMode:state =>{
+            console.log("moveNextMode");
             let maxMode: number = 30;
             let minMode: number = 1;
             if(state.ledStaticMode < maxMode)
@@ -52,6 +55,7 @@ const ledReducer = createSlice({
                 state.ledStaticMode = minMode;
         },
         movePrevMode:state =>{
+            console.log("movePrevMode");
             let maxMode: number = 30;
             let minMode: number = 1;
             if(state.ledStaticMode > minMode)
@@ -68,6 +72,12 @@ const ledReducer = createSlice({
             state.ledKey = action.payload;
             state.isUpdating = true;
         },
+        updateledTitleName: (state,action)=>{
+            console.log("TitleName");
+            state.ledTitleName = action.payload;
+            state.isUpdating = true;
+        },
+
         updateledMode: (state,action)=>{
             console.log("mode");
             state.ledMode = action.payload;
@@ -170,7 +180,8 @@ export const {
     updateledMessageByData,
     updateledwaitTime,
     updateledwaitTimeLen,
-    updateDefault
+    updateDefault,
+    updateledTitleName
 } = ledReducer.actions
 
 

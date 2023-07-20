@@ -37,11 +37,11 @@ const LedControlScreen = (props:LedScreenProps) =>{
         (state: RootState) => state.led.databaseDefault,
     )
 
-    const updataLedCycle = (message: string) => {
+    const updataLedCycle = (message: number) => {
         dispatch(updateledCycle(message));
     }
 
-    const updataLedBrightness = (message: string) => {
+    const updataLedBrightness = (message: number) => {
         dispatch(updateledBrightness(message));
     }
 

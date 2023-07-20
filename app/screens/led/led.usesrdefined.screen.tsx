@@ -59,23 +59,23 @@ const LedUserDefinedScreen = (props:LedScreenProps) =>{
 
     const dispatch = useDispatch();
 
-    const updataLedKey = (message: string) => {
+    const updataLedKey = (message: number) => {
         dispatch(updateledKey(message));
     }
 
-    const updataLedCycle = (message: string) => {
+    const updataLedCycle = (message: number) => {
         dispatch(updateledCycle(message));
     }
 
-    const updataLedCycle2 = (message: string) => {
+    const updataLedCycle2 = (message: number) => {
         dispatch(updateledCycle2(message));
     }
 
-    const updataLedDelay = (message: string) => {
+    const updataLedDelay = (message: number) => {
         dispatch(updateledDelay(message));
     }
 
-    const updataLedBrightness = (message: string) => {
+    const updataLedBrightness = (message: number) => {
         dispatch(updateledBrightness(message));
     }
 

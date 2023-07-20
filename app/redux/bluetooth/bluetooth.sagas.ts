@@ -1,16 +1,10 @@
 import { call, put, take, takeEvery, select } from "redux-saga/effects";
 import { bluetoothActionConstants } from "./bluetooth.reducer";
 import { AnyAction, PayloadAction } from "@reduxjs/toolkit";
-import { END, TakeableChannel, eventChannel } from "redux-saga";
-// import { Device } from "react-native-ble-plx";
+import { TakeableChannel, eventChannel } from "redux-saga";
 import bluetoothLeManager from "./BluetoothManager";
 import {BluetoothPeripheral, Message} from '../../models/BluetoothPeripheral'
 import { Peripheral } from "react-native-ble-manager";
-
-// type TakeableDevice = {
-//     payload: {id: string; name: string; serviceUUIDs: string};
-//     take: (cb: (message: any | END) => void) => Device;
-//   };
 
 function* watchForPeripherals(): Generator<AnyAction, void, any> {
   const isPermissionsEnabled: boolean = yield call(bluetoothLeManager.requestAndroid31Permissions);

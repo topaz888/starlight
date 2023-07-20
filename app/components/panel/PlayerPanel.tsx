@@ -2,30 +2,44 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { screenHeight, screenWidth } from "../constant/constant";
 import Icon from "react-native-vector-icons/AntDesign";
 import IconFether from "react-native-vector-icons/Feather";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import { FC, useState } from "react";
 
 
 interface PlayPanelProps {
+    forwardward: Function,
+    backward: Function,
+    play: Function,
   }
 
 const _screenWidth = screenWidth;
 const _screenHeight = screenHeight;
 
-const PlayPanel = (props:PlayPanelProps)=>{
+const PlayPanel : FC<PlayPanelProps>= props=>{
+    const [isPlay, setPlay] = useState<boolean>(true); //this play state needs to sync with device and redux state
+    const handlePlay = () => {
+        setPlay(!isPlay);
+        props.play()
+    }
 
     return (
         <View style={styles.container}>
             <View>
-                <TouchableOpacity style={styles.backButton}>
+                <TouchableOpacity style={styles.backButton} onPress={()=>{props.backward()}}>
                     <IconFether name="skip-back" style={styles.SideButton}/>
                 </TouchableOpacity>
             </View>
             <View>
-                <TouchableOpacity style={styles.playButton}>
-                    <Icon name="caretright" style={styles.ItemButton} />
+                <TouchableOpacity style={styles.playButton} onPress={()=>{handlePlay()}}>
+                    {isPlay? 
+                        <Icon name="caretright" style={styles.ItemButton} />
+                        :
+                        <Ionicons name="pause" style={styles.ItemButton} />
+                    }
                 </TouchableOpacity>
             </View>
             <View>
-                <TouchableOpacity style={styles.forwardButton}>
+                <TouchableOpacity style={styles.forwardButton} onPress={()=>{props.forwardward()}}>
                     <IconFether name="skip-forward" style={styles.SideButton} />
                 </TouchableOpacity>
             </View>
