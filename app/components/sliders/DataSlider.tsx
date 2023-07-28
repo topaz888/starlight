@@ -6,18 +6,21 @@ type DataSliderProps = {minVal: number; maxVal: number; step: number; onPress: F
 
 const DataSlider: FC<DataSliderProps> = props => {
   const [initVal,setInitVal] = useState<number>();
+  const [buffer, setBuffer] = useState<number>();
   useEffect(()=>{
     setInitVal(props.value/1);
+    setBuffer(props.value/1);
     },[props.value])
   const onValChange = (val:number) => {
     props.onPress(val);
   };
   return (
     <View style={styles.Continer}>
-        <Text style={styles.text}>{props.value??0}</Text>
+        <Text style={styles.text}>{buffer}</Text>
         <Slider
           style={styles.slider}
-          onValueChange={(val) => onValChange(val)}
+          onSlidingComplete={(val) => onValChange(val)}
+          onValueChange={(val)=>setBuffer(val)}
           value={initVal}
           minimumValue={props.minVal}
           maximumValue={props.maxVal}

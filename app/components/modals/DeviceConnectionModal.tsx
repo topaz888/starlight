@@ -69,7 +69,7 @@ const DeviceModal: FC<DeviceModalProps> = props => {
           <FlatList data={devices} renderItem={renderDeviceModalListItem}/>
         </View>
         <View style={modalStyle.buttonContainer}>
-          <CTAButton title= "Close" theme={'Dark'} onPress={closeModal} />
+          <CTAButton title="Close" theme={'Dark'} onPress={closeModal} width={300} height={50} />
         </View>
       </SafeAreaView>
     </Modal>

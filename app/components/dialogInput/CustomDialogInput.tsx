@@ -48,10 +48,10 @@ const DialogInput: FC<DialogInputProps> = props =>{
         setinputModal(''); 
     };
 
-    const handleOnKeyPress = (e: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
-      if(e.nativeEvent.key == "Enter")
-        handleSubmit();
-    };
+    // const handleOnKeyPress = (e: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
+    //   if(e.nativeEvent.key == "Enter")
+    //     handleSubmit();
+    // };
 
     const handleOnChangeText = (inputModal: string) => {
         setinputModal(inputModal);
@@ -72,9 +72,9 @@ const DialogInput: FC<DialogInputProps> = props =>{
         }
         if(!isInvalid){
           submitInput(inputModal);
+          handleOnCloseDialog();
         }
         setinputModal('');
-        // setOpenning(true);
     };
 
     let cancelTextPlatform = cancelText || 'Cancel';
@@ -93,21 +93,22 @@ const DialogInput: FC<DialogInputProps> = props =>{
                 <View style={styles.modal_body} >
                 <Text style={styles.title_modal}>{title}</Text>
                 <Text style={[message ? styles.message_modal : {height:0} ]}>{message}</Text>
-                <TextInput style={styles.input_container}
-                    autoCorrect={false}
-                    autoCapitalize={'none'}
-                    maxLength={20}
-                    returnKeyType='none'
-                    autoFocus={true}
-                    inputMode= 'search'
-                    onKeyPress={(e)=>handleOnKeyPress(e)}
-                    underlineColorAndroid='transparent'
-                    placeholder={hintInput}
-                    placeholderTextColor={'#E2E3E4'}
-                    onChangeText={handleOnChangeText}
-                    value={inputModal}
-                    />
-                    {!inputModal || isInvalid && <Text style={styles.error_text}>Error: invalid symbols, (A-Za-z0-9)</Text>}
+                  <TextInput style={styles.input_container}
+                      autoCorrect={false}
+                      autoCapitalize={'none'}
+                      maxLength={20}
+                      returnKeyType='search'
+                      inputMode='search'
+                      autoFocus={true}
+                      onSubmitEditing={()=>{handleSubmit()}}
+                      // onKeyPress={(e)=>handleOnKeyPress(e)}
+                      underlineColorAndroid='transparent'
+                      placeholder={hintInput}
+                      placeholderTextColor={'#E2E3E4'}
+                      onChangeText={handleOnChangeText}
+                      value={inputModal}
+                      />
+                {!inputModal || isInvalid && <Text style={styles.error_text}>Error: invalid symbols, (A-Za-z0-9)</Text>}
             </View>
                 <View style={styles.btn_container}>
                 <TouchableOpacity style={styles.touch_modal}

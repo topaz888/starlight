@@ -1,13 +1,13 @@
 import React, {FC} from 'react';
 import {TouchableOpacity, Text, StyleSheet} from 'react-native';
-import { Item } from 'react-native-paper/lib/typescript/src/components/Drawer/Drawer';
 
-type CTAButtonProps = {title: string; theme: string; onPress: () => void};
+type CTAButtonProps = {title: string; theme: string; onPress: () => void; width:number|string, height:number|string};
 
 const CTAButton: FC<CTAButtonProps> = props => {
   const isDarkTheme = props.theme === 'Dark';
   return (
-    <TouchableOpacity style={isDarkTheme? styles.DarkButtonContiner : styles.WhiteButtonContiner} onPress={props.onPress} key={1} activeOpacity={0.5}>
+    <TouchableOpacity style={[isDarkTheme? styles.DarkButtonContiner : styles.WhiteButtonContiner, 
+    {width:props.width}, {height:props.height}]} onPress={props.onPress} key={1} activeOpacity={0.5}>
       <Text style={isDarkTheme? styles.DarkButtonText : styles.WhiteButtonText}>{props.title}</Text>
     </TouchableOpacity>
   );
@@ -15,8 +15,6 @@ const CTAButton: FC<CTAButtonProps> = props => {
 
 const styles = StyleSheet.create({
   DarkButtonContiner: {
-    height: 50,
-    width: 300,
     marginHorizontal: "auto",
     backgroundColor: '#285476',
     borderRadius: 8,
@@ -32,9 +30,7 @@ const styles = StyleSheet.create({
   },
 
   WhiteButtonContiner: {
-    height: 50,
-    width: 300,
-    marginHorizontal: "auto",
+    marginHorizontal: 5,
     backgroundColor: '#fff',
     borderRadius: 8,
     justifyContent: 'center',

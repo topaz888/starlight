@@ -67,21 +67,19 @@ const BlueToothConnectScreen = (props: BluetoothScreenProps) => {
       <View style={styles.buttonContainer}>
       {isConnected ? 
       <CTAButton
-      title="Disconnect"
-      theme={'Dark'}
-      onPress={() => {
-        Disconnct(isConnected);
-      }}
-      />
+            title="Disconnect"
+            theme={'Dark'}
+            onPress={() => {
+              Disconnct(isConnected);
+            } } width={300} height={50}    />
       :
       <CTAButton
-        title="Find My Starlight Panel"
-        theme={'Dark'}
-        onPress={() => {
-          scanForDevices();
-          setIsModalVisible(true);
-        }}
-      />
+            title="Find My Starlight Panel"
+            theme={'Dark'}
+            onPress={() => {
+              scanForDevices();
+              setIsModalVisible(true);
+            } } width={300} height={50}      />
       }
       </View>
       <DeviceModal
@@ -113,8 +111,8 @@ const styles = StyleSheet.create({
     bottom: 100,
 },
   titleText: {
-    fontSize: 30,
-    fontWeight: 'bold',
+    fontSize: 26,
+    fontWeight: '500',
     textAlign: 'center',
     color: '#285476',
   },

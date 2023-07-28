@@ -1,5 +1,7 @@
 import React, {FC, useEffect} from 'react';
-import {TouchableOpacity, Text, StyleSheet} from 'react-native';
+import {TouchableOpacity, Text, StyleSheet, View} from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 type ToggleButtonProps = {title: string[]; onPress: Function; val:number;};
 
@@ -20,7 +22,16 @@ const ModeToggleButton: FC<ToggleButtonProps> = props => {
       return(
         <TouchableOpacity style={status === key ? styles.activeButtonContiner : styles.ButtonContiner} disabled={status === key}
             onPress={()=>onButtonToggle(key)} activeOpacity={1} key={key}>
-          <Text style={styles.ButtonText}>{item}</Text>
+            {
+              key===0?
+              <MaterialIcons name="lightbulb-on-outline" style={status === key ? styles.Label : styles.activeLabel}></MaterialIcons>
+              :
+              key===1?
+              <Ionicons name="md-sunny-outline" style={status === key ? styles.Label : styles.activeLabel}></Ionicons>
+              :
+              <MaterialIcons name="shimmer" style={status === key ? styles.Label : styles.activeLabel}></MaterialIcons>
+            }
+            <Text style={status === key ? styles.buttonText : styles.activeButtonText}>{item}</Text>
         </TouchableOpacity>
         )
       })
@@ -31,29 +42,43 @@ const ModeToggleButton: FC<ToggleButtonProps> = props => {
 
 const styles = StyleSheet.create({
   activeButtonContiner: {
-    height: 55,
+    height: 70,
     width: 70,
-    marginHorizontal: "auto",
-    backgroundColor: '#D9C2F5',
-    borderRadius: 8,
+    backgroundColor: '#174F8A',
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 16,
     marginBottom: 10,
   },
   ButtonContiner: {
-    height: 55,
+    height: 70,
     width: 70,
-    marginHorizontal: "auto",
-    backgroundColor: '#7735C2',
-    borderRadius: 8,
+    backgroundColor: '#F8F9FB',
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 10,
     marginBottom: 10,
   },
-  ButtonText: {
+  activeButtonText: {
+    color: '#2F587A',
+    fontWeight: 'bold',
+    fontSize: 16,
+    paddingHorizontal: 10,
+  },
+  buttonText: {
     color: 'white',
     fontWeight: 'bold',
     fontSize: 16,
+    paddingHorizontal: 10,
+  },
+  activeLabel: {
+    color: '#2F587A',
+    fontSize: 40,
+    paddingHorizontal: 10,
+  },
+  Label: {
+    color: 'white',
+    fontSize: 36,
     paddingHorizontal: 10,
   },
 });

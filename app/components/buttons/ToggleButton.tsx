@@ -1,5 +1,6 @@
 import React, {FC, useEffect} from 'react';
 import {TouchableOpacity, Text, StyleSheet} from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 type ToggleButtonProps = {title: string[]; onPress: Function; theme: string};
 
@@ -30,6 +31,7 @@ const LedToggleButton: FC<ToggleButtonProps> = props => {
         <TouchableOpacity style={status === key ? styles.activeButtonContiner : styles.ButtonContiner} disabled={status === key}
             onPress={()=>onButtonToggle(key)}  key={key}>
           <Text style={status === key?styles.ButtonText:styles.DarkButtonText}>{item}</Text>
+          <Ionicons name="bulb-outline" style={status === key?styles.ButtonText:styles.DarkButtonText}></Ionicons>
         </TouchableOpacity>
       )
       })
@@ -66,7 +68,7 @@ const styles = StyleSheet.create({
     height: 40,
     width: 70,
     marginHorizontal: 10,
-    backgroundColor: '#D9C2F5',
+    backgroundColor: '#174F8A',
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
@@ -76,7 +78,7 @@ const styles = StyleSheet.create({
     height: 40,
     width: 70,
     marginHorizontal: 10,
-    backgroundColor: '#7735C2',
+    backgroundColor: '#F8F9FB',
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',

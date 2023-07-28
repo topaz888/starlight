@@ -28,10 +28,4 @@ function Gradient({ children, fromColor, toColor, height = '100%', opacityColor1
     </>
 };
 
-const styles = StyleSheet.create({
-    rect:{
-
-    }
-})
-
 export default Gradient

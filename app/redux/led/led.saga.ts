@@ -10,7 +10,7 @@ import { Message } from "../../models/BluetoothPeripheral";
 import * as Effects from "redux-saga/effects";
 const call: any = Effects.call;
 
-function* updateMessage() {
+function* updateCustomMessage() {
     yield put({
         type: ledActionConstants.UPDATE_CUSTOM_MESSAGE,
       });
@@ -77,7 +77,7 @@ function* uploadMessage(action:{
 
 export function* ledSaga() {
     yield takeEvery([ledActionConstants.UPDATE_MODE, ledActionConstants.UPDATE_BRIGHTNESS,ledActionConstants.UPDATE_CYCLE, ledActionConstants.UPDATE_DELAY],
-        updateMessage,
+        updateCustomMessage,
       );
 
       yield takeEvery(ledActionConstants.UPLOAD_MESSAGE,

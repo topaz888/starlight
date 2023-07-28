@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import {View, Image, StyleSheet, Text, Alert, ActivityIndicator} from 'react-native';
+import {View, Image, StyleSheet, Text, Alert, ActivityIndicator, ImageBackground} from 'react-native';
 import CTAButton from '../../components/buttons/CTAButton';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import { screenHeight, screenWidth } from '../../components/constant/constant';
@@ -8,6 +8,7 @@ import { RootState } from '../../redux/store';
 import { autoPair } from '../../redux/bluetooth/bluetooth.reducer';
 import { delay } from 'redux-saga/effects';
 import Loading from '../../components/loading/CustomLoading';
+import { loadStaticData } from '../../realm/led/actions/led.actions';
 
 interface LedScreenProps {
     navigation: NavigationProp<any,any>;
@@ -18,6 +19,7 @@ interface LedScreenProps {
 
 const LedStartScreen = (props:LedScreenProps) =>{
     const [renderAtBegin, setRenderAtBegin] = useState<boolean>(true);
+    const [loadingDone, setLoadingDone] = useState<boolean>(false);
     const dispatch = useDispatch();
 
     const ledConnectedDevice = useSelector(
@@ -30,6 +32,8 @@ const LedStartScreen = (props:LedScreenProps) =>{
 
     useEffect(() => {
         console.log("LedStartScreen");
+        var done = (async()=>await loadStaticData())()
+        setLoadingDone(!!done);
         if(renderAtBegin){
             dispatch(autoPair());
             setRenderAtBegin(false);
@@ -54,15 +58,16 @@ const LedStartScreen = (props:LedScreenProps) =>{
 
     return(
         <View style={styles.container}>
-            <Image style={styles.bgPic} source={require('../../../assets/image/fontPage.jpg')}/>
-            <Loading timer={2}/>
+            <ImageBackground source={require('../../../assets/image/fontPage.jpg')} resizeMode="cover" style={styles.bgPic}>
+            {!loadingDone &&<Loading timer={2}/>}
             <View style={styles.buttonContainer}>
             {ledConnectedDevice ?
-                <CTAButton title={'Choose'} theme={'White'} onPress={() => { props.navigation.navigate({ name: 'LEDC', params: { ...props.route.params } }); } } />
+                <CTAButton title={'Choose'} theme={'White'} onPress={() => { props.navigation.navigate({ name: 'Light Mode', params: { ...props.route.params } }); } } width={300} height={50} />
                 :
-                <CTAButton title={'Conect Your Statlight'} theme={'White'} onPress={() => { props.navigation.navigate({ name: 'BTC', params: { ...props.route.params } }); } } />
+                <CTAButton title={'Conect Your Statlight'} theme={'White'} onPress={() => { props.navigation.navigate({ name: 'Settings', params: { ...props.route.params } }); } } width={300} height={50} />
             }
             </View>
+            </ImageBackground>
         </View>
     )
 }
@@ -90,8 +95,7 @@ const styles = StyleSheet.create({
     },
     bgPic: {
         width: _screenWidth,
-        height: 800,
-        top: 20,
+        height: _screenHeight,
         resizeMode: 'stretch',
     },
     TitleText: {

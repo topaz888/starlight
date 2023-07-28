@@ -1,43 +1,64 @@
 import {Dispatch } from 'react';
 import 'react-native-get-random-values';
-import { message, messageNumber, realmData } from '../../../models/LedMessage';
+import { message, messageNumber, realmData, ledArray } from '../../../models/LedMessage';
 import Realm, { BSON } from 'realm';
 import { LedRealmContext } from '..';
-import { updateCustomName, updateDefault, updateledBrightness, updateledCycle } from '../../../redux/led/led.reducer';
+import { updateCustomNameArray, updateDefault, updatemainScreenledBrightness, updatemainScreenledCycle } from '../../../redux/led/led.reducer';
 import DataList from '../models/led.default.data';
 
 
-export const handleAddLed = async (_modeId: string | null, _message: {mode:number|null, cycle:number|null, cycle2:number|null,
-                        delay:number|null, brightness: number|null, waitTime:number|null, waitTimeLen:number|null}[])  => {
+export const handleAddLed = async (_modeId: string, _message: {mode:number|null, cycle:number|null, cycle2:number|null,
+                        delay:number|null, brightness: number|null, waitTime:number|null, waitTimeLen:number|null}[],
+                        )  => {
             const realm = await Realm.open(LedRealmContext);
             
-            var items:any  = realm.objects("LedListRealm").filtered('modeId=$0',_modeId);;
+            var items:any  = realm.objects("LedListRealm").filtered('modeId=$0',_modeId?.toString());
             var ledList: typeof led[] = [];
+
+            var min = _message.reduce(
+                (accumulator: number[], currentValue) => {
+                    return [
+                        accumulator[0] = currentValue.brightness? currentValue.brightness < accumulator[0]? currentValue.brightness:accumulator[0] :accumulator[0],
+                        accumulator[1] = currentValue.cycle? currentValue.cycle < accumulator[1]? currentValue.cycle:accumulator[1] :accumulator[1]
+                    ];
+                }, [100, 100]
+            );
+            var minBrightness = min[0]
+            var minCycle = min[1]
+
             for (let index in _message){
+              
                 var led =  {
                         ledId: index.toString(), 
-                        modeId: _modeId==null?items.length.toString() : _modeId,
-                        mode: _message[index]?.mode?.toString()??null,
-                        cycle: _message[index]?.cycle?.toString()??null,
+                        modeId: _modeId.toString(),
+                        mode: _message[index]?.mode?.toString()??"0",
+                        cycle: ((_message[index]?.cycle??0)/minCycle).toFixed(1),
                         cycle2: _message[index]?.cycle2?.toString()??null,
                         delay: _message[index]?.delay?.toString()??null, 
-                        brightness: _message[index]?.brightness?.toString()??null,
+                        brightness: ((_message[index]?.brightness??0)/minBrightness).toFixed(1),
                         waitTime: _message[index]?.waitTime?.toString()??null,
                         waitTimeLen: _message[index]?.waitTime?.toString()??null,
                     }
                 ledList.push(led);
             }
+            var brightAndCycle = {
+                modeId:_modeId.toString(),
+                cycle: minCycle.toString(),
+                brightness: minBrightness.toString(),
+            }
             var data = {_id: new BSON.ObjectId(),
-                        modeId: _modeId==null?items.length.toString() : _modeId,
+                        modeId: _modeId===null?items.length.toString() : _modeId.toString(),
                         message: ledList,
+                        BrightAndCycle: brightAndCycle,
                         createdAt: new Date(),
                 };
+            console.log(ledList)
             if(items.length > 0){
                 try{
                     realm.write(async () => {
-                        console.log("change");
-                        var LedRealm = realm.objects("LedRealm");
-                        realm.delete(LedRealm.filtered('modeId=$0',_modeId))
+                        console.log("Customchange");
+                        var LedArrayRealm = realm.objects("LedArrayRealm");
+                        realm.delete(LedArrayRealm.filtered('modeId=$0',_modeId?.toString()))
                         items[0].message = ledList;
                     });
                     return true;      
@@ -68,12 +89,12 @@ export const handlePersistAddLed = async (_modeId: string, _message: {cycle:numb
                 led =  {
                         modeId: _modeId,
                         cycle: _message.cycle?.toString()??null,
-                        brightness: _message.brightness?.toString()??null,
+                        brightness: _message.brightness?.toString()??"0",
                     }
             if(items.length > 0){
                 try{
                     realm.write(async () => {
-                        console.log("change");
+                        console.log("Persistchange");
                         var LedRealm = realm.objects("PersistLedRealm");
                         realm.delete(LedRealm.filtered('modeId=$0',_modeId));
                         items[0].message = led;
@@ -87,32 +108,59 @@ export const handlePersistAddLed = async (_modeId: string, _message: {cycle:numb
             return false;
 };
 
+export const handleCustomAddLed = async (_modeId: string, _message: {cycle:number,brightness: number})  => {
+    const realm = await Realm.open(LedRealmContext);
+    
+    var items:any  = realm.objects("LedListRealm").filtered('modeId=$0',_modeId);
+    var led: { modeId: string, cycle: string, brightness: string};
+        led =  {
+                modeId: _modeId,
+                cycle: _message.cycle?.toString()??null,
+                brightness: _message.brightness?.toString()??"0",
+            }
+    if(items.length > 0){
+        try{
+            realm.write(async () => {
+                console.log("Customchange");
+                var LedRealm = realm.objects("LedRealm");
+                realm.delete(LedRealm.filtered('modeId=$0',_modeId));
+                items[0].BrightAndCycle = led;
+            });
+            return true;   
+        }catch(e){
+            console.log(e)
+        }
+    }
+    return false;
+};
+
 export const handleViewAllLeds = async () => {
     const realm = await Realm.open(LedRealmContext);
     let result = realm.objects('LedListRealm').toJSON() as realmData;
     return result
 }
 
-export const handleCustomName = async () =>{
+export const handleCustomName = async (dispatch:Dispatch<any>) =>{
     var customName: string[] = [];
     try{
             const data = await handleViewAllLeds() as realmData;
             data.map((item=>customName.push(item?.modeId)));
+            dispatch(updateCustomNameArray(customName));
     }catch(e){
         console.log(e);
         throw new Error("Error: handleCustomName");
     }
-    return customName;
 }
 
 export const bindListener = async (dispatch:Dispatch<any>) => {
     const realm = await Realm.open(LedRealmContext);
+    var LedListRealm = realm.objects("LedRealm");
     try{
-        realm.addListener("change", async () =>{
-            console.log("new change ");
-            const data = await handleCustomName();
-            dispatch(updateCustomName(data));
+        LedListRealm.addListener(async () =>{
+            console.log("listen ");
+            await handleCustomName(dispatch);
         });
+        await handleCustomName(dispatch);
     }catch(e){
         console.log(e);
         throw new Error("Error: handleListener");
@@ -128,12 +176,17 @@ export const removeListener = async ()=>{
 export const handleRemoveLed = async (modeId: string) => {
     const realm = await Realm.open(LedRealmContext);
     var LedListRealm = realm.objects("LedListRealm");
+    var LedArrayRealm = realm.objects("LedArrayRealm");
     var LedRealm = realm.objects("LedRealm");
-    realm.write(() => {
-        console.log("delete");
-        realm.delete(LedRealm.filtered('modeId=$0',modeId))
-        realm.delete(LedListRealm.filtered('modeId=$0',modeId))
-    })
+    
+    if(LedListRealm.length>0 && LedArrayRealm.length>0 && LedRealm.length>0){
+        realm.write(() => {
+            console.log("delete");
+            realm.delete(LedRealm.filtered('modeId=$0',modeId))
+            realm.delete(LedArrayRealm.filtered('modeId=$0',modeId))
+            realm.delete(LedListRealm.filtered('modeId=$0',modeId))
+        })
+    }
 }
 
 export const loadStaticData = async () => {
@@ -154,7 +207,7 @@ export const loadStaticData = async () => {
         catch(e){
             console.log(e);
         }
-    }else return
+    }else return true
 
     DataList.staticMode.mode.forEach( (obj,modeId) => {
             var led =  {
@@ -194,8 +247,8 @@ export const getStaticMessageByModeId = async (modeId:string, dispatch:Dispatch<
     var items:any  = realm.objects("PersistLedListRealm").filtered('modeId=$0',modeId);
     try{
         if(items.length>0){
-           dispatch(updateledBrightness(items[0].message.brightness));
-           dispatch(updateledCycle(items[0].message.cycle));
+           dispatch(updatemainScreenledBrightness(items[0].message.brightness));
+           dispatch(updatemainScreenledCycle(items[0].message.cycle));
            dispatch(updateDefault(items[0].default));
            return true;
         }
@@ -209,17 +262,18 @@ export const getStaticMessageByModeId = async (modeId:string, dispatch:Dispatch<
     return false; 
 }
 
-export const getLedArrayByModeId = async (modeId:string) => {
+export const getCustomMessageByModeId = async (modeId:string, dispatch:Dispatch<any>) => {
     const realm = await Realm.open(LedRealmContext);
-    var items:any  = realm.objects("PersistLedListRealm").filtered('modeId=$0',modeId);
+    console.log(modeId)
+    var items:any  = realm.objects("LedListRealm").filtered('modeId=$0',modeId);
     try{
         if(items.length>0){
-            var item = items[0].ledArray;
-            console.log(item);
-          return item;
+           dispatch(updatemainScreenledBrightness(items[0].BrightAndCycle?.brightness??0));
+           dispatch(updatemainScreenledCycle(items[0].BrightAndCycle?.cycle??0));
+           return true;
         }
         else{
-            throw new Error("getStaticMessageByModeId");
+            throw new Error("getCustomMessageByModeId");
         }
     }catch(e)
     {
@@ -228,19 +282,56 @@ export const getLedArrayByModeId = async (modeId:string) => {
     return false; 
 }
 
-export const getMessageByModeId = async (modeId:string) => {
+export const getStaticPackageByModeId = async (modeId:string) => {
     const realm = await Realm.open(LedRealmContext);
-    var items:any  = realm.objects("LedListRealm").filtered('modeId=$0',modeId);
+    var ledList:any  = realm.objects("PersistLedListRealm").filtered('modeId=$0',modeId);
     try{
-        if(items.length>0){
-            const message = items[0].message as message[];
+        if(ledList.length>0){
+            var ledArray: ledArray = ledList[0].ledArray
+            var led = ledList[0].message
+            var messages: messageNumber[] = []
+            for(let i=0; i<4; i++){
+                var temp: messageNumber = {
+                    mode: null,
+                    delay: null,
+                    brightness: ledArray.brightness.length?+ledArray.brightness[i] * led.brightness:null,
+                    cycle: ledArray.cycle?.length?+ledArray.cycle[i] * led.cycle:null,
+                    cycle2: ledArray.cycle2?.length?+ledArray.cycle2[i] * led.cycle:null,
+                    waitTime: null,
+                    waitTimeLen: null
+                }
+                messages.push(temp);
+            }
+          return messages;
+        }
+        else{
+            throw new Error("getLedArrayByModeId");
+        }
+    }catch(e)
+    {
+        console.log(e);
+    }
+    return []; 
+}
+
+export const getCustomPackageByModeId = async (modeId:string) => {
+    const realm = await Realm.open(LedRealmContext);
+    var ledList:any  = realm.objects("LedListRealm").filtered('modeId=$0',modeId);
+    try{
+        if(ledList.length>0){
+            const message = ledList[0].message as message[];
+            const led  = ledList[0].BrightAndCycle;
             var newarray: messageNumber[] = []
             message.map(item=>{
+            var tempBrightness = Math.round((+item.brightness)*led.brightness)
+            tempBrightness = tempBrightness > 100? 100: tempBrightness
+            var tempCycle = Math.round((+item.cycle)*led.cycle)
+            tempCycle = tempCycle > 100? 100: tempCycle
             const data = 
                         {
-                            brightness:+item.brightness,
-                            cycle:+item.cycle,
-                            cycle2:item.cycle2===null?null:+item.cycle2,
+                            brightness:led.brightness?tempBrightness:(+item.brightness),
+                            cycle:led.cycle?tempCycle:(+item.cycle),
+                            cycle2:+item.mode===1?tempCycle:null,
                             delay:item.delay===null?null:+item.delay,
                             mode:+item.mode,
                             waitTime:item.waitTime===null?null:+item.waitTime,
@@ -250,12 +341,10 @@ export const getMessageByModeId = async (modeId:string) => {
                         })
                         return newarray;
         }
-        else{
-            return modeId
-        }
     }catch(e)
     {
         console.log(e);
     }
+    return []
     
 }

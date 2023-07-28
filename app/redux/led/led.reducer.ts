@@ -1,51 +1,61 @@
-import {createSlice, Dictionary, PayloadAction} from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 import { messageNumber } from '../../models/LedMessage';
-import { call, put } from 'redux-saga/effects';
-import ledController from './LedController';
 
 type ledState = {
-    ledCustomMessage: messageNumber[]
-    customName: string[];
+    ledCustomMessage: messageNumber[];
+    customNameArray: string[];
+    customNameIndex:number;
     ledTitleName: number; 
     ledKey: number;//lightId 
     ledStaticMode: number;
     ledMode: number;//LIGHT mODE
     ledCycle: number;
+    mainScreenledCycle:number;
     ledCycle2: number;
     ledDelay: number;
     ledBrightness: number;
+    mainScreenBrightness:number;
     ledwaitTime:number;
     ledwaitTimeLen:number;
+    minBrightness:number;
+    minCycle:number;
 
     databaseDefault: boolean;
     isUpdating: boolean;
     isUploading:boolean;
+    isPlaying:boolean;
 }
 
 const initialState:ledState = {
     ledCustomMessage: [],
-    customName:[],
+    customNameArray:[],
+    customNameIndex:0,
     ledTitleName:0,
     ledKey: 0,
     ledStaticMode: 1,
     ledMode: 0,
-    ledCycle: 0,
+    ledCycle: 4,
+    mainScreenledCycle: 0,
     ledCycle2: 0,
     ledDelay: 0,
     ledBrightness: 0,
+    mainScreenBrightness: 0,
     ledwaitTime:0,
     ledwaitTimeLen:0,
+    minBrightness:0,
+    minCycle:0,
 
     databaseDefault: false,
     isUpdating: false,
     isUploading: false,
+    isPlaying: false,
 }
 
 const ledReducer = createSlice({
     name: "led",
     initialState: initialState,
     reducers: {
-        moveNextMode:state =>{
+        moveNextStaticMode:state =>{
             console.log("moveNextMode");
             let maxMode: number = 30;
             let minMode: number = 1;
@@ -54,7 +64,7 @@ const ledReducer = createSlice({
             else if(state.ledStaticMode == maxMode)
                 state.ledStaticMode = minMode;
         },
-        movePrevMode:state =>{
+        movePrevStaticMode:state =>{
             console.log("movePrevMode");
             let maxMode: number = 30;
             let minMode: number = 1;
@@ -63,49 +73,82 @@ const ledReducer = createSlice({
             else if(state.ledStaticMode == minMode)
                 state.ledStaticMode = maxMode;
         },
-        updateCustomName: (state,action)=>{
-            console.log("CustomName");
-            state.customName = action.payload;
+        moveNextCustomIndex:state =>{
+            console.log("moveNextCustomIndex");
+            let maxMode: number = state.customNameArray.length-1;
+            let minMode: number = 0;
+            if(state.customNameIndex < maxMode)
+                state.customNameIndex = state.customNameIndex + Number(1);
+            else if(state.customNameIndex == maxMode)
+                state.customNameIndex = minMode;
+        },
+        movePrevCustomIndex:state =>{
+            console.log("movePrevCustomIndex");
+            let maxMode: number = state.customNameArray.length-1;
+            let minMode: number = 0;
+            if(state.customNameIndex > minMode)
+                state.customNameIndex = state.customNameIndex - Number(1);
+            else if(state.customNameIndex == minMode)
+                state.customNameIndex = maxMode;
+        },
+        updateCustomNameArray: (state,action)=>{
+            console.log("updateCustomNameArray");
+            state.customNameArray = action.payload;
+            state.isUpdating = true;
         },
         updateledKey: (state,action)=>{
-            console.log("key");
+            console.log("updateledKey");
             state.ledKey = action.payload;
             state.isUpdating = true;
         },
         updateledTitleName: (state,action)=>{
-            console.log("TitleName");
+            console.log("updateledTitleName");
             state.ledTitleName = action.payload;
             state.isUpdating = true;
         },
 
         updateledMode: (state,action)=>{
-            console.log("mode");
+            console.log("updateledMode");
             state.ledMode = action.payload;
             state.isUpdating = true;
         },
         updateledCycle: (state,action)=>{
-            console.log("cycle");
+            console.log("updateledCycle");
             state.ledCycle = action.payload;
             state.isUpdating = true;
         },
+
+        updatemainScreenledCycle: (state,action)=>{
+            console.log("updatemainScreenledCycle");
+            state.mainScreenledCycle = action.payload;
+            state.isUpdating = true;
+        },
+
         updateledCycle2: (state,action)=>{
-            console.log("cycle2");
+            console.log("updateledCycle2");
             state.ledCycle2 = action.payload;
             state.isUpdating = true;
         },
         updateledDelay: (state,action)=>{
-            console.log("delay");
+            console.log("updateledDelay");
             state.ledDelay = action.payload;
             state.isUpdating = true;
         },
         updateledBrightness: (state,action)=>{
-            console.log("brightness");
+            console.log("updateledBrightness");
             state.ledBrightness = action.payload;
             state.isUpdating = true;
         },
+
+        updatemainScreenledBrightness: (state,action)=>{
+            console.log("updatemainScreenledBrightness");
+            state.mainScreenBrightness = action.payload;
+            state.isUpdating = true;
+        },
+
         updateledCustomMessage: state=>{
             console.log("updateledCustomMessage");
-            const staticModeMessage:messageNumber = {
+            const customMessage:messageNumber = {
                                         mode: state.ledMode,
                                         cycle: state.ledCycle,
                                         cycle2: state.ledCycle2,
@@ -114,18 +157,18 @@ const ledReducer = createSlice({
                                         waitTime: state.ledwaitTime,
                                         waitTimeLen: state.ledwaitTimeLen,
                                     };
-            state.ledCustomMessage[state.ledKey] = staticModeMessage;
+            state.ledCustomMessage[state.ledKey] = customMessage;
             state.isUpdating = false;
         },
 
         updateledwaitTime: (state,action)=>{
-            console.log("waitTime");
+            console.log("updateledwaitTime");
             state.ledwaitTime = action.payload;
             state.isUpdating = true;
         },
 
         updateledwaitTimeLen: (state,action)=>{
-            console.log("waitTimeLen");
+            console.log("updateledwaitTimeLen");
             state.ledwaitTimeLen = action.payload;
             state.isUpdating = true;
         },
@@ -139,17 +182,23 @@ const ledReducer = createSlice({
         updateDefault: (state,action) => {
             state.databaseDefault = action.payload;
         },
-
-        setledStaticMessage: state =>{
-            console.log("setledStaticMessage");
+        
+        setledCustomMessage: state =>{
+            console.log("setledCustomMessage");
             const key = state.ledKey;
             state.ledMode = state.ledCustomMessage[key]?.mode ?? 0;
             state.ledBrightness = state.ledCustomMessage[key]?.brightness ?? 0;
             state.ledCycle = state.ledCustomMessage[key]?.cycle ?? 0;
             state.ledDelay = state.ledCustomMessage[key]?.delay ?? 0;
+            // state.ledwaitTime = state.ledwaitTime[key]?.waitTime ?? 0;
         },
+
         uploadMessage: (state, _) => {
             state.isUploading = true;
+        },
+
+        uploadIsPlay: state => {
+            state.isPlaying = !state.isPlaying
         }
     }
 })
@@ -161,28 +210,33 @@ export const ledActionConstants = {
     UPDATE_CYCLE: ledReducer.actions.updateledCycle.type, 
     UPDATE_DELAY: ledReducer.actions.updateledDelay.type,
     UPDATE_CUSTOM_MESSAGE: ledReducer.actions.updateledCustomMessage.type,
-    SET_LED_STATIC_MESSAGE: ledReducer.actions.setledStaticMessage.type,
+    SET_LED_CUSTOM_MESSAGE: ledReducer.actions.setledCustomMessage.type,
     UPLOAD_MESSAGE: ledReducer.actions.uploadMessage.type,
   };
 
 export const {
-    moveNextMode,
-    movePrevMode,
-    updateCustomName,
+    moveNextStaticMode,
+    movePrevStaticMode,
+    moveNextCustomIndex,
+    movePrevCustomIndex,
+    updateCustomNameArray,
     updateledKey,
     updateledMode,
     updateledCycle,
     updateledCycle2,
     updateledDelay,
     updateledBrightness,
-    setledStaticMessage,
+    setledCustomMessage,
     uploadMessage,
     updateledMessageByData,
     updateledwaitTime,
     updateledwaitTimeLen,
     updateDefault,
-    updateledTitleName
-} = ledReducer.actions
+    updateledTitleName,
+    updatemainScreenledCycle,
+    updatemainScreenledBrightness,
+    uploadIsPlay
+    } = ledReducer.actions
 
 
 export default ledReducer;

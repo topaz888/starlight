@@ -42,12 +42,12 @@ class LedController {
             }
 
             if(value.cycle){
-                const rawCycle = BigInt(value.cycle*10) << BigInt(this.cycleLen * index + this.dataTypeLen);
+                const rawCycle = BigInt(value.cycle) << BigInt(this.cycleLen * index + this.dataTypeLen);
                 this.cycleStream = this.cycleStream | rawCycle;
             }
 
             if(value.cycle2){
-                const rawCycle2 = value.cycle2===null?BigInt(0):BigInt(value.cycle2*10) << BigInt(this.cycleLen * index + this.dataTypeLen);
+                const rawCycle2 = value.cycle2===null?BigInt(0):BigInt(value.cycle2) << BigInt(this.cycleLen * index + this.dataTypeLen);
                 this.cycle2Stream = this.cycle2Stream | rawCycle2;
             }
 

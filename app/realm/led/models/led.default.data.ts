@@ -192,7 +192,7 @@ const DataList= {
             },
             "message": 
                 {
-                    "cycle": "2",
+                    "cycle": "20",
                     "brightness": "100",
                 }
         },
@@ -205,7 +205,7 @@ const DataList= {
             },
             "message": 
                 {
-                    "cycle": "2",
+                    "cycle": "20",
                     "brightness": "100",
                 }
         },
@@ -218,7 +218,7 @@ const DataList= {
             },
             "message": 
                 {
-                    "cycle": "2",
+                    "cycle": "20",
                     "brightness": "100",
                 }
         },
@@ -231,7 +231,7 @@ const DataList= {
             },
             "message": 
                 {
-                    "cycle": "2",
+                    "cycle": "20",
                     "brightness": "100",
                 }
         },
@@ -244,7 +244,7 @@ const DataList= {
             },
             "message": 
                 {
-                    "cycle": "2",
+                    "cycle": "20",
                     "brightness": "100",
                 }
         },
@@ -257,7 +257,7 @@ const DataList= {
             },
             "message": 
                 {
-                    "cycle": "2",
+                    "cycle": "20",
                     "brightness": "100",
                 }
         },
@@ -270,7 +270,7 @@ const DataList= {
             },
             "message": 
                 {
-                    "cycle": "2",
+                    "cycle": "20",
                     "brightness": "100",
                 }
         },
@@ -283,7 +283,7 @@ const DataList= {
             },
             "message": 
                 {
-                    "cycle": "2",
+                    "cycle": "20",
                     "brightness": "100",
                 }
         },
@@ -296,7 +296,7 @@ const DataList= {
             },
             "message": 
                 {
-                    "cycle": "2",
+                    "cycle": "20",
                     "brightness": "100",
                 }
         },
@@ -309,7 +309,7 @@ const DataList= {
             },
             "message": 
                 {
-                    "cycle": "2",
+                    "cycle": "20",
                     "brightness": "100",
                 }
         },
@@ -322,7 +322,7 @@ const DataList= {
             },
             "message": 
                 {
-                    "cycle": "2",
+                    "cycle": "20",
                     "brightness": "100",
                 }
         },
@@ -335,7 +335,7 @@ const DataList= {
             },
             "message": 
                 {
-                    "cycle": "2",
+                    "cycle": "20",
                     "brightness": "100",
                 }
         },
@@ -348,7 +348,7 @@ const DataList= {
             },
             "message": 
                 {
-                    "cycle": "2",
+                    "cycle": "20",
                     "brightness": "100",
                 }
         },
@@ -361,7 +361,7 @@ const DataList= {
             },
             "message": 
                 {
-                    "cycle": "2",
+                    "cycle": "20",
                     "brightness": "100",
                 }
         },
@@ -374,7 +374,7 @@ const DataList= {
             },
             "message": 
                 {
-                    "cycle": "4",
+                    "cycle": "40",
                     "brightness": "100",
                 }
         }

@@ -3,10 +3,10 @@ import {Alert, SectionList, StyleSheet, Text, View} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavigationProp, RouteProp, useIsFocused } from '@react-navigation/native';
-import { updateCustomName, updateledMessageByData, uploadMessage } from '../../redux/led/led.reducer';
+import { updateledMessageByData, uploadMessage } from '../../redux/led/led.reducer';
 import { LedMessage, message, messageNumber, realmData } from '../../models/LedMessage';
 import DialogInput from '../../components/dialogInput/CustomDialogInput';
-import { handleCustomName, bindListener, handleRemoveLed, removeListener, loadStaticData, getMessageByModeId, getStaticMessageByModeId } from '../../realm/led/actions/led.actions';
+import { handleCustomName, bindListener, handleRemoveLed, removeListener, loadStaticData, getStaticMessageByModeId } from '../../realm/led/actions/led.actions';
 import { RootState } from '../../redux/store';
 import { LedRealmContext } from '../../realm/led';
 
@@ -22,8 +22,8 @@ const LedChoiceScreen = (props:LedScreenProps) => {
   const [data, setData] = useState<realmData>([]);
   const premiumRef = useRef<boolean>(true);
 
-  const customName = useSelector(
-    (state: RootState) => state.led.customName,
+  const customNameArray = useSelector(
+    (state: RootState) => state.led.customNameArray,
   );
 
   const createTwoButtonAlert = (item:string) =>
@@ -107,7 +107,7 @@ const LedChoiceScreen = (props:LedScreenProps) => {
     <View style={styles.container}>
       <SectionList
         sections={[
-          {title: 'Custom', data: customName},
+          {title: 'Custom', data: customNameArray},
           {
             title: 'Light',
             data: [
@@ -191,7 +191,7 @@ const LedChoiceScreen = (props:LedScreenProps) => {
         message={"Enter the Id, then click Submit\n(Max Length 20)"}
         hintInput ={"Enter Text"}
         submitInput={ (inputText) => {
-          if(customName.includes(inputText)) return(Alert.alert('Error'), setVisible(false))
+          if(customNameArray.includes(inputText)) return(Alert.alert('Error'), setVisible(false))
           return (
                     props.navigation.navigate({name: 'LEDCU',params: {...props.route.params, modeId:inputText} }),
                     setVisible(false)

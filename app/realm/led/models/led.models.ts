@@ -1,5 +1,5 @@
-export const LEDREALM = {
-    name: 'LedRealm',
+export const LEDARRAYREALM = {
+    name: 'LedArrayRealm',
     properties:{
       ledId: 'string',
       modeId: 'string',
@@ -12,13 +12,23 @@ export const LEDREALM = {
       waitTimeLen:'string?',
     },
   }
+
+  export const LEDREALM = {
+    name: 'LedRealm',
+    properties:{
+      modeId: 'string',
+      cycle: 'string?',
+      brightness: 'string',
+    }
+  }
   
 export const LEDLISTREALM = {
     name: 'LedListRealm',
     properties:{
       _id: 'objectId',
       modeId: 'string?',
-      message: { type: 'list', objectType: 'LedRealm'},
+      message: { type: 'list', objectType: 'LedArrayRealm'},
+      BrightAndCycle: {type: 'LedRealm'},
       createdAt: 'date',
     },
     primaryKey: '_id',

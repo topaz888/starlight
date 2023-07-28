@@ -10,15 +10,11 @@ interface PlayPanelProps {
     forwardward: Function,
     backward: Function,
     play: Function,
+    isPlay: boolean,
   }
 
-const _screenWidth = screenWidth;
-const _screenHeight = screenHeight;
-
 const PlayPanel : FC<PlayPanelProps>= props=>{
-    const [isPlay, setPlay] = useState<boolean>(true); //this play state needs to sync with device and redux state
     const handlePlay = () => {
-        setPlay(!isPlay);
         props.play()
     }
 
@@ -31,10 +27,10 @@ const PlayPanel : FC<PlayPanelProps>= props=>{
             </View>
             <View>
                 <TouchableOpacity style={styles.playButton} onPress={()=>{handlePlay()}}>
-                    {isPlay? 
-                        <Icon name="caretright" style={styles.ItemButton} />
-                        :
+                    {props.isPlay? 
                         <Ionicons name="pause" style={styles.ItemButton} />
+                        :
+                        <Icon name="caretright" style={styles.ItemButton} />
                     }
                 </TouchableOpacity>
             </View>

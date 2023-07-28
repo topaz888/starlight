@@ -1,11 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import DataSlider from "../sliders/DataSlider";
-import CTAButton from "../buttons/CTAButton";
-import { screenHeight, screenWidth } from "../constant/constant";
 import PlayPanel from "./PlayerPanel";
-import { FC, JSXElementConstructor, ReactElement, ReactFragment, ReactPortal, useEffect } from "react";
-import { updateledBrightness, updateledCycle } from "../../redux/led/led.reducer";
-import { useDispatch } from "react-redux";
 
 interface CustomPanelProps {
     titleName: string,
@@ -15,13 +10,10 @@ interface CustomPanelProps {
     backward: Function,
     forward: Function,
     play: Function,
+    isPlay: boolean,
     updataLedCycle:Function,
     updataLedBrightness: Function,
   }
-
-const _screenWidth = screenWidth;
-const _screenHeight = screenHeight;
-
 const Panel = (props: CustomPanelProps) =>{
     return (
         <View style={styles.container}>
@@ -30,19 +22,19 @@ const Panel = (props: CustomPanelProps) =>{
                     <Text style={styles.titleKey}>{props.titleName}</Text>
                     <Text style={styles.titleNumber}>{props.modeId}</Text>
                 </View>
-                <PlayPanel backward={()=>{props.backward()}} forwardward={props.forward} play={()=>{props.play()}}/>
-                <View style={styles.buttonsContainer}>
-                    {+props.modeId > 7 && 
+                <PlayPanel backward={() => { props.backward(); } } forwardward={() => { props.forward(); } } play={() => { props.play(); } } isPlay={props.isPlay}/>
+                {props.isPlay && <View style={styles.buttonsContainer}>
+                    {(+props.modeId > 7 || props.titleName === `Custom`) && 
                         <View style={styles.dataContainer}>
                             <Text style={styles.Text}>Cycle</Text>
-                            <DataSlider minVal={0} maxVal={100} step={1} onPress={props.updataLedCycle} value={props.cycle} />
+                            <DataSlider minVal={0} maxVal={40} step={1} onPress={props.updataLedCycle} value={props.cycle} />
                         </View>
                     }
                     <View style={styles.dataContainer}>
                         <Text style={styles.Text}>Brightness</Text>
-                        <DataSlider minVal={0} maxVal={100} step={1} onPress={props.updataLedBrightness} value={props.brightness} />
+                        <DataSlider minVal={0} maxVal={100} step={10} onPress={props.updataLedBrightness} value={props.brightness} />
                     </View>
-                </View>
+                </View>}
             </View>
         </View>
     )
