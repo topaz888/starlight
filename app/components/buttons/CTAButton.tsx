@@ -1,5 +1,7 @@
 import React, {FC} from 'react';
-import {TouchableOpacity, Text, StyleSheet} from 'react-native';
+import {TouchableOpacity, StyleSheet} from 'react-native';
+import CustomText from '../text/CustomText';
+
 
 type CTAButtonProps = {title: string; theme: string; onPress: () => void; width:number|string, height:number|string};
 
@@ -8,7 +10,7 @@ const CTAButton: FC<CTAButtonProps> = props => {
   return (
     <TouchableOpacity style={[isDarkTheme? styles.DarkButtonContiner : styles.WhiteButtonContiner, 
     {width:props.width}, {height:props.height}]} onPress={props.onPress} key={1} activeOpacity={0.5}>
-      <Text style={isDarkTheme? styles.DarkButtonText : styles.WhiteButtonText}>{props.title}</Text>
+      <CustomText style={isDarkTheme? styles.DarkButtonText : styles.WhiteButtonText}>{props.title}</CustomText>
     </TouchableOpacity>
   );
 };

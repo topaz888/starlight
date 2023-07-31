@@ -1,5 +1,6 @@
 import React, {FC, useEffect} from 'react';
-import {TouchableOpacity, Text, StyleSheet} from 'react-native';
+import {TouchableOpacity, StyleSheet} from 'react-native';
+import CustomText from '../text/CustomText';
 
 type ToggleButtonProps = {title: string[]; onPress: Function; val:number;};
 
@@ -21,7 +22,7 @@ const BreathToggleButton: FC<ToggleButtonProps> = props => {
       return(
         <TouchableOpacity style={status === key ? styles.activeButtonContiner : styles.ButtonContiner} disabled={status === key}
             onPress={()=>onButtonToggle(key)} activeOpacity={1} key={key}>
-          <Text style={styles.ButtonText}>{item}</Text>
+          <CustomText style={styles.ButtonText}>{item}</CustomText>
         </TouchableOpacity>
         )
       })

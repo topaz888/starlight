@@ -1,9 +1,8 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { screenHeight, screenWidth } from "../constant/constant";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/AntDesign";
 import IconFether from "react-native-vector-icons/Feather";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import { FC, useState } from "react";
+import { FC } from "react";
 
 
 interface PlayPanelProps {

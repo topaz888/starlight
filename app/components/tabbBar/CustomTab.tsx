@@ -1,16 +1,21 @@
-import { FC, useState } from "react"
+import { FC, useEffect, useState } from "react"
 import { StyleSheet, View } from "react-native"
 import { TouchableOpacity } from "react-native-gesture-handler"
-import { Text } from "react-native-paper"
 import { screenWidth } from "../constant/constant";
+import CustomText from "../text/CustomText";
 
-type CustomTabProps = {title: string[]; renderView:Function[]};
+type CustomTabProps = {title: string[]; renderView:Function[], onPress: Function; value:number};
 const _screenWidth = screenWidth;
 const CustomTab: FC<CustomTabProps> = props =>{
   const [status, setStatus] = useState(0);
   const toggleSwitch = (key: number)=>{
     setStatus(key)
+    props.onPress(key);
   }
+  useEffect(()=>{
+    console.log(props.value)
+    toggleSwitch(props.value)
+  },[props.value])
   return(
     <View style={styles.container}>
     <View style={styles.switch}>
@@ -18,7 +23,7 @@ const CustomTab: FC<CustomTabProps> = props =>{
           return (
               <TouchableOpacity style={status === key ? styles.Activebutton : styles.Inactivebutton} onPress={() => toggleSwitch(key)}
                 disabled={status === key} activeOpacity={1} key={key}>
-                <Text style={styles.text} key={key}> {item}</Text>
+                <CustomText style={styles.text} key={key}> {item}</CustomText>
               </TouchableOpacity>
           );
         })}

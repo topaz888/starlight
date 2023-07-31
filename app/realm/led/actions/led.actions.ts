@@ -19,25 +19,33 @@ export const handleAddLed = async (_modeId: string, _message: {mode:number|null,
                 (accumulator: number[], currentValue) => {
                     return [
                         accumulator[0] = currentValue.brightness? currentValue.brightness < accumulator[0]? currentValue.brightness:accumulator[0] :accumulator[0],
-                        accumulator[1] = currentValue.cycle? currentValue.cycle < accumulator[1]? currentValue.cycle:accumulator[1] :accumulator[1]
+                        accumulator[1] = currentValue.cycle? currentValue.cycle < accumulator[1]? currentValue.cycle:accumulator[1] :currentValue?.mode===0?1:accumulator[1]
                     ];
-                }, [100, 100]
+                }, [200, 200]
             );
-            var minBrightness = min[0]
-            var minCycle = min[1]
-
+            console.log(`${min[0]} ${min[1]}`)
+            var minBrightness = min[0]===200? 0: min[0]
+            var minCycle = min[1]===200? 0: min[1]
+                    
             for (let index in _message){
-              
+                var _waitTimeLen = null
+                if(_message[index]?.waitTime)
+                    if(_message[index]?.mode === 0)
+                        _waitTimeLen = Number(0).toFixed()
+                    else if(_message[index]?.mode === 1)
+                        _waitTimeLen = Number(2).toFixed()
+                    else if(_message[index]?.mode === 2)
+                        _waitTimeLen = Number(5).toFixed()
                 var led =  {
                         ledId: index.toString(), 
                         modeId: _modeId.toString(),
                         mode: _message[index]?.mode?.toString()??"0",
-                        cycle: ((_message[index]?.cycle??0)/minCycle).toFixed(1),
-                        cycle2: _message[index]?.cycle2?.toString()??null,
+                        cycle: (_message[index]?.mode===0?1:(_message[index]?.cycle?(_message[index]?.cycle??0)/minCycle:0)).toFixed(1),
+                        cycle2: _message[index]?.mode===1?((_message[index]?.cycle??0)/minCycle).toFixed(1):null,
                         delay: _message[index]?.delay?.toString()??null, 
-                        brightness: ((_message[index]?.brightness??0)/minBrightness).toFixed(1),
+                        brightness: (_message[index]?.brightness?(_message[index]?.brightness??0)/minBrightness:0).toFixed(1),
                         waitTime: _message[index]?.waitTime?.toString()??null,
-                        waitTimeLen: _message[index]?.waitTime?.toString()??null,
+                        waitTimeLen: _waitTimeLen,
                     }
                 ledList.push(led);
             }
@@ -52,7 +60,6 @@ export const handleAddLed = async (_modeId: string, _message: {mode:number|null,
                         BrightAndCycle: brightAndCycle,
                         createdAt: new Date(),
                 };
-            console.log(ledList)
             if(items.length > 0){
                 try{
                     realm.write(async () => {
@@ -60,6 +67,9 @@ export const handleAddLed = async (_modeId: string, _message: {mode:number|null,
                         var LedArrayRealm = realm.objects("LedArrayRealm");
                         realm.delete(LedArrayRealm.filtered('modeId=$0',_modeId?.toString()))
                         items[0].message = ledList;
+                        var LedRealm = realm.objects("LedRealm");
+                        realm.delete(LedRealm.filtered('modeId=$0',_modeId?.toString()))
+                        items[0].BrightAndCycle = brightAndCycle;
                     });
                     return true;      
                 }catch(e){
@@ -264,7 +274,6 @@ export const getStaticMessageByModeId = async (modeId:string, dispatch:Dispatch<
 
 export const getCustomMessageByModeId = async (modeId:string, dispatch:Dispatch<any>) => {
     const realm = await Realm.open(LedRealmContext);
-    console.log(modeId)
     var items:any  = realm.objects("LedListRealm").filtered('modeId=$0',modeId);
     try{
         if(items.length>0){
@@ -323,14 +332,14 @@ export const getCustomPackageByModeId = async (modeId:string) => {
             const led  = ledList[0].BrightAndCycle;
             var newarray: messageNumber[] = []
             message.map(item=>{
-            var tempBrightness = Math.round((+item.brightness)*led.brightness)
+            var tempBrightness = Math.round((item.brightness==="NaN"?0:+item.brightness)*led.brightness??0)
             tempBrightness = tempBrightness > 100? 100: tempBrightness
-            var tempCycle = Math.round((+item.cycle)*led.cycle)
+            var tempCycle = Math.round((item.cycle==="NaN"?0:+item.cycle??0)*led.cycle??0)
             tempCycle = tempCycle > 100? 100: tempCycle
             const data = 
                         {
-                            brightness:led.brightness?tempBrightness:(+item.brightness),
-                            cycle:led.cycle?tempCycle:(+item.cycle),
+                            brightness:led.brightness?tempBrightness:null,
+                            cycle:led.cycle?tempCycle:null,
                             cycle2:+item.mode===1?tempCycle:null,
                             delay:item.delay===null?null:+item.delay,
                             mode:+item.mode,

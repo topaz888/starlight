@@ -1,16 +1,17 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import {Alert, StyleSheet, Text, View} from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import {Alert, StyleSheet, View} from 'react-native';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import Gradient from '../../components/GradientColor';
 import LedToggleButton from '../../components/buttons/ToggleButton';
 import Panel from '../../components/panel/CustomPanel';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { moveNextCustomIndex, moveNextStaticMode, movePrevCustomIndex, movePrevStaticMode, updateledMessageByData, updateledTitleName, updatemainScreenledBrightness, updatemainScreenledCycle, uploadIsPlay, uploadMessage } from '../../redux/led/led.reducer';
+import { moveNextCustomIndex, moveNextStaticMode, movePrevCustomIndex, movePrevStaticMode, resetCustomMessage, updateledMessageByData, updateledTitleName, updatemainScreenledBrightness, updatemainScreenledCycle, uploadIsPlay, uploadMessage } from '../../redux/led/led.reducer';
 import { bindListener, getCustomMessageByModeId, getCustomPackageByModeId, getStaticMessageByModeId, getStaticPackageByModeId, handleCustomAddLed, handlePersistAddLed, removeListener } from '../../realm/led/actions/led.actions';
 import CTAButton from '../../components/buttons/CTAButton';
 import DialogInput from '../../components/dialogInput/CustomDialogInput';
 import { LedMessage, messageNumber } from '../../models/LedMessage';
+import CustomText from '../../components/text/CustomText';
 
 interface LedControllerProps {
   navigation: NavigationProp<any,any>;
@@ -31,7 +32,7 @@ const LedControllerScreen = (props:LedControllerProps) => {
     )
 
     const ledConnectedDevice = useSelector(
-        (state: RootState) => state.bluetooth.connectedDevice,
+        (state: RootState) => !state.bluetooth.connectedDevice,
     )
 
     const ledCycle = useSelector(
@@ -75,43 +76,40 @@ const LedControllerScreen = (props:LedControllerProps) => {
     }
 
     const handleStaticPlayButton = async () => {
+        console.log("handleStaticPlayButton")
+        dispatch(uploadIsPlay())
         if(!IsPlay){
-            dispatch(uploadIsPlay())
             dispatch(uploadMessage(modeId.toString()));
-            // if(!IsStaticDefault){
-            //     var result:messageNumber[] = await getStaticPackageByModeId(modeId.toString())
-            //     if(result.length>0 && !IsPlay){
-            //         const messagePackage: LedMessage = {deviceId: null, messages: result};
-            //         dispatch(uploadMessage(messagePackage));
-            //     }
-            // }
-        }
-        else{
-            dispatch(uploadIsPlay())
+        }else{
+            dispatch(uploadMessage(Number(33).toString()));
         }
     }
 
     const handleCustomPlayButton = async () => {
-        console.log("handleCustomPlayButton")
-        if(!IsPlay){
-            dispatch(uploadIsPlay())
-            var result:messageNumber[] = await getCustomPackageByModeId(customNameArray[Index])
-            if(result.length>0 && !IsPlay){
-                const messagePackage: LedMessage = {deviceId: null, messages: result};
-                dispatch(uploadMessage(messagePackage));
+        dispatch(uploadIsPlay())
+        if(customNameArray[Index]){
+            if(!IsPlay){
+                if(customNameArray[Index]){
+                    await getCustomMessageByModeId(customNameArray[Index], dispatch);
+                    await sendPackageBymodeId(customNameArray[Index])
+                }
+            }else{
+                dispatch(uploadMessage(Number(33).toString()));
             }
-        }
-        else{
-            dispatch(uploadIsPlay())
         }
     }
 
     const handleEditPage = async (modeId: string) => {
-        var message = await getCustomPackageByModeId(modeId)
-        console.log(message)
-        if(message){
-            dispatch(updateledMessageByData(message))
-            props.navigation.navigate({name: 'LEDCU',params: {...props.route.params, modeId:modeId}})
+        if(modeId){
+            try{
+                var message = await getCustomPackageByModeId(modeId)
+                if(message){
+                    dispatch(updateledMessageByData(message))
+                    props.navigation.navigate({name: 'Custom',params: {...props.route.params, modeId:modeId}})
+                }
+            }catch(e){
+                console.log(e)
+            }
         }
     }
 
@@ -138,7 +136,6 @@ const LedControllerScreen = (props:LedControllerProps) => {
 
     const updataLedCycle = (message: number) => {
         dispatch(updatemainScreenledCycle(message));
-        console.log(message)
         saveBrightnessAndCycle(message,ledBrightness);
     }
 
@@ -146,21 +143,27 @@ const LedControllerScreen = (props:LedControllerProps) => {
         dispatch(updatemainScreenledBrightness(message));
         saveBrightnessAndCycle(ledCycle,message);
     }
-    
+
+    const sendPackageBymodeId = async (modeId: string) => {
+        console.log(`modeId : ${modeId}`)
+        var result:messageNumber[]
+        if(titleName===0){
+            dispatch(uploadMessage(modeId));
+            result = await getStaticPackageByModeId(modeId)
+        }
+        else
+            result = await getCustomPackageByModeId(modeId)
+        if(result.length>0){
+            const messagePackage: LedMessage = {deviceId: null, messages: result};
+            dispatch(uploadMessage(messagePackage));
+        }
+    }
+
     const getStaticMessage = async () => {
         try{
-            if(ledConnectedDevice){
+            if(ledConnectedDevice && IsPlay){
                 await getStaticMessageByModeId(modeId.toString(), dispatch);
-                if(IsPlay){
-                    console.log(`modeId : ${modeId}`)
-                    dispatch(uploadMessage(modeId.toString()));
-                    var result:messageNumber[] = await getStaticPackageByModeId(modeId.toString())
-                    if(result.length>0){
-                        const messagePackage: LedMessage = {deviceId: null, messages: result};
-                        dispatch(uploadMessage(messagePackage));
-                    }
-                    
-                }
+                await sendPackageBymodeId(modeId.toString())
             }
         }catch(e){
             console.log(e)
@@ -169,17 +172,12 @@ const LedControllerScreen = (props:LedControllerProps) => {
 
     const getCustomMessage = async () => {
         try{
-            if(ledConnectedDevice){
+            if(ledConnectedDevice && IsPlay){
                 console.log(`index : ${customNameArray[Index]}`)
-                if(customNameArray[Index])
+                if(customNameArray[Index]){
                     await getCustomMessageByModeId(customNameArray[Index], dispatch);
-                    if(IsPlay){
-                        var result:messageNumber[] = await getCustomPackageByModeId(customNameArray[Index])
-                        if(result.length>0){
-                            const messagePackage: LedMessage = {deviceId: null, messages: result};
-                            dispatch(uploadMessage(messagePackage));
-                        }
-                    }
+                    await sendPackageBymodeId(customNameArray[Index])
+                }
             }
         }catch(e){
             console.log(e)
@@ -194,6 +192,12 @@ const LedControllerScreen = (props:LedControllerProps) => {
             console.log(e);
         }
     }
+
+    useEffect (() => {
+        if(!ledConnectedDevice && IsPlay){
+            dispatch(uploadIsPlay())
+        }
+      },[ledConnectedDevice])
 
     useEffect (() => {
         getStaticMessage()
@@ -222,28 +226,28 @@ const LedControllerScreen = (props:LedControllerProps) => {
         <View style={styles.container}>
             <Gradient fromColor='#B6B9C7' toColor='#FFFFFF' opacityColor2={0}>
                 {ledConnectedDevice?
-                <Text style={styles.titleText}>Light Modes</Text>
+                <CustomText style={styles.titleText}>Light Modes</CustomText>
                 :
-                <Text style={styles.titleText}>Not Connected</Text>
+                <CustomText style={styles.titleText}>Not Connected</CustomText>
                 }
                     <View style={styles.dataContainer}>
-                        <LedToggleButton title={[`Presets`, `Custom`]} onPress={handleTitleName} theme={'Dark'}/>
+                        <LedToggleButton title={[`Presets`, `Custom`]} onPress={handleTitleName} theme={'Dark'} val={0}/>
                     </View>
                     <Panel titleName={titleName === 0 ? 'Presets' : `Custom`}
                         modeId={titleName === 0 ? modeId.toString() : customNameArray[Index]}
                         backward={() => titleName === 0 ? handleBackButton() : handleCustomBackButton()}
                         forward={() => titleName === 0 ? handleForwardButton() : handleCustomForwardButton()}
-                        play={() => titleName === 0 ? handleStaticPlayButton() : handleCustomPlayButton()}
-                        cycle={ledCycle}
-                        brightness={ledBrightness}
+                        play={() => {if(ledConnectedDevice) titleName === 0 ? handleStaticPlayButton() : handleCustomPlayButton()}}
+                        cycle={titleName === 0?ledCycle:customNameArray[Index]?ledCycle:0}
+                        brightness={titleName === 0?ledBrightness:customNameArray[Index]?ledBrightness:0}
                         updataLedCycle={updataLedCycle}
                         updataLedBrightness={updataLedBrightness} isPlay={IsPlay} />
                     <View style={styles.buttonContainer}>
                         {titleName === 0?
-                        <CTAButton title={'Add Custom Mode'} theme={'White'} onPress={() => { setVisible(true); } } width={300} height={50} />
+                        <CTAButton title={'Add Custom Mode'} theme={'White'} onPress={() => { setVisible(true); } } width={260} height={50} />
                         :
-                        <><CTAButton title={'Edit Custom Mode'} theme={'White'} onPress={() => { handleEditPage(customNameArray[Index]) } } width={180} height={50} />
-                        <CTAButton title={'Add Custom Mode'} theme={'White'} onPress={() => { setVisible(true); } } width={180} height={50} /></>
+                        <><CTAButton title={'Edit Custom Mode'} theme={'White'} onPress={() => { handleEditPage(customNameArray[Index]) } } width={160} height={50} />
+                        <CTAButton title={'Add Custom Mode'} theme={'White'} onPress={() => { setVisible(true); } } width={160} height={50} /></>
                         }
                     </View>
                 <DialogInput 
@@ -254,8 +258,8 @@ const LedControllerScreen = (props:LedControllerProps) => {
                     submitInput={ (inputText) => {
                     if(customNameArray.includes(inputText)) return(Alert.alert(`Error: the name "${inputText}" already exists`), setVisible(false))
                     return (
-                            dispatch(updateledMessageByData([])),
-                            props.navigation.navigate({name: 'LEDCU',params: {...props.route.params, modeId:inputText} }),
+                            dispatch(resetCustomMessage()),
+                            props.navigation.navigate({name: 'Custom',params: {...props.route.params, modeId:inputText} }),
                             setVisible(false)
                     )
                     }}

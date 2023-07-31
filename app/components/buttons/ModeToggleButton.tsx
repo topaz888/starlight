@@ -1,7 +1,8 @@
 import React, {FC, useEffect} from 'react';
-import {TouchableOpacity, Text, StyleSheet, View} from 'react-native';
+import {TouchableOpacity, StyleSheet} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import CustomText from '../text/CustomText';
 
 type ToggleButtonProps = {title: string[]; onPress: Function; val:number;};
 
@@ -31,7 +32,7 @@ const ModeToggleButton: FC<ToggleButtonProps> = props => {
               :
               <MaterialIcons name="shimmer" style={status === key ? styles.Label : styles.activeLabel}></MaterialIcons>
             }
-            <Text style={status === key ? styles.buttonText : styles.activeButtonText}>{item}</Text>
+            <CustomText style={status === key ? styles.buttonText : styles.activeButtonText}>{item}</CustomText>
         </TouchableOpacity>
         )
       })
@@ -42,8 +43,8 @@ const ModeToggleButton: FC<ToggleButtonProps> = props => {
 
 const styles = StyleSheet.create({
   activeButtonContiner: {
-    height: 70,
-    width: 70,
+    height: 80,
+    width: 80,
     backgroundColor: '#174F8A',
     justifyContent: 'center',
     alignItems: 'center',
@@ -51,8 +52,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   ButtonContiner: {
-    height: 70,
-    width: 70,
+    height: 80,
+    width: 80,
     backgroundColor: '#F8F9FB',
     justifyContent: 'center',
     alignItems: 'center',

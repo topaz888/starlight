@@ -1,17 +1,18 @@
 import React, {FC, useEffect} from 'react';
 import {TouchableOpacity, Text, StyleSheet} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import CustomText from '../text/CustomText';
 
-type ToggleButtonProps = {title: string[]; onPress: Function; theme: string};
+type ToggleButtonProps = {title: string[]; onPress: Function; theme: string; val:number;};
 
 const LedToggleButton: FC<ToggleButtonProps> = props => {
   const [status, setStatus] = React.useState(0);
   const isDarkTheme = props.theme === 'Dark';
 
   useEffect(() => {
-    setStatus(0);
-    props.onPress(0);
-    },[]);
+    console.log("how many times ToggleButtonProps")
+    onButtonToggle(props.val??0);
+    },[props.val]);
 
   const onButtonToggle = (key: number) => {
     setStatus(key);
@@ -30,7 +31,7 @@ const LedToggleButton: FC<ToggleButtonProps> = props => {
         :
         <TouchableOpacity style={status === key ? styles.activeButtonContiner : styles.ButtonContiner} disabled={status === key}
             onPress={()=>onButtonToggle(key)}  key={key}>
-          <Text style={status === key?styles.ButtonText:styles.DarkButtonText}>{item}</Text>
+          <CustomText style={status === key?styles.ButtonText:styles.DarkButtonText}>{item}</CustomText>
           <Ionicons name="bulb-outline" style={status === key?styles.ButtonText:styles.DarkButtonText}></Ionicons>
         </TouchableOpacity>
       )

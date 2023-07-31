@@ -19,11 +19,13 @@ type ledState = {
     ledwaitTimeLen:number;
     minBrightness:number;
     minCycle:number;
+    tabView:number;
 
     databaseDefault: boolean;
     isUpdating: boolean;
     isUploading:boolean;
     isPlaying:boolean;
+    isTurnOff:boolean;
 }
 
 const initialState:ledState = {
@@ -34,7 +36,7 @@ const initialState:ledState = {
     ledKey: 0,
     ledStaticMode: 1,
     ledMode: 0,
-    ledCycle: 4,
+    ledCycle: 1,
     mainScreenledCycle: 0,
     ledCycle2: 0,
     ledDelay: 0,
@@ -44,11 +46,13 @@ const initialState:ledState = {
     ledwaitTimeLen:0,
     minBrightness:0,
     minCycle:0,
+    tabView:0,
 
     databaseDefault: false,
     isUpdating: false,
     isUploading: false,
     isPlaying: false,
+    isTurnOff: false,
 }
 
 const ledReducer = createSlice({
@@ -174,15 +178,25 @@ const ledReducer = createSlice({
         },
 
         updateledMessageByData: (state,action)=>{
+            state.ledKey = 0;
+            state.tabView = 0;
             state.ledCustomMessage = action.payload;
             state.ledMode = state.ledCustomMessage[0]?.mode ?? 0;
+            state.ledBrightness = state.ledCustomMessage[0]?.brightness ?? 0;
+            state.ledCycle = state.ledCustomMessage[0]?.cycle ?? 0;
+            state.ledDelay = state.ledCustomMessage[0]?.delay ?? 0;
+            state.ledwaitTime = state.ledCustomMessage[0]?.waitTime ?? 0;
             state.isUpdating = false;
         },
 
         updateDefault: (state,action) => {
             state.databaseDefault = action.payload;
         },
-        
+
+        uploadTabView: (state,action) => {
+            state.tabView = action.payload;
+        },
+
         setledCustomMessage: state =>{
             console.log("setledCustomMessage");
             const key = state.ledKey;
@@ -190,7 +204,18 @@ const ledReducer = createSlice({
             state.ledBrightness = state.ledCustomMessage[key]?.brightness ?? 0;
             state.ledCycle = state.ledCustomMessage[key]?.cycle ?? 0;
             state.ledDelay = state.ledCustomMessage[key]?.delay ?? 0;
-            // state.ledwaitTime = state.ledwaitTime[key]?.waitTime ?? 0;
+            state.ledwaitTime = state.ledCustomMessage[key]?.waitTime ?? 0;
+        },
+
+        resetCustomMessage: state => {
+            state.ledCustomMessage = [];
+            state.ledBrightness = 0;
+            state.ledCycle = 0;
+            state.ledKey = 0;
+            state.ledMode = 0;
+            state.ledwaitTime = 0;
+            state.ledDelay = 0;
+            state.tabView = 0;
         },
 
         uploadMessage: (state, _) => {
@@ -199,6 +224,10 @@ const ledReducer = createSlice({
 
         uploadIsPlay: state => {
             state.isPlaying = !state.isPlaying
+        },
+
+        uploadIsTurnOff: state => {
+            state.isTurnOff = !state.isTurnOff
         }
     }
 })
@@ -209,6 +238,7 @@ export const ledActionConstants = {
     UPDATE_BRIGHTNESS: ledReducer.actions.updateledBrightness.type,
     UPDATE_CYCLE: ledReducer.actions.updateledCycle.type, 
     UPDATE_DELAY: ledReducer.actions.updateledDelay.type,
+    UPDATE_WAITTIME: ledReducer.actions.updateledwaitTime.type,
     UPDATE_CUSTOM_MESSAGE: ledReducer.actions.updateledCustomMessage.type,
     SET_LED_CUSTOM_MESSAGE: ledReducer.actions.setledCustomMessage.type,
     UPLOAD_MESSAGE: ledReducer.actions.uploadMessage.type,
@@ -235,7 +265,10 @@ export const {
     updateledTitleName,
     updatemainScreenledCycle,
     updatemainScreenledBrightness,
-    uploadIsPlay
+    uploadIsPlay,
+    uploadIsTurnOff,
+    uploadTabView,
+    resetCustomMessage
     } = ledReducer.actions
 
 

@@ -64,6 +64,22 @@ function* uploadMessage(action:{
                 payload: brightnessMessage,
             })
         }
+
+        if(data.waitTime){
+            const brightnessMessage : Message = {deviceId: action.payload.deviceId, message: data.waitTime.toString()}
+            yield put({
+                type: bluetoothActionConstants.SEND_MESSAGE,
+                payload: brightnessMessage,
+            })
+        }
+
+        if(data.waitTimeLen){
+            const brightnessMessage : Message = {deviceId: action.payload.deviceId, message: data.waitTimeLen.toString()}
+            yield put({
+                type: bluetoothActionConstants.SEND_MESSAGE,
+                payload: brightnessMessage,
+            })
+        }
     }else{
         //reading when the status is default
         const data: number = yield call(ledController.deserializeReadData,action.payload)
@@ -76,7 +92,11 @@ function* uploadMessage(action:{
 }
 
 export function* ledSaga() {
-    yield takeEvery([ledActionConstants.UPDATE_MODE, ledActionConstants.UPDATE_BRIGHTNESS,ledActionConstants.UPDATE_CYCLE, ledActionConstants.UPDATE_DELAY],
+    yield takeEvery([ledActionConstants.UPDATE_MODE, 
+        ledActionConstants.UPDATE_BRIGHTNESS,
+        ledActionConstants.UPDATE_CYCLE, 
+        ledActionConstants.UPDATE_DELAY,
+        ledActionConstants.UPDATE_WAITTIME],
         updateCustomMessage,
       );
 

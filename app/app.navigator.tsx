@@ -1,5 +1,4 @@
 import React from 'react';
-// import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import BlueToothConnectScreen from './screens/bluetooth/bluetooth.connect.screen';
@@ -8,7 +7,6 @@ import LedCustomScreen from './screens/led/led.custom.screen';
 import LedControllerScreen from './screens/led/led.controller.screen';
 import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { StyleSheet } from 'react-native';
 
 
 const Stack = createStackNavigator();

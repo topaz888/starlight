@@ -1,6 +1,7 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import DataSlider from "../sliders/DataSlider";
 import PlayPanel from "./PlayerPanel";
+import CustomText from "../text/CustomText";
 
 interface CustomPanelProps {
     titleName: string,
@@ -19,19 +20,19 @@ const Panel = (props: CustomPanelProps) =>{
         <View style={styles.container}>
             <View style={styles.controlPanel}>
                 <View style={styles.titleContainer}>
-                    <Text style={styles.titleKey}>{props.titleName}</Text>
-                    <Text style={styles.titleNumber}>{props.modeId}</Text>
+                    <CustomText style={styles.titleKey}>{props.titleName}</CustomText>
+                    <CustomText style={styles.titleNumber}>{props.modeId}</CustomText>
                 </View>
                 <PlayPanel backward={() => { props.backward(); } } forwardward={() => { props.forward(); } } play={() => { props.play(); } } isPlay={props.isPlay}/>
                 {props.isPlay && <View style={styles.buttonsContainer}>
                     {(+props.modeId > 7 || props.titleName === `Custom`) && 
                         <View style={styles.dataContainer}>
-                            <Text style={styles.Text}>Cycle</Text>
+                            <CustomText style={styles.Text}>Cycle</CustomText>
                             <DataSlider minVal={0} maxVal={40} step={1} onPress={props.updataLedCycle} value={props.cycle} />
                         </View>
                     }
                     <View style={styles.dataContainer}>
-                        <Text style={styles.Text}>Brightness</Text>
+                        <CustomText style={styles.Text}>Brightness</CustomText>
                         <DataSlider minVal={0} maxVal={100} step={10} onPress={props.updataLedBrightness} value={props.brightness} />
                     </View>
                 </View>}
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
     titleContainer: {
         flexDirection: 'row',
         backgroundColor: "#EFF0F4",
-        height: 70,
+        height: 40,
     },
     titleKey: {
         backgroundColor: '#D8DAE2',
@@ -84,7 +85,7 @@ const styles = StyleSheet.create({
     Text: {
         flex: 1,
         fontWeight: 'bold',
-        fontSize: 18,
+        fontSize: 17,
         color: '#215e79',
         textAlign: 'justify',
         textAlignVertical: 'center',

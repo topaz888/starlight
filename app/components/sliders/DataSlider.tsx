@@ -1,6 +1,7 @@
 import Slider from '@react-native-community/slider';
 import React, {FC, useEffect, useState} from 'react';
-import {Text, StyleSheet, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
+import CustomText from '../text/CustomText';
 
 type DataSliderProps = {minVal: number; maxVal: number; step: number; onPress: Function; value: number};
 
@@ -16,7 +17,7 @@ const DataSlider: FC<DataSliderProps> = props => {
   };
   return (
     <View style={styles.Continer}>
-        <Text style={styles.text}>{buffer}</Text>
+        <CustomText style={styles.text}>{buffer}</CustomText>
         <Slider
           style={styles.slider}
           onSlidingComplete={(val) => onValChange(val)}
@@ -36,11 +37,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: 18,
+    fontWeight: "500",
   },
   slider: {
-    width: 220, 
+    width: 192, 
     height: 40,
     marginLeft:10
   },

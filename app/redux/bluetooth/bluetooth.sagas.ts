@@ -1,6 +1,6 @@
-import { call, put, take, takeEvery, select } from "redux-saga/effects";
+import { call, put, take, takeEvery } from "redux-saga/effects";
 import { bluetoothActionConstants } from "./bluetooth.reducer";
-import { AnyAction, PayloadAction } from "@reduxjs/toolkit";
+import { AnyAction } from "@reduxjs/toolkit";
 import { TakeableChannel, eventChannel } from "redux-saga";
 import bluetoothLeManager from "./BluetoothManager";
 import {BluetoothPeripheral, Message} from '../../models/BluetoothPeripheral'
@@ -48,7 +48,29 @@ function* connectToPeripheral(action: {
     payload: peripheral,
   });
   yield call(bluetoothLeManager.stopScanningForPeripherals);
+  yield handleBleUnknownDisconnect(action.payload.id)
 }
+
+function* handleBleUnknownDisconnect(identifier:string): Generator<any, void, any> {
+  const onConnectDevice = yield eventChannel(emitter => {
+    const  subscription = bluetoothLeManager.addConnectListener(identifier, emitter);
+    return () => {
+      subscription.remove();
+   }
+  });
+  try {
+    while (true) {
+      const result = yield take(onConnectDevice);
+      if(result)
+        yield put({
+          type: bluetoothActionConstants.DISCONNECTION_SUCCESSS,
+      })
+      onConnectDevice.close();
+    }
+  }catch(e){
+    console.log(e)
+  }
+ }
 
 function* getMessage(): Generator<AnyAction, void, any> {
   const onListenMessage = () =>
@@ -72,10 +94,13 @@ function* getMessage(): Generator<AnyAction, void, any> {
   }
 }
 function* disconnectToPeripheral(action:{
-  type: typeof bluetoothActionConstants.DISCONNECTION_SUCCESS,
+  type: typeof bluetoothActionConstants.DISCONNECTION_PERIPHERAL,
   payload: string,
 }){
   yield call(bluetoothLeManager.disconnectToPeripheral, action.payload);
+  yield put({
+    type: bluetoothActionConstants.DISCONNECTION_SUCCESSS,
+  })
 }
 function* setMessage(action: {
   type: typeof bluetoothActionConstants.SEND_MESSAGE,
@@ -97,17 +122,21 @@ function* autoBlueToothPair() {
         type: bluetoothActionConstants.CHECK_BONDED_DEVICE,
         payload: true,
       });
-      yield call(bluetoothLeManager.connectToPeripheral, peripheral.id);
-      yield put({
-        type: bluetoothActionConstants.CONNECTION_SUCCESS,
-        payload: peripheral,
-      });
+      var result:boolean = yield call(bluetoothLeManager.connectToPeripheral, peripheral.id);
+      if(result)
+        yield put({
+          type: bluetoothActionConstants.CONNECTION_SUCCESS,
+          payload: peripheral,
+        });
     }
     else{
       yield put({
         type: bluetoothActionConstants.CHECK_BONDED_DEVICE,
         payload: false,
       });
+    }
+    if(peripheral){
+      yield handleBleUnknownDisconnect(peripheral.id)
     }
   }
 }
@@ -119,7 +148,7 @@ export function* bluetoothSaga() {
     yield takeEvery(bluetoothActionConstants.INITIATE_CONNECTION,
       connectToPeripheral
       );
-    yield takeEvery(bluetoothActionConstants.DISCONNECTION_SUCCESS,
+    yield takeEvery(bluetoothActionConstants.DISCONNECTION_PERIPHERAL,
       disconnectToPeripheral
         );
     yield takeEvery(bluetoothActionConstants.START_RECEIVE_MESSAGE,

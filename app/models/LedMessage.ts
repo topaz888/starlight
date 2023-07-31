@@ -24,6 +24,16 @@ export type message = {
     waitTimeLen: string|null
 }
 
+export type messageCheck = {
+    modeCheck: boolean|undefined,
+    delayCheck: boolean|undefined, 
+    brightnessCheck: boolean|undefined,
+    cycleCheck: boolean|undefined,
+    cycle2Check: boolean|undefined,
+    waitTimeCheck: boolean|undefined,
+    waitTimeLenCheck: boolean|undefined
+}
+
 export type messageNumber = {
     mode: number|null,
     delay: number|null, 
@@ -37,9 +47,11 @@ export type messageNumber = {
 export type messageBigInt = {
     mode: bigint | null;
     delay: bigint | null;
+    brightness: bigint | null;
     cycle: bigint | null;
     cycle2: bigint | null;
-    brightness: bigint | null;
+    waitTime: bigint|null,
+    waitTimeLen: bigint|null
     packageLen: number | null;
 }
 

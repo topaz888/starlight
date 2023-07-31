@@ -14,6 +14,8 @@ type BluetoothState = {
   receiveMessage: number;
   isSendMessage: boolean;
   sendMessage: number;
+
+  isDisconnecting: boolean;
 };
 
 const initialState: BluetoothState = {
@@ -29,6 +31,7 @@ const initialState: BluetoothState = {
   receiveMessage: 0,
   isSendMessage: false,
   sendMessage: 0,
+  isDisconnecting:false
 };
 
 const bluetoothReducer = createSlice({
@@ -77,6 +80,10 @@ const bluetoothReducer = createSlice({
     },
 
     disconnectPeripheral: (state, _) => {
+      state.isDisconnecting = true;
+    },
+
+    disconnectSuccess: (state) => {
       state.connectedDevice = null;
       state.deviceName = null;
     },
@@ -101,7 +108,8 @@ export const bluetoothActionConstants = {
     ON_DEVICE_DISCOVERED: bluetoothReducer.actions.bluetoothPeripheralsFound.type,
     INITIATE_CONNECTION: bluetoothReducer.actions.initiateConnection.type,
     CONNECTION_SUCCESS: bluetoothReducer.actions.connectPeripheral.type,
-    DISCONNECTION_SUCCESS: bluetoothReducer.actions.disconnectPeripheral.type,
+    DISCONNECTION_PERIPHERAL: bluetoothReducer.actions.disconnectPeripheral.type,
+    DISCONNECTION_SUCCESSS: bluetoothReducer.actions.disconnectSuccess.type,
     START_RECEIVE_MESSAGE: bluetoothReducer.actions.startLEDControl.type,
     UPDATE_RECEIVE_MESSAGE: bluetoothReducer.actions.receiveMessage.type,
     SEND_MESSAGE: bluetoothReducer.actions.sendMessage.type,

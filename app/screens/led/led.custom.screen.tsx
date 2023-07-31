@@ -1,22 +1,22 @@
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Alert, StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import CTAButton from '../../components/buttons/CTAButton';
 import DataSlider from "../../components/sliders/DataSlider";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { updateledBrightness, updateledCycle, updateledDelay, updateledKey, setledCustomMessage, updateledMode, updateledwaitTime } from "../../redux/led/led.reducer";
+import { updateledBrightness, updateledCycle, updateledDelay, updateledKey, setledCustomMessage, updateledMode, updateledwaitTime, uploadTabView, uploadIsPlay } from "../../redux/led/led.reducer";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import { handleAddLed, handleRemoveLed } from "../../realm/led/actions/led.actions";
 import { useMemo } from "react";
-import { screenHeight, screenWidth } from "../../components/constant/constant";
+import { screenWidth } from "../../components/constant/constant";
 import LedToggleButton from "../../components/buttons/ToggleButton";
 import ModeToggleButton from "../../components/buttons/ModeToggleButton";
 import CustomTab from "../../components/tabbBar/CustomTab";
 import { messageNumber } from "../../models/LedMessage";
 import Gradient from "../../components/GradientColor";
+import CustomText from "../../components/text/CustomText";
 
 const _screenWidth = screenWidth;
-const _screenHeight = screenHeight;
 
 interface LedScreenProps {
     navigation: NavigationProp<any,any>;
@@ -25,6 +25,10 @@ interface LedScreenProps {
 
 const LedCustomScreen = (props:LedScreenProps) =>{
     const modeId = useMemo<string>(()=>{return (props.route.params?.modeId)}, [props.route.params?.modeId])
+
+    const ledKey = useSelector(
+        (state: RootState) => state.led.ledKey,
+    )
 
     const ledMode = useSelector(
         (state: RootState) => state.led.ledMode,
@@ -48,6 +52,14 @@ const LedCustomScreen = (props:LedScreenProps) =>{
 
     const ledMessage = useSelector(
         (state: RootState) => state.led.ledCustomMessage,
+    )
+
+    const IsPlay = useSelector(
+        (state: RootState) => state.led.isPlaying,
+    )
+
+    const tabView = useSelector(
+        (state: RootState) => state.led.tabView,
     )
 
     const dispatch = useDispatch();
@@ -77,12 +89,19 @@ const LedCustomScreen = (props:LedScreenProps) =>{
         dispatch(updateledwaitTime(message));
     }
 
+    const updataTabView = (message: number) => {
+        dispatch(uploadTabView(message));
+    }
+
     const handleClose = () => {
         props.navigation.navigate({ name: 'Light Mode', params: { ...props.route.params} })
     }
 
     const handleSave = async () => {
-        await uploadMessage(ledMessage); 
+        await uploadMessage(ledMessage);
+        if(IsPlay){
+            dispatch(uploadIsPlay())
+        }
     }
 
     const handleDelete = () =>
@@ -122,7 +141,7 @@ const LedCustomScreen = (props:LedScreenProps) =>{
             <>{ledMode===0?
                 <View style={styles.controlPanel}>
                     <View style={styles.dataContainer}>
-                        <Text style={styles.Text}>Brightness</Text>
+                        <CustomText style={styles.Text}>Brightness</CustomText>
                         <DataSlider minVal={0} maxVal={100} step={10} onPress={updataLedBrightness} value={ledBrightness}/>
                     </View>
                 </View>
@@ -130,11 +149,11 @@ const LedCustomScreen = (props:LedScreenProps) =>{
                 ledMode===1?
                 <View style={styles.controlPanel}>
                     <View style={styles.dataContainer}>
-                        <Text style={styles.Text}>Cycle</Text>
-                        <DataSlider minVal={0} maxVal={100} step={1} onPress={updataLedCycle} value={ledCycle}/>
+                        <CustomText style={styles.Text}>Cycle</CustomText>
+                        <DataSlider minVal={0} maxVal={20} step={1} onPress={updataLedCycle} value={ledCycle}/>
                     </View>
                     <View style={styles.dataContainer}>
-                        <Text style={styles.Text}>Brightness</Text>
+                        <CustomText style={styles.Text}>Brightness</CustomText>
                         <DataSlider minVal={0} maxVal={100} step={10} onPress={updataLedBrightness} value={ledBrightness}/>
                     </View>
                 </View>
@@ -142,15 +161,15 @@ const LedCustomScreen = (props:LedScreenProps) =>{
                 ledMode===2 &&
                 <View style={styles.controlPanel}>
                     <View style={styles.dataContainer}>
-                        <Text style={styles.Text}>Cycle</Text>
-                        <DataSlider minVal={0} maxVal={100} step={1} onPress={updataLedCycle} value={ledCycle}/>
+                        <CustomText style={styles.Text}>Cycle</CustomText>
+                        <DataSlider minVal={0} maxVal={40} step={1} onPress={updataLedCycle} value={ledCycle}/>
                     </View>
                     <View style={styles.dataContainer}>
-                        <Text style={styles.Text}>Delay</Text>
+                        <CustomText style={styles.Text}>Delay</CustomText>
                         <DataSlider minVal={0} maxVal={10} step={2.5} onPress={updataLedDelay} value={ledDelay}/>
                     </View>
                     <View style={styles.dataContainer}>
-                        <Text style={styles.Text}>Brightness</Text>
+                        <CustomText style={styles.Text}>Brightness</CustomText>
                         <DataSlider minVal={0} maxVal={100} step={10} onPress={updataLedBrightness} value={ledBrightness}/>
                     </View>
                 </View>
@@ -163,14 +182,14 @@ const LedCustomScreen = (props:LedScreenProps) =>{
             <>{ledMode===0 ?
                 <View style={styles.controlPanel}>
                     <View style={styles.dataContainer}>
-                        <Text style={styles.Text}>This Mode doesn't have Timer</Text>
+                        <CustomText style={styles.Text}>This Mode doesn't have Timer</CustomText>
                     </View>
                 </View>
                 :
                 <View style={styles.controlPanel}>
                     <View style={styles.dataContainer}>
-                    <Text style={styles.Text}>Wait Time</Text>
-                        <DataSlider minVal={0} maxVal={100} step={1} onPress={updataLedWaitTime} value={ledWaitTime}/>
+                    <CustomText style={styles.Text}>Wait Time</CustomText>
+                        <DataSlider minVal={0} maxVal={40} step={1} onPress={updataLedWaitTime} value={ledWaitTime}/>
                     </View>
                 </View>
             }</>
@@ -180,9 +199,9 @@ const LedCustomScreen = (props:LedScreenProps) =>{
     return (
         <SafeAreaView style={styles.container}>
             <Gradient fromColor='#B6B9C7' toColor='#FFFFFF' opacityColor2={0}>
-            <Text style={styles.titleText}>Customized your Own Star Mode</Text>
+            <CustomText style={styles.titleText}>Customized your Own Star Mode</CustomText>
                 <View style={styles.dataContainer}>
-                    <LedToggleButton title={['1st', '2nd', '3rd', '4th']} onPress={updataLedKey} theme={'White'}/>
+                    <LedToggleButton title={['1st', '2nd', '3rd', '4th']} onPress={updataLedKey} theme={'White'} val={ledKey}/>
                 </View>
 
                 <View style={styles.dataContainer}>
@@ -190,7 +209,7 @@ const LedCustomScreen = (props:LedScreenProps) =>{
                 </View>
 
                     <View style={styles.dataContainer}>
-                        <CustomTab title={['Parameter', `Timer`]} renderView={[viewLedParameter, viewLedTimer]}/>
+                        <CustomTab title={['Parameter', `Timer`]} renderView={[viewLedParameter, viewLedTimer]} onPress={updataTabView} value={tabView}/>
                     </View>
                 <View style={styles.buttonContainer}>
                     <View style={styles.sideButtonContainer}>
@@ -243,7 +262,7 @@ const styles = StyleSheet.create({
     Text: {
         flex: 1,
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: 18,
         color: '#215e79',
         textAlign: 'justify',
         textAlignVertical: 'center',

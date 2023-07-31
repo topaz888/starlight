@@ -1,17 +1,13 @@
 import React, { FC, useEffect, useState } from 'react';
 import {
-  Keyboard,
   Modal,
-  NativeSyntheticEvent,
   Platform,
   StyleSheet,
-  Text,
   TextInput,
-  TextInputKeyPressEventData,
   TouchableOpacity,
   View,
 } from 'react-native';
-import { InputMode } from 'react-native-paper/lib/typescript/src/components/TextInput/Adornment/enums';
+import CustomText from '../text/CustomText';
 
 type DialogInputProps = {
     isDialogVisible: boolean,
@@ -47,11 +43,6 @@ const DialogInput: FC<DialogInputProps> = props =>{
         closeDialog();
         setinputModal(''); 
     };
-
-    // const handleOnKeyPress = (e: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
-    //   if(e.nativeEvent.key == "Enter")
-    //     handleSubmit();
-    // };
 
     const handleOnChangeText = (inputModal: string) => {
         setinputModal(inputModal);
@@ -91,12 +82,12 @@ const DialogInput: FC<DialogInputProps> = props =>{
             <TouchableOpacity style={styles.container} activeOpacity={1} onPress={handleOnCloseDialog}>
             <View style={[styles.modal_container]} >
                 <View style={styles.modal_body} >
-                <Text style={styles.title_modal}>{title}</Text>
-                <Text style={[message ? styles.message_modal : {height:0} ]}>{message}</Text>
+                <CustomText style={styles.title_modal}>{title}</CustomText>
+                <CustomText style={[message ? styles.message_modal : {height:0} ]}>{message}</CustomText>
                   <TextInput style={styles.input_container}
                       autoCorrect={false}
                       autoCapitalize={'none'}
-                      maxLength={20}
+                      maxLength={10}
                       returnKeyType='search'
                       inputMode='search'
                       autoFocus={true}
@@ -108,17 +99,17 @@ const DialogInput: FC<DialogInputProps> = props =>{
                       onChangeText={handleOnChangeText}
                       value={inputModal}
                       />
-                {!inputModal || isInvalid && <Text style={styles.error_text}>Error: invalid symbols, (A-Za-z0-9)</Text>}
+                {!inputModal || isInvalid && <CustomText style={styles.error_text}>Error: invalid symbols, (A-Za-z0-9)</CustomText>}
             </View>
                 <View style={styles.btn_container}>
                 <TouchableOpacity style={styles.touch_modal}
                     onPress={handleOnCloseDialog}>
-                    <Text style={styles.btn_modal_left}>{cancelTextPlatform}</Text>
+                    <CustomText style={styles.btn_modal_left}>{cancelTextPlatform}</CustomText>
                 </TouchableOpacity>
                 <View style={styles.divider_btn}></View>
                 <TouchableOpacity  style={styles.touch_modal}
                     onPress={handleSubmit}>
-                    <Text style={styles.btn_modal_right}>{submitTextPlatform}</Text>
+                    <CustomText style={styles.btn_modal_right}>{submitTextPlatform}</CustomText>
                 </TouchableOpacity>
                 </View>
             </View>

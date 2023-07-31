@@ -136,10 +136,30 @@ class BluetoothLeManager {
 
   connectToPeripheral = async (identifier: string) => {
     if(identifier){
-      this.device = await this.bleManager.connectToDevice(identifier);
-      console.log("Conect Peripherals: " + this.device.id??"UnkownName");
+      try{this.device = await this.bleManager.connectToDevice(identifier);
+        console.log("Conect Peripherals: " + this.device.id??"UnkownName")
+        return true
+      }catch(e){
+        console.log('Device is disconnected');
+      }
     }
+    return false
   };
+  
+  addConnectListener = (identifier:string, onDeviceConnect: (payload: boolean) => void) => {
+    console.log("addConnectListener")
+    var subscription = this.bleManager.onDeviceDisconnected(identifier, (error) => {
+      if (error) {
+        console.log("first "+ error);
+        this.device = null;
+        onDeviceConnect(true)
+      }else{
+        console.log("second "+ error)
+        onDeviceConnect(true)
+      }
+    })
+    return subscription
+  }
 
   decodeRequest = (val : string) => {
     let rawData = Buffer.from(val, 'base64').toString('utf8');

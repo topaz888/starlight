@@ -4,18 +4,13 @@ import {
   ListRenderItemInfo,
   Modal,
   SafeAreaView,
-  Text,
   StyleSheet,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import {BluetoothPeripheral} from '../../models/BluetoothPeripheral';
 import CTAButton from '../buttons/CTAButton';
-import { screenHeight, screenWidth } from '../constant/constant';
 import ListBUtton from '../buttons/ListButton';
-
-const _screenWidth = 400;
-const _screenHeight = 400;
+import CustomText from '../text/CustomText';
 
 type DeviceModalListItemProps = {
   item: ListRenderItemInfo<BluetoothPeripheral>;
@@ -62,9 +57,9 @@ const DeviceModal: FC<DeviceModalProps> = props => {
       transparent={false}
       visible={visible}>
       <SafeAreaView style={modalStyle.modalTitle}>
-        <Text style={modalStyle.modalTitleText}>
+        <CustomText style={modalStyle.modalTitleText}>
           Choose your device to to connect
-        </Text>
+        </CustomText>
         <View style={modalStyle.modalFlatlistContiner}>
           <FlatList data={devices} renderItem={renderDeviceModalListItem}/>
         </View>

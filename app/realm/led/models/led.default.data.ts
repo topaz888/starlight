@@ -5,77 +5,84 @@ const DataList= {
         {//1///Light
             "led":
                 {
+                 "cycle": ["1","0","0","1"],
                  "brightness": ["1","0","0","1"],
                 },
             "message": 
                 {
-                    "modeId": "1",
+                    "cycle": "1",
                     "brightness": "100",
                 },
         },
         {//2
             "led":
                 {
+                 "cycle": ["0","1","0","1"],
                  "brightness": ["0","1","0","1"],
                 },
             "message": 
                 {
-                    "modeId": "2",
+                    "cycle": "1",
                     "brightness": "100",
                 },
         },
         {//3
             "led":
                 {
+                 "cycle": ["0","0","1","1"],
                  "brightness": ["0","0","1","1"],
                 },
             "message": 
                 {
-                    "modeId": "3",
+                    "cycle": "1",
                     "brightness": "100",
                 },
         },
         {//4
             "led":
                 {
+                 "cycle": ["1","1","0","1"],
                  "brightness": ["1","1","0","1"],
                 },
             "message": 
                 {
-                    "modeId": "4",
+                    "cycle": "1",
                     "brightness": "100",
                 },
         },
         {//5
             "led":
                 {
+                 "cycle": ["0","1","1","1"],
                  "brightness": ["0","1","1","1"],
                 },
             "message": 
                 {
-                    "modeId": "5",
+                    "cycle": "1",
                     "brightness": "100",
                 },
         },
         {//6
             "led":
                 {
+                 "cycle": ["1","0","1","1"],
                  "brightness": ["1","0","1","1"],
                 },
             "message": 
                 {
-                    "modeId": "6",
+                    "cycle": "1",
                     "brightness": "100",
                 },
         },
         {//7
             "led":
                 {
+                 "cycle": ["1","1","1","1"],
                  "brightness": ["1","1","1","1"],
                 },
             "message": 
                 {
-                    "modeId": "7",
+                    "cycle": "1",
                     "brightness": "100",
                 },
         },

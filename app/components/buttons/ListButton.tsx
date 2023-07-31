@@ -1,12 +1,13 @@
 import React, {FC} from 'react';
-import {TouchableOpacity, Text, StyleSheet, Platform} from 'react-native';
+import {TouchableOpacity, StyleSheet, Platform} from 'react-native';
+import CustomText from '../text/CustomText';
 
 type ListBUttonProps = {title: string; onPress: () => void};
 
 const ListBUtton: FC<ListBUttonProps> = props => {
   return (
     <TouchableOpacity style={styles.ButtonContiner} onPress={props.onPress} key={1} activeOpacity={0.5}>
-      <Text style={styles.ButtonText}>{props.title}</Text>
+      <CustomText style={styles.ButtonText}>{props.title}</CustomText>
     </TouchableOpacity>
   );
 };

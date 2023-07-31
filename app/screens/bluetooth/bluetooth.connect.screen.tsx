@@ -3,7 +3,6 @@ import { RootState } from "../../redux/store";
 import React, { useState } from "react";
 import {
     SafeAreaView,
-    Text,
     StyleSheet,
     View,
     Image
@@ -14,6 +13,7 @@ import { BluetoothPeripheral } from "../../models/BluetoothPeripheral";
 import DeviceModal from "../../components/modals/DeviceConnectionModal";
 import { screenWidth } from "../../components/constant/constant";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
+import CustomText from "../../components/text/CustomText";
 
 interface BluetoothScreenProps {
   navigation: NavigationProp<any,any>;
@@ -56,12 +56,12 @@ const BlueToothConnectScreen = (props: BluetoothScreenProps) => {
       <View style={styles.titleWrapper}>
         {isConnected ? (
           <>
-            <Text style={styles.titleText}>Connected Decvice: {deviceName}</Text>
+            <CustomText style={styles.titleText}>Connected Decvice: {deviceName}</CustomText>
           </>
         ) : (
-          <Text style={styles.titleText}>
+          <CustomText style={styles.titleText}>
             Please search for Your pannel by clicking on "Find My Starlight Pannel"
-          </Text>
+          </CustomText>
         )}
       </View>
       <View style={styles.buttonContainer}>
@@ -71,7 +71,7 @@ const BlueToothConnectScreen = (props: BluetoothScreenProps) => {
             theme={'Dark'}
             onPress={() => {
               Disconnct(isConnected);
-            } } width={300} height={50}    />
+            } } width={260} height={50}    />
       :
       <CTAButton
             title="Find My Starlight Panel"
@@ -79,7 +79,7 @@ const BlueToothConnectScreen = (props: BluetoothScreenProps) => {
             onPress={() => {
               scanForDevices();
               setIsModalVisible(true);
-            } } width={300} height={50}      />
+            } } width={260} height={50}      />
       }
       </View>
       <DeviceModal
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   buttonContainer: {
-    bottom: 100,
+    bottom: 40,
 },
   titleText: {
     fontSize: 26,
