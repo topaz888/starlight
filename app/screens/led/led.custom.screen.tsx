@@ -93,6 +93,7 @@ const LedCustomScreen = (props:LedScreenProps) =>{
         dispatch(uploadTabView(message));
     }
 
+
     const handleClose = () => {
         props.navigation.navigate({ name: 'Light Mode', params: { ...props.route.params} })
     }
@@ -108,7 +109,7 @@ const LedCustomScreen = (props:LedScreenProps) =>{
     Alert.alert('Warning', 'If you choose Yes, this setting is deleted.', [
       {
         text: 'Cancel',
-        onPress: () => console.log('Cancel Pressed'),
+        // onPress: () => console.log('Cancel Pressed'),
         style: 'cancel',
       },
       { text: 'Yes', 
@@ -118,9 +119,9 @@ const LedCustomScreen = (props:LedScreenProps) =>{
     ])
 
     const uploadMessage = async (message: messageNumber[]) => {
-        console.log("test1");
+        // console.log("test1");
         try{
-            console.log(message);
+            // console.log(message);
             const success = await handleAddLed(modeId??"unknown", message);
             if(!success) Alert.alert('Error', 'Failed to create the new Star Mode', [
                     {
@@ -133,7 +134,7 @@ const LedCustomScreen = (props:LedScreenProps) =>{
         }catch(e){
             console.log(e);
         }
-        console.log("test2");
+        // console.log("test2");
     }
 
     const viewLedParameter = () =>{
@@ -150,7 +151,7 @@ const LedCustomScreen = (props:LedScreenProps) =>{
                 <View style={styles.controlPanel}>
                     <View style={styles.dataContainer}>
                         <CustomText style={styles.Text}>Cycle</CustomText>
-                        <DataSlider minVal={0} maxVal={20} step={1} onPress={updataLedCycle} value={ledCycle}/>
+                        <DataSlider minVal={1} maxVal={20} step={2} onPress={updataLedCycle} value={ledCycle}/>
                     </View>
                     <View style={styles.dataContainer}>
                         <CustomText style={styles.Text}>Brightness</CustomText>
@@ -162,7 +163,7 @@ const LedCustomScreen = (props:LedScreenProps) =>{
                 <View style={styles.controlPanel}>
                     <View style={styles.dataContainer}>
                         <CustomText style={styles.Text}>Cycle</CustomText>
-                        <DataSlider minVal={0} maxVal={40} step={1} onPress={updataLedCycle} value={ledCycle}/>
+                        <DataSlider minVal={1} maxVal={40} step={2} onPress={updataLedCycle} value={ledCycle}/>
                     </View>
                     <View style={styles.dataContainer}>
                         <CustomText style={styles.Text}>Delay</CustomText>
@@ -199,7 +200,7 @@ const LedCustomScreen = (props:LedScreenProps) =>{
     return (
         <SafeAreaView style={styles.container}>
             <Gradient fromColor='#B6B9C7' toColor='#FFFFFF' opacityColor2={0}>
-            <CustomText style={styles.titleText}>Customized your Own Star Mode</CustomText>
+            <CustomText style={styles.titleText}>Customize your own Star Mode</CustomText>
                 <View style={styles.dataContainer}>
                     <LedToggleButton title={['1st', '2nd', '3rd', '4th']} onPress={updataLedKey} theme={'White'} val={ledKey}/>
                 </View>
@@ -214,7 +215,7 @@ const LedCustomScreen = (props:LedScreenProps) =>{
                 <View style={styles.buttonContainer}>
                     <View style={styles.sideButtonContainer}>
                         <CTAButton title={'Delete'} theme={'Dark'} onPress={() => { handleDelete()} } width={140} height={50}/>
-                        <CTAButton title={'close'} theme={'Dark'} onPress={() => {handleClose()}} width={140} height={50}/>
+                        <CTAButton title={'Close'} theme={'Dark'} onPress={() => {handleClose()}} width={140} height={50}/>
                     </View>
                     <CTAButton title={'Save'} theme={'Dark'} onPress={async () => {await handleSave()} } width={300} height={50}/>
                 </View>

@@ -1,14 +1,14 @@
-import { call, put, take, takeEvery } from "redux-saga/effects";
+import { call, delay, put, select, take, takeEvery } from "redux-saga/effects";
 import { bluetoothActionConstants } from "./bluetooth.reducer";
 import { AnyAction } from "@reduxjs/toolkit";
 import { TakeableChannel, eventChannel } from "redux-saga";
 import bluetoothLeManager from "./BluetoothManager";
 import {BluetoothPeripheral, Message} from '../../models/BluetoothPeripheral'
 import { Peripheral } from "react-native-ble-manager";
+import { getTimerFlag } from "../store";
 
 function* watchForPeripherals(): Generator<AnyAction, void, any> {
   const isPermissionsEnabled: boolean = yield call(bluetoothLeManager.requestAndroid31Permissions);
-
   yield put({
     type: bluetoothActionConstants.REQUEST_PERMISSIONS,
     payload:isPermissionsEnabled
@@ -36,13 +36,24 @@ function* watchForPeripherals(): Generator<AnyAction, void, any> {
     }
 }
 
+function* refreshTimer():Generator<AnyAction, void, any> {
+  while (true) {
+      yield delay(5000);
+      var timerFlag = yield select(getTimerFlag);
+      if(timerFlag){
+        return;
+      }
+      yield put({type: bluetoothActionConstants.REFRESH_FOR_PERIPHERALS});
+  }
+}
+
 function* connectToPeripheral(action: {
   type: typeof bluetoothActionConstants.INITIATE_CONNECTION,
   payload: BluetoothPeripheral,
 }) {
   const peripheral = action.payload;
-  yield call(bluetoothLeManager.BondingPeripherals, action.payload.id);
   yield call(bluetoothLeManager.connectToPeripheral, action.payload.id);
+  // yield call(bluetoothLeManager.BondingPeripherals, action.payload.id);
   yield put({
     type: bluetoothActionConstants.CONNECTION_SUCCESS,
     payload: peripheral,
@@ -52,7 +63,7 @@ function* connectToPeripheral(action: {
 }
 
 function* handleBleUnknownDisconnect(identifier:string): Generator<any, void, any> {
-  const onConnectDevice = yield eventChannel(emitter => {
+  const listener = yield eventChannel(emitter => {
     const  subscription = bluetoothLeManager.addConnectListener(identifier, emitter);
     return () => {
       subscription.remove();
@@ -60,17 +71,17 @@ function* handleBleUnknownDisconnect(identifier:string): Generator<any, void, an
   });
   try {
     while (true) {
-      const result = yield take(onConnectDevice);
+      const result = yield take(listener);
       if(result)
         yield put({
           type: bluetoothActionConstants.DISCONNECTION_SUCCESSS,
       })
-      onConnectDevice.close();
+      listener.close();
     }
   }catch(e){
     console.log(e)
   }
- }
+}
 
 function* getMessage(): Generator<AnyAction, void, any> {
   const onListenMessage = () =>
@@ -145,6 +156,9 @@ export function* bluetoothSaga() {
     yield takeEvery(bluetoothActionConstants.SCAN_FOR_PERIPHERALS,
       watchForPeripherals,
       );
+    yield takeEvery(bluetoothActionConstants.SCAN_FOR_PERIPHERALS,
+      refreshTimer,
+      );
     yield takeEvery(bluetoothActionConstants.INITIATE_CONNECTION,
       connectToPeripheral
       );
@@ -161,3 +175,4 @@ export function* bluetoothSaga() {
       autoBlueToothPair
       );
 }
+

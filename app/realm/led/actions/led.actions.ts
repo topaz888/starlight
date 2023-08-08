@@ -98,7 +98,7 @@ export const handlePersistAddLed = async (_modeId: string, _message: {cycle:numb
             var led: { modeId: string, cycle: string, brightness: string};
                 led =  {
                         modeId: _modeId,
-                        cycle: _message.cycle?.toString()??null,
+                        cycle: +_modeId>7?_message.cycle?.toString()??null:Number(1).toFixed(),
                         brightness: _message.brightness?.toString()??"0",
                     }
             if(items.length > 0){
@@ -143,6 +143,32 @@ export const handleCustomAddLed = async (_modeId: string, _message: {cycle:numbe
     }
     return false;
 };
+
+export const handleBacktoDefault = async (index: number) => {
+    const realm = await Realm.open(LedRealmContext);
+    var items:any = realm.objects("PersistLedListRealm").filtered('modeId=$0',index.toFixed());
+    console.log(DataList.staticMode.mode[index].message)
+    var led =  {
+        modeId: index.toFixed(),
+        cycle: DataList.staticMode.mode[index].message?.cycle??1, 
+        brightness: DataList.staticMode.mode[index].message?.brightness??100,
+    }
+    try{
+        if(items.length>0){
+            realm.write( () => {
+                console.log("default change");
+                var LedRealm = realm.objects("PersistLedRealm");
+                realm.delete(LedRealm.filtered('modeId=$0',index.toFixed()));
+                items[0].message = led;
+                items[0].default = true;
+            })
+        }
+    }
+    catch(e){
+        console.log(e);
+    }
+    
+}
 
 export const handleViewAllLeds = async () => {
     const realm = await Realm.open(LedRealmContext);

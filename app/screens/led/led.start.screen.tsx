@@ -53,7 +53,7 @@ const LedStartScreen = (props:LedScreenProps) =>{
     return(
         <View style={styles.container}>
             <ImageBackground source={require('../../../assets/image/fontPage.jpg')} resizeMode="cover" style={styles.bgPic}>
-                <CustomText style={styles.versionText}> Version: 1.5</CustomText>
+                <CustomText style={styles.versionText}> Version: 1.5.4</CustomText>
             <View style={styles.buttonContainer}>
             {ledConnectedDevice ?
                 <>
@@ -61,7 +61,7 @@ const LedStartScreen = (props:LedScreenProps) =>{
                     <CTAButton title={'Choose'} theme={'White'} onPress={() => { props.navigation.navigate({ name: 'Light Mode', params: { ...props.route.params } }); } } width={300} height={50} />
                 </>
                 :
-                <CTAButton title={'Connect Your Statlight'} theme={'White'} onPress={() => { props.navigation.navigate({ name: 'Settings', params: { ...props.route.params } }); } } width={300} height={50} />
+                <CTAButton title={'Connect Your Starlight'} theme={'White'} onPress={() => { props.navigation.navigate({ name: 'Settings', params: { ...props.route.params } }); } } width={300} height={50} />
             }
             </View>
             </ImageBackground>

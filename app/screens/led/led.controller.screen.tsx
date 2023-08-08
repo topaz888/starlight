@@ -7,11 +7,12 @@ import Panel from '../../components/panel/CustomPanel';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { moveNextCustomIndex, moveNextStaticMode, movePrevCustomIndex, movePrevStaticMode, resetCustomMessage, updateledMessageByData, updateledTitleName, updatemainScreenledBrightness, updatemainScreenledCycle, uploadIsPlay, uploadMessage } from '../../redux/led/led.reducer';
-import { bindListener, getCustomMessageByModeId, getCustomPackageByModeId, getStaticMessageByModeId, getStaticPackageByModeId, handleCustomAddLed, handlePersistAddLed, removeListener } from '../../realm/led/actions/led.actions';
+import { bindListener, getCustomMessageByModeId, getCustomPackageByModeId, getStaticMessageByModeId, getStaticPackageByModeId, handleBacktoDefault, handleCustomAddLed, handlePersistAddLed, removeListener } from '../../realm/led/actions/led.actions';
 import CTAButton from '../../components/buttons/CTAButton';
 import DialogInput from '../../components/dialogInput/CustomDialogInput';
 import { LedMessage, messageNumber } from '../../models/LedMessage';
 import CustomText from '../../components/text/CustomText';
+import DataList from '../../language/EN/language.data';
 
 interface LedControllerProps {
   navigation: NavigationProp<any,any>;
@@ -76,12 +77,15 @@ const LedControllerScreen = (props:LedControllerProps) => {
     }
 
     const handleStaticPlayButton = async () => {
-        console.log("handleStaticPlayButton")
+        //console.log("handleStaticPlayButton")
         dispatch(uploadIsPlay())
         if(!IsPlay){
             dispatch(uploadMessage(modeId.toString()));
+            await getStaticMessageByModeId(modeId.toString(), dispatch);
+            await sendPackageBymodeId(modeId.toString())
         }else{
-            dispatch(uploadMessage(Number(33).toString()));
+            if(modeId > 7)
+                dispatch(uploadMessage(Number(33).toString()));
         }
     }
 
@@ -145,7 +149,7 @@ const LedControllerScreen = (props:LedControllerProps) => {
     }
 
     const sendPackageBymodeId = async (modeId: string) => {
-        console.log(`modeId : ${modeId}`)
+        // console.log(`modeId : ${modeId}`)
         var result:messageNumber[]
         if(titleName===0){
             dispatch(uploadMessage(modeId));
@@ -173,7 +177,7 @@ const LedControllerScreen = (props:LedControllerProps) => {
     const getCustomMessage = async () => {
         try{
             if(ledConnectedDevice && IsPlay){
-                console.log(`index : ${customNameArray[Index]}`)
+                // console.log(`index : ${customNameArray[Index]}`)
                 if(customNameArray[Index]){
                     await getCustomMessageByModeId(customNameArray[Index], dispatch);
                     await sendPackageBymodeId(customNameArray[Index])
@@ -181,6 +185,25 @@ const LedControllerScreen = (props:LedControllerProps) => {
             }
         }catch(e){
             console.log(e)
+        }
+    }
+
+    const setDefaultSetting = async (index: number) => {
+        console.log(ledConnectedDevice)
+        if(IsPlay){
+            Alert.alert(DataList.LedControllerScreen.Text[0], DataList.LedControllerScreen.Text[1], [
+                {
+                text: DataList.LedControllerScreen.Text[2],
+                // onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+                },
+                { text: DataList.LedControllerScreen.Text[3], 
+                onPress: async () => { await handleBacktoDefault(index),
+                    await getStaticMessageByModeId(modeId.toString(), dispatch);
+                    await sendPackageBymodeId(modeId.toString())
+                }
+                },
+            ])
         }
     }
 
@@ -226,14 +249,15 @@ const LedControllerScreen = (props:LedControllerProps) => {
         <View style={styles.container}>
             <Gradient fromColor='#B6B9C7' toColor='#FFFFFF' opacityColor2={0}>
                 {ledConnectedDevice?
-                <CustomText style={styles.titleText}>Light Modes</CustomText>
+                <CustomText style={styles.titleText}>{DataList.LedControllerScreen.Text[4]}</CustomText>
                 :
-                <CustomText style={styles.titleText}>Not Connected</CustomText>
+                <CustomText style={styles.titleText}>{DataList.LedControllerScreen.Text[5]}</CustomText>
                 }
                     <View style={styles.dataContainer}>
-                        <LedToggleButton title={[`Presets`, `Custom`]} onPress={handleTitleName} theme={'Dark'} val={0}/>
+                        <LedToggleButton title={[DataList.LedControllerScreen.Text[6], DataList.LedControllerScreen.Text[7]]} 
+                        onPress={handleTitleName} theme={'Dark'} val={0}/>
                     </View>
-                    <Panel titleName={titleName === 0 ? 'Presets' : `Custom`}
+                    <Panel titleName={titleName === 0 ? DataList.LedControllerScreen.Text[6] : DataList.LedControllerScreen.Text[7]}
                         modeId={titleName === 0 ? modeId.toString() : customNameArray[Index]}
                         backward={() => titleName === 0 ? handleBackButton() : handleCustomBackButton()}
                         forward={() => titleName === 0 ? handleForwardButton() : handleCustomForwardButton()}
@@ -244,19 +268,20 @@ const LedControllerScreen = (props:LedControllerProps) => {
                         updataLedBrightness={updataLedBrightness} isPlay={IsPlay} />
                     <View style={styles.buttonContainer}>
                         {titleName === 0?
-                        <CTAButton title={'Add Custom Mode'} theme={'White'} onPress={() => { setVisible(true); } } width={260} height={50} />
+                        <><CTAButton title={DataList.LedControllerScreen.Text[8]} theme={'White'} onPress={() => { setDefaultSetting(modeId) } } width={160} height={50} />
+                        <CTAButton title={DataList.LedControllerScreen.Text[9]} theme={'White'} onPress={() => { setVisible(true); } } width={160} height={50} /></>
                         :
-                        <><CTAButton title={'Edit Custom Mode'} theme={'White'} onPress={() => { handleEditPage(customNameArray[Index]) } } width={160} height={50} />
-                        <CTAButton title={'Add Custom Mode'} theme={'White'} onPress={() => { setVisible(true); } } width={160} height={50} /></>
+                        <><CTAButton title={DataList.LedControllerScreen.Text[10]} theme={'White'} onPress={() => { handleEditPage(customNameArray[Index]) } } width={160} height={50} />
+                        <CTAButton title={DataList.LedControllerScreen.Text[9]} theme={'White'} onPress={() => { setVisible(true); } } width={160} height={50} /></>
                         }
                     </View>
                 <DialogInput 
                     isDialogVisible={visible}
-                    title={"Create a new name"}
-                    message={"Enter the name, then click Submit\n(Max Length 20)"}
-                    hintInput ={"Enter Text"}
+                    title={DataList.LedControllerScreen.Text[11]}
+                    message={DataList.LedControllerScreen.Text[12]}
+                    hintInput ={DataList.LedControllerScreen.Text[13]}
                     submitInput={ (inputText) => {
-                    if(customNameArray.includes(inputText)) return(Alert.alert(`Error: the name "${inputText}" already exists`), setVisible(false))
+                    if(customNameArray.includes(inputText)) return(Alert.alert(DataList.LedControllerScreen.Text[14].replace("{VARIABLE}", inputText)), setVisible(false))
                     return (
                             dispatch(resetCustomMessage()),
                             props.navigation.navigate({name: 'Custom',params: {...props.route.params, modeId:inputText} }),

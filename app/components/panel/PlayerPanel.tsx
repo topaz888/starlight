@@ -10,6 +10,7 @@ interface PlayPanelProps {
     backward: Function,
     play: Function,
     isPlay: boolean,
+    modeId: String
   }
 
 const PlayPanel : FC<PlayPanelProps>= props=>{
@@ -25,11 +26,11 @@ const PlayPanel : FC<PlayPanelProps>= props=>{
                 </TouchableOpacity>
             </View>
             <View>
-                <TouchableOpacity style={styles.playButton} onPress={()=>{handlePlay()}}>
+                <TouchableOpacity style={(+props.modeId<8 && props.isPlay)?styles.playButtonDisable:styles.playButton} onPress={()=>{handlePlay()}}>
                     {props.isPlay? 
-                        <Ionicons name="pause" style={styles.ItemButton} />
+                        <Ionicons name="pause" style={+props.modeId<8?styles.ItemButtonDisable:styles.ItemButton} />
                         :
-                        <Icon name="caretright" style={styles.ItemButton} />
+                        <Icon name="caretright" style={styles.ItemButton}/>
                     }
                 </TouchableOpacity>
             </View>
@@ -58,9 +59,22 @@ const styles = StyleSheet.create({
         elevation: 4,
         borderRadius:100,
     },
+    playButtonDisable: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 140,
+        width: 140,
+        backgroundColor: '#EDEDED',
+        elevation: 4,
+        borderRadius:100,
+    },
     ItemButton: {
         fontSize: 40,
         color: "#285476",
+    },
+    ItemButtonDisable: {
+        fontSize: 40,
+        color: "#94A0A8",
     },
     forwardButton: {
         width:70,

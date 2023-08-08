@@ -4,7 +4,6 @@ import createSagaMiddleware from 'redux-saga';
 import {bluetoothSaga} from './bluetooth/bluetooth.sagas';
 import { all, fork } from 'redux-saga/effects';
 import { rootReducer } from './root.reducer';
-import logger from 'redux-logger';
 import { useDispatch } from 'react-redux';
 import { ledSaga } from './led/led.saga';
 
@@ -29,3 +28,4 @@ sagaMiddleware.run(rootSaga);
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export const useAppDispatch = () => useDispatch<AppDispatch>();
+export const getTimerFlag = (state: RootState) => state.bluetooth.timerFlag;

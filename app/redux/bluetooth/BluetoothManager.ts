@@ -1,5 +1,5 @@
 import {BleError, BleManager, Characteristic, Device} from 'react-native-ble-plx';
-import _default from 'react-native-ble-manager';
+import blemanager from 'react-native-ble-manager';
 import { Buffer } from "buffer";
 import { LogBox, PermissionsAndroid, Platform } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
@@ -95,7 +95,7 @@ class BluetoothLeManager {
     var peripheral = await this.getBondedPeripherals()
     if(!peripheral){
       console.log("start to bond")
-      _default.createBond(identifier).then(() => {
+      blemanager.createBond(identifier).then(() => {
           console.log('createBond success or there is already an existing one');
       })
       .catch((e) => {
@@ -106,7 +106,7 @@ class BluetoothLeManager {
   getBondedPeripherals = async() => {
     console.log("getBondedPeripherals");
     try{
-      const peripheralsArray = await _default.getBondedPeripherals();
+      const peripheralsArray = await blemanager.getBondedPeripherals();
       var peripheral = peripheralsArray.filter(peripheral => {return peripheral.name?.toLowerCase()?.includes(Server_Name);})
       if(peripheral.length!=0){
         console.log("Found Bonded Peripherals: " + peripheral[0]?.id??"UnkownName");
@@ -146,16 +146,14 @@ class BluetoothLeManager {
     return false
   };
   
-  addConnectListener = (identifier:string, onDeviceConnect: (payload: boolean) => void) => {
+  addConnectListener = (identifier:string, emit: (payload: boolean) => void) => {
     console.log("addConnectListener")
     var subscription = this.bleManager.onDeviceDisconnected(identifier, (error) => {
       if (error) {
-        console.log("first "+ error);
         this.device = null;
-        onDeviceConnect(true)
+        emit(true)
       }else{
-        console.log("second "+ error)
-        onDeviceConnect(true)
+        emit(true)
       }
     })
     return subscription

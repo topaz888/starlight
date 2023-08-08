@@ -1,19 +1,20 @@
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     SafeAreaView,
     StyleSheet,
     View,
     Image
   } from 'react-native';
-import { scanForPeripherals, initiateConnection, disconnectPeripheral } from "../../redux/bluetooth/bluetooth.reducer";
+import { scanForPeripherals, initiateConnection, disconnectPeripheral, updateTimerFlag } from "../../redux/bluetooth/bluetooth.reducer";
 import CTAButton from "../../components/buttons/CTAButton";
 import { BluetoothPeripheral } from "../../models/BluetoothPeripheral";
 import DeviceModal from "../../components/modals/DeviceConnectionModal";
 import { screenWidth } from "../../components/constant/constant";
 import { NavigationProp, RouteProp } from "@react-navigation/native";
 import CustomText from "../../components/text/CustomText";
+import DataList from "../../language/EN/language.data";
 
 interface BluetoothScreenProps {
   navigation: NavigationProp<any,any>;
@@ -43,9 +44,19 @@ const BlueToothConnectScreen = (props: BluetoothScreenProps) => {
     dispatch(disconnectPeripheral(id));
 };
 
+useEffect(()=>{
+  if(isConnected){
+    // console.log(`connect to device: ${isConnected}`);
+    props.navigation.navigate({name: 'Light Mode',params: {...props.route.params} })
+  }
+},[isConnected])
+
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
-  const closeModal = () => setIsModalVisible(false);
+  const closeModal = () => {
+      setIsModalVisible(false);
+      dispatch(updateTimerFlag(true));
+  }
 
   const connectToPeripheral = (device: BluetoothPeripheral) =>
     dispatch(initiateConnection(device));
@@ -56,25 +67,25 @@ const BlueToothConnectScreen = (props: BluetoothScreenProps) => {
       <View style={styles.titleWrapper}>
         {isConnected ? (
           <>
-            <CustomText style={styles.titleText}>Connected Decvice: {deviceName}</CustomText>
+            <CustomText style={styles.titleText}>{DataList.BlueToothConnectScreen.Text[0]}{deviceName}</CustomText>
           </>
         ) : (
           <CustomText style={styles.titleText}>
-            Please search for Your pannel by clicking on "Find My Starlight Pannel"
+            {DataList.BlueToothConnectScreen.Text[1]}
           </CustomText>
         )}
       </View>
       <View style={styles.buttonContainer}>
       {isConnected ? 
       <CTAButton
-            title="Disconnect"
+            title={DataList.BlueToothConnectScreen.Text[2]}
             theme={'Dark'}
             onPress={() => {
               Disconnct(isConnected);
             } } width={260} height={50}    />
       :
       <CTAButton
-            title="Find My Starlight Panel"
+            title={DataList.BlueToothConnectScreen.Text[3]}
             theme={'Dark'}
             onPress={() => {
               scanForDevices();

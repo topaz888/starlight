@@ -17,7 +17,7 @@ const DataSlider: FC<DataSliderProps> = props => {
   };
   return (
     <View style={styles.Continer}>
-        <CustomText style={styles.text}>{buffer}</CustomText>
+        {/* <CustomText style={styles.text}>{buffer}</CustomText> */}
         <Slider
           style={styles.slider}
           onSlidingComplete={(val) => onValChange(val)}
@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 18,
     fontWeight: "500",
+    color: '#215e79',
   },
   slider: {
     width: 192, 

@@ -58,7 +58,7 @@ const DeviceModal: FC<DeviceModalProps> = props => {
       visible={visible}>
       <SafeAreaView style={modalStyle.modalTitle}>
         <CustomText style={modalStyle.modalTitleText}>
-          Choose your device to to connect
+          Choose your device to connect
         </CustomText>
         <View style={modalStyle.modalFlatlistContiner}>
           <FlatList data={devices} renderItem={renderDeviceModalListItem}/>

@@ -23,12 +23,17 @@ const Panel = (props: CustomPanelProps) =>{
                     <CustomText style={styles.titleKey}>{props.titleName}</CustomText>
                     <CustomText style={styles.titleNumber}>{props.modeId}</CustomText>
                 </View>
-                <PlayPanel backward={() => { props.backward(); } } forwardward={() => { props.forward(); } } play={() => { props.play(); } } isPlay={props.isPlay}/>
+                <PlayPanel backward={() => { props.backward(); } } forwardward={() => { props.forward(); } } play={() => { props.play(); } } isPlay={props.isPlay} modeId={props.modeId}/>
                 {props.isPlay && <View style={styles.buttonsContainer}>
                     {(+props.modeId > 7 || props.titleName === `Custom`) && 
                         <View style={styles.dataContainer}>
                             <CustomText style={styles.Text}>Cycle</CustomText>
-                            <DataSlider minVal={0} maxVal={40} step={1} onPress={props.updataLedCycle} value={props.cycle} />
+                            {(+props.modeId < 16) &&
+                            <DataSlider minVal={1} maxVal={40} step={2} onPress={props.updataLedCycle} value={props.cycle} />}
+                            {(+props.modeId > 15) &&
+                            <DataSlider minVal={10} maxVal={40} step={2} onPress={props.updataLedCycle} value={props.cycle} />}
+                            {(props.titleName === `Custom`) &&
+                            <DataSlider minVal={1} maxVal={40} step={2} onPress={props.updataLedCycle} value={props.cycle} />}
                         </View>
                     }
                     <View style={styles.dataContainer}>

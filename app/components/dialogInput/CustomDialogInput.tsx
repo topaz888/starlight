@@ -162,6 +162,7 @@ const styles = StyleSheet.create({
   title_modal:{
     fontWeight: 'bold',
     fontSize: 20,
+    color: '#215e79',
     ...Platform.select({
       ios: {
         marginTop: 10,
@@ -175,6 +176,7 @@ const styles = StyleSheet.create({
   },
   message_modal:{
     fontSize: 16,
+    color: '#215e79',
     ...Platform.select({
       ios: {
         textAlign:'center',
@@ -188,7 +190,7 @@ const styles = StyleSheet.create({
   },
   input_container:{
     textAlign:'left',
-    fontSize: 16,
+    fontSize: 8,
     color: 'rgba(0,0,0,0.54)',
     ...Platform.select({
       ios: {
