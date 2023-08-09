@@ -28,6 +28,10 @@ const BlueToothConnectScreen = (props: BluetoothScreenProps) => {
       (state: RootState) => state.bluetooth.availableDevices,
     );
 
+    const isBluetoothEnable = useSelector(
+      (state: RootState) => state.bluetooth.isBluetoothEnable,
+    );
+
     const isConnected = useSelector(
       (state: RootState) => state.bluetooth.connectedDevice,
     );
@@ -98,6 +102,7 @@ useEffect(()=>{
         visible={isModalVisible}
         closeModal={closeModal}
         connectToPeripheral={connectToPeripheral}
+        enableState={isBluetoothEnable}
       />
     </SafeAreaView>
   );

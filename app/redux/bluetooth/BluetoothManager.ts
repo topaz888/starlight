@@ -49,6 +49,11 @@ class BluetoothLeManager {
       fineLocationPermission === "granted"
     );
   };
+  getBluetoothState = async () => {
+    const state = await this.bleManager.state();
+    if(state==='PoweredOn') return true;
+    else return false;
+  }
 
   requestPermissions = async () => {
     if (Platform.OS === "android") {
@@ -107,6 +112,7 @@ class BluetoothLeManager {
     console.log("getBondedPeripherals");
     try{
       const peripheralsArray = await blemanager.getBondedPeripherals();
+      console.log(peripheralsArray)
       var peripheral = peripheralsArray.filter(peripheral => {return peripheral.name?.toLowerCase()?.includes(Server_Name);})
       if(peripheral.length!=0){
         console.log("Found Bonded Peripherals: " + peripheral[0]?.id??"UnkownName");

@@ -2,6 +2,7 @@ import { StyleSheet, View } from "react-native";
 import DataSlider from "../sliders/DataSlider";
 import PlayPanel from "./PlayerPanel";
 import CustomText from "../text/CustomText";
+import DataList from "../../language/EN/language.data";
 
 interface CustomPanelProps {
     titleName: string,
@@ -27,7 +28,7 @@ const Panel = (props: CustomPanelProps) =>{
                 {props.isPlay && <View style={styles.buttonsContainer}>
                     {(+props.modeId > 7 || props.titleName === `Custom`) && 
                         <View style={styles.dataContainer}>
-                            <CustomText style={styles.Text}>Cycle</CustomText>
+                            <CustomText style={styles.Text}>{DataList.components.Text[1]}</CustomText>
                             {(+props.modeId < 16) &&
                             <DataSlider minVal={1} maxVal={40} step={2} onPress={props.updataLedCycle} value={props.cycle} />}
                             {(+props.modeId > 15) &&
@@ -37,7 +38,7 @@ const Panel = (props: CustomPanelProps) =>{
                         </View>
                     }
                     <View style={styles.dataContainer}>
-                        <CustomText style={styles.Text}>Brightness</CustomText>
+                        <CustomText style={styles.Text}>DataList.components.Text[2]</CustomText>
                         <DataSlider minVal={0} maxVal={100} step={10} onPress={props.updataLedBrightness} value={props.brightness} />
                     </View>
                 </View>}

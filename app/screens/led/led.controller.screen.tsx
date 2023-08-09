@@ -280,8 +280,9 @@ const LedControllerScreen = (props:LedControllerProps) => {
                     title={DataList.LedControllerScreen.Text[11]}
                     message={DataList.LedControllerScreen.Text[12]}
                     hintInput ={DataList.LedControllerScreen.Text[13]}
+                    errorMessage={DataList.LedControllerScreen.Text[14]}
                     submitInput={ (inputText) => {
-                    if(customNameArray.includes(inputText)) return(Alert.alert(DataList.LedControllerScreen.Text[14].replace("{VARIABLE}", inputText)), setVisible(false))
+                    if(customNameArray.includes(inputText)) return(Alert.alert(DataList.LedControllerScreen.Text[14],DataList.LedControllerScreen.Text[15].replace("{VARIABLE}", inputText)), setVisible(false))
                     return (
                             dispatch(resetCustomMessage()),
                             props.navigation.navigate({name: 'Custom',params: {...props.route.params, modeId:inputText} }),

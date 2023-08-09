@@ -14,7 +14,8 @@ type DialogInputProps = {
     title?: string,
     message?: string,
     hintInput?: string,
-    initValueTextInput?: string
+    initValueTextInput?: string,
+    errorMessage?:string,
     cancelText?: string,
     submitText?: string,
     submitInput: (inputText:string)=>void,
@@ -24,7 +25,7 @@ type DialogInputProps = {
 const DialogInput: FC<DialogInputProps> = props =>{
     const {
         isDialogVisible, title, message, hintInput,
-        initValueTextInput,
+        initValueTextInput,errorMessage,
         cancelText, submitText, 
         submitInput, closeDialog} = props;
  
@@ -99,7 +100,7 @@ const DialogInput: FC<DialogInputProps> = props =>{
                       onChangeText={handleOnChangeText}
                       value={inputModal}
                       />
-                {!inputModal || isInvalid && <CustomText style={styles.error_text}>Error: invalid symbols, (A-Za-z0-9)</CustomText>}
+                {!inputModal || isInvalid && <CustomText style={styles.error_text}>{errorMessage}</CustomText>}
             </View>
                 <View style={styles.btn_container}>
                 <TouchableOpacity style={styles.touch_modal}

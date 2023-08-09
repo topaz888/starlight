@@ -15,6 +15,7 @@ import CustomTab from "../../components/tabbBar/CustomTab";
 import { messageNumber } from "../../models/LedMessage";
 import Gradient from "../../components/GradientColor";
 import CustomText from "../../components/text/CustomText";
+import DataList from "../../language/EN/language.data";
 
 const _screenWidth = screenWidth;
 
@@ -106,13 +107,13 @@ const LedCustomScreen = (props:LedScreenProps) =>{
     }
 
     const handleDelete = () =>
-    Alert.alert('Warning', 'If you choose Yes, this setting is deleted.', [
+    Alert.alert(DataList.LedCustomScreen.Text[0], DataList.LedCustomScreen.Text[1], [
       {
-        text: 'Cancel',
+        text: DataList.LedCustomScreen.Text[2],
         // onPress: () => console.log('Cancel Pressed'),
         style: 'cancel',
       },
-      { text: 'Yes', 
+      { text: DataList.LedCustomScreen.Text[3], 
         onPress: async () => {await handleRemoveLed(modeId)
                               handleClose()}
       },
@@ -122,10 +123,10 @@ const LedCustomScreen = (props:LedScreenProps) =>{
         // console.log("test1");
         try{
             // console.log(message);
-            const success = await handleAddLed(modeId??"unknown", message);
-            if(!success) Alert.alert('Error', 'Failed to create the new Star Mode', [
+            const success = await handleAddLed(modeId, message);
+            if(!success) Alert.alert(DataList.LedCustomScreen.Text[4], DataList.LedCustomScreen.Text[5], [
                     {
-                      text: 'Cancel',
+                      text: DataList.LedCustomScreen.Text[2],
                       onPress: () => {},
                       style: 'cancel',
                     }]
@@ -142,7 +143,7 @@ const LedCustomScreen = (props:LedScreenProps) =>{
             <>{ledMode===0?
                 <View style={styles.controlPanel}>
                     <View style={styles.dataContainer}>
-                        <CustomText style={styles.Text}>Brightness</CustomText>
+                        <CustomText style={styles.Text}>{DataList.LedCustomScreen.Text[6]}</CustomText>
                         <DataSlider minVal={0} maxVal={100} step={10} onPress={updataLedBrightness} value={ledBrightness}/>
                     </View>
                 </View>
@@ -150,11 +151,11 @@ const LedCustomScreen = (props:LedScreenProps) =>{
                 ledMode===1?
                 <View style={styles.controlPanel}>
                     <View style={styles.dataContainer}>
-                        <CustomText style={styles.Text}>Cycle</CustomText>
+                        <CustomText style={styles.Text}>{DataList.LedCustomScreen.Text[7]}</CustomText>
                         <DataSlider minVal={1} maxVal={20} step={2} onPress={updataLedCycle} value={ledCycle}/>
                     </View>
                     <View style={styles.dataContainer}>
-                        <CustomText style={styles.Text}>Brightness</CustomText>
+                        <CustomText style={styles.Text}>{DataList.LedCustomScreen.Text[6]}</CustomText>
                         <DataSlider minVal={0} maxVal={100} step={10} onPress={updataLedBrightness} value={ledBrightness}/>
                     </View>
                 </View>
@@ -162,15 +163,15 @@ const LedCustomScreen = (props:LedScreenProps) =>{
                 ledMode===2 &&
                 <View style={styles.controlPanel}>
                     <View style={styles.dataContainer}>
-                        <CustomText style={styles.Text}>Cycle</CustomText>
+                        <CustomText style={styles.Text}>{DataList.LedCustomScreen.Text[7]}</CustomText>
                         <DataSlider minVal={1} maxVal={40} step={2} onPress={updataLedCycle} value={ledCycle}/>
                     </View>
                     <View style={styles.dataContainer}>
-                        <CustomText style={styles.Text}>Delay</CustomText>
+                        <CustomText style={styles.Text}>{DataList.LedCustomScreen.Text[8]}</CustomText>
                         <DataSlider minVal={0} maxVal={10} step={2.5} onPress={updataLedDelay} value={ledDelay}/>
                     </View>
                     <View style={styles.dataContainer}>
-                        <CustomText style={styles.Text}>Brightness</CustomText>
+                        <CustomText style={styles.Text}>{DataList.LedCustomScreen.Text[6]}</CustomText>
                         <DataSlider minVal={0} maxVal={100} step={10} onPress={updataLedBrightness} value={ledBrightness}/>
                     </View>
                 </View>
@@ -183,13 +184,13 @@ const LedCustomScreen = (props:LedScreenProps) =>{
             <>{ledMode===0 ?
                 <View style={styles.controlPanel}>
                     <View style={styles.dataContainer}>
-                        <CustomText style={styles.Text}>This Mode doesn't have Timer</CustomText>
+                        <CustomText style={styles.Text}>{DataList.LedCustomScreen.Text[9]}</CustomText>
                     </View>
                 </View>
                 :
                 <View style={styles.controlPanel}>
                     <View style={styles.dataContainer}>
-                    <CustomText style={styles.Text}>Wait Time</CustomText>
+                    <CustomText style={styles.Text}>{DataList.LedCustomScreen.Text[10]}</CustomText>
                         <DataSlider minVal={0} maxVal={40} step={1} onPress={updataLedWaitTime} value={ledWaitTime}/>
                     </View>
                 </View>
@@ -200,24 +201,29 @@ const LedCustomScreen = (props:LedScreenProps) =>{
     return (
         <SafeAreaView style={styles.container}>
             <Gradient fromColor='#B6B9C7' toColor='#FFFFFF' opacityColor2={0}>
-            <CustomText style={styles.titleText}>Customize your own Star Mode</CustomText>
+            <CustomText style={styles.titleText}>{DataList.LedCustomScreen.Text[11]}</CustomText>
                 <View style={styles.dataContainer}>
-                    <LedToggleButton title={['1st', '2nd', '3rd', '4th']} onPress={updataLedKey} theme={'White'} val={ledKey}/>
+                    <LedToggleButton title={[DataList.LedCustomScreen.Text[12], 
+                        DataList.LedCustomScreen.Text[13], DataList.LedCustomScreen.Text[14], 
+                        DataList.LedCustomScreen.Text[15]]} onPress={updataLedKey} theme={'White'} val={ledKey}/>
                 </View>
 
                 <View style={styles.dataContainer}>
-                    <ModeToggleButton title={['Light', 'Blink', 'Breath']} onPress={updateLedMode} val={ledMode}/>
+                    <ModeToggleButton title={[DataList.LedCustomScreen.Text[16], 
+                        DataList.LedCustomScreen.Text[17], 
+                        DataList.LedCustomScreen.Text[18]]} onPress={updateLedMode} val={ledMode}/>
                 </View>
 
                     <View style={styles.dataContainer}>
-                        <CustomTab title={['Parameter', `Timer`]} renderView={[viewLedParameter, viewLedTimer]} onPress={updataTabView} value={tabView}/>
+                        <CustomTab title={[DataList.LedCustomScreen.Text[19],
+                             DataList.LedCustomScreen.Text[20]]} renderView={[viewLedParameter, viewLedTimer]} onPress={updataTabView} value={tabView}/>
                     </View>
                 <View style={styles.buttonContainer}>
                     <View style={styles.sideButtonContainer}>
-                        <CTAButton title={'Delete'} theme={'Dark'} onPress={() => { handleDelete()} } width={140} height={50}/>
-                        <CTAButton title={'Close'} theme={'Dark'} onPress={() => {handleClose()}} width={140} height={50}/>
+                        <CTAButton title={DataList.LedCustomScreen.Text[21]} theme={'Dark'} onPress={() => { handleDelete()} } width={140} height={50}/>
+                        <CTAButton title={DataList.LedCustomScreen.Text[22]} theme={'Dark'} onPress={() => {handleClose()}} width={140} height={50}/>
                     </View>
-                    <CTAButton title={'Save'} theme={'Dark'} onPress={async () => {await handleSave()} } width={300} height={50}/>
+                    <CTAButton title={DataList.LedCustomScreen.Text[23]} theme={'Dark'} onPress={async () => {await handleSave()} } width={300} height={50}/>
                 </View>
             </Gradient>
         </SafeAreaView>

@@ -8,7 +8,7 @@ type ledState = {
     ledTitleName: number; 
     ledKey: number;//lightId 
     ledStaticMode: number;
-    ledMode: number;//LIGHT mODE
+    ledMode: number;//LIGHT MODE
     ledCycle: number;
     mainScreenledCycle:number;
     ledCycle2: number;

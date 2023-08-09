@@ -11,6 +11,7 @@ import {BluetoothPeripheral} from '../../models/BluetoothPeripheral';
 import CTAButton from '../buttons/CTAButton';
 import ListBUtton from '../buttons/ListButton';
 import CustomText from '../text/CustomText';
+import DataList from '../../language/EN/language.data';
 
 type DeviceModalListItemProps = {
   item: ListRenderItemInfo<BluetoothPeripheral>;
@@ -21,6 +22,7 @@ type DeviceModalListItemProps = {
 type DeviceModalProps = {
   devices: BluetoothPeripheral[];
   visible: boolean;
+  enableState: boolean;
   connectToPeripheral: (device: BluetoothPeripheral) => void;
   closeModal: () => void;
 };
@@ -35,7 +37,7 @@ const DeviceModalListItem: FC<DeviceModalListItemProps> = props => {
 };
 
 const DeviceModal: FC<DeviceModalProps> = props => {
-  const {devices, visible, connectToPeripheral, closeModal} = props;
+  const {devices, visible, enableState, connectToPeripheral, closeModal} = props;
 
   const renderDeviceModalListItem = useCallback(
     (item: ListRenderItemInfo<BluetoothPeripheral>) => {
@@ -58,7 +60,7 @@ const DeviceModal: FC<DeviceModalProps> = props => {
       visible={visible}>
       <SafeAreaView style={modalStyle.modalTitle}>
         <CustomText style={modalStyle.modalTitleText}>
-          Choose your device to connect
+          {enableState?DataList.components.Text[0]:DataList.components.Text[3]}
         </CustomText>
         <View style={modalStyle.modalFlatlistContiner}>
           <FlatList data={devices} renderItem={renderDeviceModalListItem}/>

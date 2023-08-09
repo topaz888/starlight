@@ -5,6 +5,7 @@ type BluetoothState = {
   availableDevices: Array<BluetoothPeripheral>;
   shawdomDevices: Array<BluetoothPeripheral>;
   timerFlag: boolean;
+  isBluetoothEnable:boolean;
   isPermissionsEnabled: boolean;
   isScanning: boolean;
   isNotBondedDevice:boolean;
@@ -24,6 +25,7 @@ const initialState: BluetoothState = {
   availableDevices: [],
   shawdomDevices: [],
   timerFlag:false,
+  isBluetoothEnable:false,
   isPermissionsEnabled: false,
   isScanning: false,
   isNotBondedDevice: true,
@@ -47,6 +49,13 @@ const bluetoothReducer = createSlice({
       action: PayloadAction<boolean>,
     ) => {
       state.isPermissionsEnabled = action.payload;
+    },
+    requestBluetoothState: (
+      state: BluetoothState,
+      action: PayloadAction<boolean>,
+    ) => {
+      state.isBluetoothEnable = action.payload;
+      state.availableDevices = []
     },
     scanForPeripherals: state => {
       state.isScanning = true;
@@ -128,6 +137,7 @@ const bluetoothReducer = createSlice({
 
 export const bluetoothActionConstants = {
     REQUEST_PERMISSIONS: bluetoothReducer.actions.requestPermissions.type,
+    REQUEST_BLUETOOTH: bluetoothReducer.actions.requestBluetoothState.type,
     SCAN_FOR_PERIPHERALS: bluetoothReducer.actions.scanForPeripherals.type,
     REFRESH_FOR_PERIPHERALS: bluetoothReducer.actions.refreshAvilableDevice.type,
     ON_DEVICE_DISCOVERED: bluetoothReducer.actions.bluetoothPeripheralsFound.type,
@@ -143,7 +153,6 @@ export const bluetoothActionConstants = {
   };
 
 export const {
-    requestPermissions,
     bluetoothPeripheralsFound,
     updateTimerFlag,
     scanForPeripherals,

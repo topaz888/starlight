@@ -13,7 +13,12 @@ function* watchForPeripherals(): Generator<AnyAction, void, any> {
     type: bluetoothActionConstants.REQUEST_PERMISSIONS,
     payload:isPermissionsEnabled
   })
-  if(isPermissionsEnabled){
+  const isEnabled: boolean = yield call(bluetoothLeManager.getBluetoothState);
+  yield put({
+    type: bluetoothActionConstants.REQUEST_BLUETOOTH,
+    payload:isEnabled
+  })
+  if(isPermissionsEnabled && isEnabled){
       const onDiscoveredPeripheral = () => eventChannel(emitter => {
         return bluetoothLeManager.scanForPeripherals(emitter);
       });

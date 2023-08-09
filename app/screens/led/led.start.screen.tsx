@@ -9,6 +9,7 @@ import { autoPair } from '../../redux/bluetooth/bluetooth.reducer';
 import { loadStaticData } from '../../realm/led/actions/led.actions';
 import { uploadIsTurnOff, uploadMessage } from '../../redux/led/led.reducer';
 import CustomText from '../../components/text/CustomText';
+import DataList from '../../language/EN/language.data';
 
 interface LedScreenProps {
     navigation: NavigationProp<any,any>;
@@ -30,7 +31,6 @@ const LedStartScreen = (props:LedScreenProps) =>{
     )
 
     useEffect(() => {
-        console.log("LedStartScreen");
         (async()=>await loadStaticData())()
         if(renderAtBegin){
             dispatch(autoPair());
@@ -53,15 +53,15 @@ const LedStartScreen = (props:LedScreenProps) =>{
     return(
         <View style={styles.container}>
             <ImageBackground source={require('../../../assets/image/fontPage.jpg')} resizeMode="cover" style={styles.bgPic}>
-                <CustomText style={styles.versionText}> Version: 1.5.4</CustomText>
+                <CustomText style={styles.versionText}>{DataList.LedStartScreen.Text[4]}</CustomText>
             <View style={styles.buttonContainer}>
             {ledConnectedDevice ?
                 <>
-                    <CTAButton title={isTurnOff?'Turn On' : 'Turn Off'} theme={'White'} onPress={() => {handleTurnOffButton()} } width={300} height={50} />
-                    <CTAButton title={'Choose'} theme={'White'} onPress={() => { props.navigation.navigate({ name: 'Light Mode', params: { ...props.route.params } }); } } width={300} height={50} />
+                    <CTAButton title={isTurnOff?DataList.LedStartScreen.Text[0]:DataList.LedStartScreen.Text[1]} theme={'White'} onPress={() => {handleTurnOffButton()} } width={300} height={50} />
+                    <CTAButton title={DataList.LedStartScreen.Text[2]} theme={'White'} onPress={() => { props.navigation.navigate({ name: 'Light Mode', params: { ...props.route.params } }); } } width={300} height={50} />
                 </>
                 :
-                <CTAButton title={'Connect Your Starlight'} theme={'White'} onPress={() => { props.navigation.navigate({ name: 'Settings', params: { ...props.route.params } }); } } width={300} height={50} />
+                <CTAButton title={DataList.LedStartScreen.Text[3]} theme={'White'} onPress={() => { props.navigation.navigate({ name: 'Settings', params: { ...props.route.params } }); } } width={300} height={50} />
             }
             </View>
             </ImageBackground>
