@@ -1,8 +1,9 @@
 import {BleError, BleManager, Characteristic, Device} from 'react-native-ble-plx';
+import blemanager from 'react-native-ble-manager';
 import { Buffer } from "buffer";
 import { LogBox, PermissionsAndroid, Platform } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
-import { ESP32_CHARACTERISTIC, ESP32_CHARACTERISTIC2, ESP32_UUID } from '../../components/constant/constant';
+import { ESP32_CHARACTERISTIC, ESP32_CHARACTERISTIC2, ESP32_UUID, Server_Name } from '../../components/constant/constant';
 import { Message } from '../../models/BluetoothPeripheral';
 
 LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
@@ -89,14 +90,74 @@ class BluetoothLeManager {
     };
   };
 
+  BondingPeripherals = async (identifier: string) => {
+    console.log("BondingPeripherals");
+    var peripheral = await this.getBondedPeripherals()
+    if(!peripheral){
+      console.log("start to bond")
+      blemanager.createBond(identifier).then(() => {
+          console.log('createBond success or there is already an existing one');
+      })
+      .catch((e) => {
+          console.log("Error: " + e);
+      })}
+  };
+
+  getBondedPeripherals = async() => {
+    console.log("getBondedPeripherals");
+    try{
+      const peripheralsArray = await blemanager.getBondedPeripherals();
+      var peripheral = peripheralsArray.filter(peripheral => {return peripheral.name?.toLowerCase()?.includes(Server_Name);})
+      if(peripheral.length!=0){
+        console.log("Found Bonded Peripherals: " + peripheral[0]?.id??"UnkownName");
+        return peripheral[0];
+      }else{
+        console.log("Found Bond Peripherals: Nothing is Bonded")
+      }
+    }catch(e){
+      console.log(e);
+    }
+  }
+
   stopScanningForPeripherals = () => {
     this.bleManager.stopDeviceScan();
   };
 
-  connectToPeripheral = async (identifier: string) => {
-    if(this.device?.id != identifier)
-      this.device = await this.bleManager.connectToDevice(identifier);
+  disconnectToPeripheral = async (identifier: string) => {
+    try{
+      if(identifier){
+        await this.bleManager.cancelDeviceConnection(identifier);
+      }
+      this.device = null;
+    }catch(e){
+      console.log(e);
+    }
   };
+
+  connectToPeripheral = async (identifier: string) => {
+    if(identifier){
+      try{this.device = await this.bleManager.connectToDevice(identifier);
+        console.log("Conect Peripherals: " + this.device.id??"UnkownName")
+        return true
+      }catch(e){
+        console.log('Device is disconnected');
+      }
+    }
+    return false
+  };
+  
+  addConnectListener = (identifier:string, emit: (payload: boolean) => void) => {
+    console.log("addConnectListener")
+    var subscription = this.bleManager.onDeviceDisconnected(identifier, (error) => {
+      if (error) {
+        this.device = null;
+        emit(true)
+      }else{
+        emit(true)
+      }
+    })
+    return subscription
+  }
 
   decodeRequest = (val : string) => {
     let rawData = Buffer.from(val, 'base64').toString('utf8');
@@ -110,7 +171,7 @@ class BluetoothLeManager {
   ) => {
     if (error) {
       console.log(error);
-      return -1; 
+      return -1;
     } else if (!characteristic?.value) {
       console.log("No Data was recieved");
       return -1;
@@ -138,15 +199,20 @@ class BluetoothLeManager {
     if(typeof val == 'string'){
       val = +val;
     }
-    let rawData = Buffer.from(`${val.toString(16)}`, 'utf-8').toString('base64');
-    console.log(`send: ${val.toString(16)} => ${rawData}`);
+    let rawData = '';
+    try{
+      rawData = Buffer.from(`${val.toString(16)}`, 'utf-8').toString('base64');
+      console.log(`send: ${val.toString(16)} => ${rawData}`);
+    }catch(e){
+      console.log(e)
+    }
     return rawData;
   }
 
-  sendSignal =async (
-    message: Message
-  ) => {
+  sendSignal = async (message: Message) => {
+    // console.log(message.message);
     const request = this.encodeRequest(message);
+    // console.log(request);
     if(message.deviceId!=null){
         try {
             await this.device?.discoverAllServicesAndCharacteristics();
@@ -155,7 +221,7 @@ class BluetoothLeManager {
               ESP32_UUID,
               ESP32_CHARACTERISTIC2,
               `${request}`,
-            ) 
+            )
         }
         catch (e) {
             console.log("sned signal"+e);

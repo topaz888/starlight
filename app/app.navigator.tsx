@@ -1,27 +1,81 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
-import HomeScreen from './screens/home/home.screen';
-import BTScreen from './screens/BT/BT.screen';
 import BlueToothConnectScreen from './screens/bluetooth/bluetooth.connect.screen';
-import LedScreen from './screens/led/led.screen';
-import LedUserDefinedScreen from './screens/led/led.usesrdefined.screen';
-import LedChoiceScreen from './screens/led/led.choice.screen';
+import LedStartScreen from './screens/led/led.start.screen';
+import LedCustomScreen from './screens/led/led.custom.screen';
+import LedControllerScreen from './screens/led/led.controller.screen';
+import { createStackNavigator } from '@react-navigation/stack';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { SafeAreaProvider, initialWindowMetrics } from 'react-native-safe-area-context';
+import { getBottomSpace } from './components/constant/platformStatusBar';
+
 
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+
+const TabNavigation = () => {
+    return (
+        <Tab.Navigator
+        screenOptions={({ route }) => ({
+            headerShown: false,
+            tabBarStyle: {
+                backgroundColor:"#285576",
+                height: 60 + getBottomSpace(),
+            },
+            tabBarLabelStyle: {
+                fontSize: 12,
+                bottom: 6,
+              },
+            tabBarIcon: ({ focused, color }) => {
+              let iconName = "ellipsis1";
+  
+              if (route.name === 'Home') {
+                iconName = focused
+                  ? 'ios-information-circle'
+                  : 'ios-information-circle-outline';
+              } else if (route.name === 'Settings') {
+                iconName = focused ? 'ios-list' : 'ios-list-outline';
+              } else if (route.name === 'Light Mode') {
+                iconName = focused ? 'ios-star' : 'ios-star-outline';
+              }
+  
+              // You can return any component that you like here!
+              return <Ionicons name={iconName} size={36} color={color} />;
+            },
+            tabBarActiveTintColor: 'white',
+            tabBarInactiveTintColor: 'gray',
+          })}>
+            <Tab.Screen name="Home" component={LedStartScreen} 
+                                                options={() => ({
+                                                tabBarStyle: {
+                                                    display: "none",
+                                                }})}
+            />
+            <Tab.Screen name="Light Mode" component={LedControllerScreen} />
+            <Tab.Screen name="Settings" component={BlueToothConnectScreen} />
+            <Tab.Screen name="Custom" component={LedCustomScreen} 
+                                                options={() => ({
+                                                tabBarStyle: {
+                                                    display: "none",
+                                                },
+                                                tabBarButton: () => null,})}
+            />
+        </Tab.Navigator>
+    )
+}
 
 const AppNavigator = () => {
     return (
+      <SafeAreaProvider initialMetrics={initialWindowMetrics}>
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="Home">
-                <Stack.Screen name="Home" component={HomeScreen}></Stack.Screen>
-                <Stack.Screen name="BT" component={BTScreen}></Stack.Screen>
-                <Stack.Screen name="BTC" component={BlueToothConnectScreen}></Stack.Screen>
-                <Stack.Screen name="LED" component={LedScreen}></Stack.Screen>
-                <Stack.Screen name="LEDUD" component={LedUserDefinedScreen}></Stack.Screen>
-                <Stack.Screen name="LEDC" component={LedChoiceScreen}></Stack.Screen>
+            <Stack.Navigator initialRouteName="TAB" 
+            screenOptions={{headerShown: false}}
+            >
+                <Stack.Screen name="TAB" component={TabNavigation}></Stack.Screen>
             </Stack.Navigator>
         </NavigationContainer>
+        </SafeAreaProvider>
     );
 }
 
