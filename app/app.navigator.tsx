@@ -7,6 +7,8 @@ import LedCustomScreen from './screens/led/led.custom.screen';
 import LedControllerScreen from './screens/led/led.controller.screen';
 import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { SafeAreaProvider, initialWindowMetrics } from 'react-native-safe-area-context';
+import { getBottomSpace } from './components/constant/platformStatusBar';
 
 
 const Stack = createStackNavigator();
@@ -19,7 +21,7 @@ const TabNavigation = () => {
             headerShown: false,
             tabBarStyle: {
                 backgroundColor:"#285576",
-                height: 60,
+                height: 60 + getBottomSpace(),
             },
             tabBarLabelStyle: {
                 fontSize: 12,
@@ -65,6 +67,7 @@ const TabNavigation = () => {
 
 const AppNavigator = () => {
     return (
+      <SafeAreaProvider initialMetrics={initialWindowMetrics}>
         <NavigationContainer>
             <Stack.Navigator initialRouteName="TAB" 
             screenOptions={{headerShown: false}}
@@ -72,6 +75,7 @@ const AppNavigator = () => {
                 <Stack.Screen name="TAB" component={TabNavigation}></Stack.Screen>
             </Stack.Navigator>
         </NavigationContainer>
+        </SafeAreaProvider>
     );
 }
 

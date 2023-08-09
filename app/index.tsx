@@ -1,13 +1,14 @@
 import React from 'react';
 import AppNavigator from './app.navigator';
-import { Provider as PaperProvider } from 'react-native-paper';
+// import { Provider as PaperProvider } from 'react-native-paper';
+import { SafeAreaProvider, initialWindowMetrics } from 'react-native-safe-area-context'
 
 
 const Home = () => {
   return (
-    <PaperProvider>
+    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
         <AppNavigator/>
-    </PaperProvider>
+    </SafeAreaProvider>
   );
 }
 

@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { Platform, StyleSheet, View } from "react-native";
 import DataSlider from "../sliders/DataSlider";
 import PlayPanel from "./PlayerPanel";
 import CustomText from "../text/CustomText";
@@ -76,6 +76,12 @@ const styles = StyleSheet.create({
         width:"50%",
         fontSize: 20,
         fontWeight: "bold",
+        ...Platform.select({
+            ios: {
+                lineHeight: 40,
+            },
+            android: {}
+        }),
         textAlign: "center",
         textAlignVertical:'center',
         color: '#215e79',
@@ -84,6 +90,12 @@ const styles = StyleSheet.create({
         width:"50%",
         fontSize: 18,
         fontWeight: "bold",
+        ...Platform.select({
+            ios: {
+                lineHeight: 40,
+            },
+            android: {}
+        }),
         textAlign: "center",
         textAlignVertical:'center',
         color: '#215e79',

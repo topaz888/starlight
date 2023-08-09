@@ -17,7 +17,6 @@ const DataSlider: FC<DataSliderProps> = props => {
   };
   return (
     <View style={styles.Continer}>
-        {/* <CustomText style={styles.text}>{buffer}</CustomText> */}
         <Slider
           style={styles.slider}
           onSlidingComplete={(val) => onValChange(val)}
@@ -27,7 +26,7 @@ const DataSlider: FC<DataSliderProps> = props => {
           maximumValue={props.maxVal}
           step={props.step}
           minimumTrackTintColor="#285476"
-          maximumTrackTintColor="#000000" />
+          maximumTrackTintColor="#81A2BC" />
     </View>
   );
 };

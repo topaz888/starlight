@@ -23,8 +23,9 @@ end
 
 target 'starlight' do
   config = use_native_modules!
-  premissions_path = '../node_modules/react-native-premissions/ios'
-  pod 'permission-BluetoothPeriphral', :path =>"#{premissions_path}/BluetoothPeripheral"
+  premissions_path = '../node_modules/react-native-permissions/ios'
+  pod 'Permission-BluetoothPeripheral', :path =>"#{premissions_path}/BluetoothPeripheral"
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
   # Flags change depending on the env values.
   flags = get_default_flags()

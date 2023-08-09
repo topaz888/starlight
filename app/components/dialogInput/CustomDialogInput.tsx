@@ -191,10 +191,10 @@ const styles = StyleSheet.create({
   },
   input_container:{
     textAlign:'left',
-    fontSize: 8,
     color: 'rgba(0,0,0,0.54)',
     ...Platform.select({
       ios: {
+        fontSize: 12,
         backgroundColor: 'white',
         borderRadius: 5,
         paddingTop: 5,
@@ -206,6 +206,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
       },
       android: {
+        fontSize: 8,
         marginTop: 8,
         borderBottomWidth: 2,
         borderColor: '#009688',

@@ -8,7 +8,7 @@ import { Peripheral } from "react-native-ble-manager";
 import { getTimerFlag } from "../store";
 
 function* watchForPeripherals(): Generator<AnyAction, void, any> {
-  const isPermissionsEnabled: boolean = yield call(bluetoothLeManager.requestAndroid31Permissions);
+  const isPermissionsEnabled: boolean = yield call(bluetoothLeManager.requestPermissions);
   yield put({
     type: bluetoothActionConstants.REQUEST_PERMISSIONS,
     payload:isPermissionsEnabled
@@ -126,7 +126,7 @@ function* setMessage(action: {
 }
 
 function* autoBlueToothPair() {
-  const isPermissionsEnabled: boolean = yield call(bluetoothLeManager.requestAndroid31Permissions);
+  const isPermissionsEnabled: boolean = yield call(bluetoothLeManager.requestPermissions);
   yield put({
     type: bluetoothActionConstants.REQUEST_PERMISSIONS,
     payload:isPermissionsEnabled

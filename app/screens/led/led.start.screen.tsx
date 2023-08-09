@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {View, StyleSheet, ImageBackground} from 'react-native';
+import {View, StyleSheet, ImageBackground, SafeAreaView} from 'react-native';
 import CTAButton from '../../components/buttons/CTAButton';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import { screenHeight, screenWidth } from '../../components/constant/constant';
@@ -51,7 +51,7 @@ const LedStartScreen = (props:LedScreenProps) =>{
     }
 
     return(
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <ImageBackground source={require('../../../assets/image/fontPage.jpg')} resizeMode="cover" style={styles.bgPic}>
                 <CustomText style={styles.versionText}>{DataList.LedStartScreen.Text[4]}</CustomText>
             <View style={styles.buttonContainer}>
@@ -65,7 +65,7 @@ const LedStartScreen = (props:LedScreenProps) =>{
             }
             </View>
             </ImageBackground>
-        </View>
+        </SafeAreaView>
     )
 }
 

@@ -1,5 +1,6 @@
 import { View, StyleSheet, ViewProps } from 'react-native'
 import Svg, { Defs, Rect, LinearGradient, Stop } from 'react-native-svg'
+import { screenHeight } from './constant/constant'
 
 type GradientProps = { fromColor: string, 
                        toColor: string, 
@@ -12,7 +13,7 @@ function Gradient({ children, fromColor, toColor, height = '100%', opacityColor1
     const gradientUniqueId = `grad${fromColor}+${toColor}`.replace(/[^a-zA-Z0-9 ]/g, '')
     
     return <>
-        <View style={[{ ...StyleSheet.absoluteFillObject, height, zIndex: -1, top: 0, left: 0 }, otherViewProps.style]} {...otherViewProps}>
+        <View style={[{ ...StyleSheet.absoluteFillObject, height:screenHeight, zIndex: -1, top: 0, left: 0 }, otherViewProps.style]} {...otherViewProps}>
             <Svg height='100%' width="100%" style={StyleSheet.absoluteFillObject}>
                 <Defs>
                     <LinearGradient id={gradientUniqueId} x1="0%" y1="0%" x2="0%" y2="100%">

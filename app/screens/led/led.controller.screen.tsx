@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import {Alert, StyleSheet, View} from 'react-native';
+import {Alert, SafeAreaView, StyleSheet, View} from 'react-native';
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import Gradient from '../../components/GradientColor';
 import LedToggleButton from '../../components/buttons/ToggleButton';
@@ -33,7 +33,7 @@ const LedControllerScreen = (props:LedControllerProps) => {
     )
 
     const ledConnectedDevice = useSelector(
-        (state: RootState) => state.bluetooth.connectedDevice,
+        (state: RootState) => !state.bluetooth.connectedDevice,
     )
 
     const ledCycle = useSelector(
@@ -246,7 +246,7 @@ const LedControllerScreen = (props:LedControllerProps) => {
         }}
       },[])
   return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <Gradient fromColor='#B6B9C7' toColor='#FFFFFF' opacityColor2={0}>
                 {ledConnectedDevice?
                 <CustomText style={styles.titleText}>{DataList.LedControllerScreen.Text[4]}</CustomText>
@@ -291,7 +291,7 @@ const LedControllerScreen = (props:LedControllerProps) => {
                     }}
                     closeDialog={() => setVisible(false)}></DialogInput>
             </Gradient>
-        </View>
+        </SafeAreaView>
     );
 };
 
@@ -307,7 +307,7 @@ const styles = StyleSheet.create({
     buttonContainer:{
         flexDirection:'row',
         justifyContent: 'center',
-        marginVertical: 20,
+        marginVertical: '2%',
     },
     titleText: {
         fontSize: 30,

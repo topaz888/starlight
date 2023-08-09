@@ -15,7 +15,7 @@ interface TextWithDefaultProps extends Text {
 const App = () => {
   return (
     <Provider store={store}>
-      <Home/>
+        <Home/>
     </Provider> 
   );
 }
