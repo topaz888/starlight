@@ -52,7 +52,7 @@ const LedStartScreen = (props:LedScreenProps) =>{
 
     return(
         <SafeAreaView style={styles.container}>
-            <ImageBackground source={require('../../../assets/image/fontPage.jpg')} resizeMode="cover" style={styles.bgPic}>
+            <ImageBackground source={require('../../../assets/image/frontPage.jpg')} resizeMode="cover" style={styles.bgPic}>
                 <CustomText style={styles.versionText}>{DataList.LedStartScreen.Text[4]}</CustomText>
             <View style={styles.buttonContainer}>
             {ledConnectedDevice ?

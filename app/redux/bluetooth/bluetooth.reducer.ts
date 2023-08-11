@@ -74,7 +74,7 @@ const bluetoothReducer = createSlice({
     },
     refreshAvilableDevice:(state)=>{
         console.log("refreshAvilableDevice")
-        if(state.availableDevices.sort()!=state.shawdomDevices.sort()){
+        if(state.availableDevices.length!=state.shawdomDevices.length){
           state.availableDevices = state.shawdomDevices;
         }
         state.shawdomDevices = []

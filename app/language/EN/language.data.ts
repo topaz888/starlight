@@ -63,7 +63,7 @@ const DataList= {
             `Turn Off`,
             `Choose`,
             `Connect Your Starlight`,
-            `Version: 1.5.5`,
+            `Version: 1.5.6`,
         ]
     },
     "components":{
