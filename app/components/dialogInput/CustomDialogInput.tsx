@@ -9,6 +9,9 @@ import {
 } from 'react-native';
 import CustomText from '../text/CustomText';
 
+import { Dimensions } from 'react-native';
+const { width } = Dimensions.get('window');
+
 type DialogInputProps = {
     isDialogVisible: boolean,
     title?: string,
@@ -87,6 +90,7 @@ const DialogInput: FC<DialogInputProps> = props =>{
                 <CustomText style={[message ? styles.message_modal : {height:0} ]}>{message}</CustomText>
                   <TextInput style={styles.input_container}
                       autoCorrect={false}
+                      allowFontScaling={false}
                       autoCapitalize={'none'}
                       maxLength={10}
                       returnKeyType='search'
@@ -194,7 +198,7 @@ const styles = StyleSheet.create({
     color: 'rgba(0,0,0,0.54)',
     ...Platform.select({
       ios: {
-        fontSize: 12,
+        fontSize: width/20,
         backgroundColor: 'white',
         borderRadius: 5,
         paddingTop: 5,
@@ -206,7 +210,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
       },
       android: {
-        fontSize: 8,
+        fontSize: width/20,
         marginTop: 8,
         borderBottomWidth: 2,
         borderColor: '#009688',
