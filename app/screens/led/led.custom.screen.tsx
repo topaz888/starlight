@@ -110,7 +110,6 @@ const LedCustomScreen = (props:LedScreenProps) =>{
     Alert.alert(DataList.LedCustomScreen.Text[0], DataList.LedCustomScreen.Text[1], [
       {
         text: DataList.LedCustomScreen.Text[2],
-        // onPress: () => console.log('Cancel Pressed'),
         style: 'cancel',
       },
       { text: DataList.LedCustomScreen.Text[3], 
@@ -120,9 +119,7 @@ const LedCustomScreen = (props:LedScreenProps) =>{
     ])
 
     const uploadMessage = async (message: messageNumber[]) => {
-        // console.log("test1");
         try{
-            // console.log(message);
             const success = await handleAddLed(modeId, message);
             if(!success) Alert.alert(DataList.LedCustomScreen.Text[4], DataList.LedCustomScreen.Text[5], [
                     {
@@ -135,7 +132,6 @@ const LedCustomScreen = (props:LedScreenProps) =>{
         }catch(e){
             console.log(e);
         }
-        // console.log("test2");
     }
 
     const viewLedParameter = () =>{

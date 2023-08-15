@@ -63,18 +63,17 @@ const bluetoothReducer = createSlice({
       state.timerFlag = false;
     },
     autoPair: state => {
-      console.log("autopair");
+      // console.log("autopair");
       state.isAutoPairing = true;
     },
     checkBondedDevice: (state,action) => {
       state.isNotBondedDevice = action.payload;
     },
     updateTimerFlag: (state, action) => {
-      console.log(action.payload);
       state.timerFlag = action.payload;
     },
     refreshAvilableDevice:(state)=>{
-        console.log("refreshAvilableDevice")
+        // console.log("refreshAvilableDevice")
         if(state.availableDevices.length!=state.shawdomDevices.length){
           state.availableDevices = state.shawdomDevices;
         }

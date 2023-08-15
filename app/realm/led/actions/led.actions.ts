@@ -63,7 +63,7 @@ export const handleAddLed = async (_modeId: string, _message: {mode:number|null,
             if(items.length > 0){
                 try{
                     realm.write(async () => {
-                        console.log("Customchange");
+                        // console.log("Customchange");
                         var LedArrayRealm = realm.objects("LedArrayRealm");
                         realm.delete(LedArrayRealm.filtered('modeId=$0',_modeId?.toString()))
                         items[0].message = ledList;
@@ -79,7 +79,7 @@ export const handleAddLed = async (_modeId: string, _message: {mode:number|null,
             else{
                 try{
                     realm.write( () => {
-                        console.log("write");
+                        // console.log("write");
                         realm.create('LedListRealm', data);
                     });
                     return true;
@@ -104,7 +104,7 @@ export const handlePersistAddLed = async (_modeId: string, _message: {cycle:numb
             if(items.length > 0){
                 try{
                     realm.write(async () => {
-                        console.log("Persistchange");
+                        // console.log("Persistchange");
                         var LedRealm = realm.objects("PersistLedRealm");
                         realm.delete(LedRealm.filtered('modeId=$0',_modeId));
                         items[0].message = led;
@@ -131,7 +131,7 @@ export const handleCustomAddLed = async (_modeId: string, _message: {cycle:numbe
     if(items.length > 0){
         try{
             realm.write(async () => {
-                console.log("Customchange");
+                // console.log("Customchange");
                 var LedRealm = realm.objects("LedRealm");
                 realm.delete(LedRealm.filtered('modeId=$0',_modeId));
                 items[0].BrightAndCycle = led;
@@ -147,7 +147,6 @@ export const handleCustomAddLed = async (_modeId: string, _message: {cycle:numbe
 export const handleBacktoDefault = async (index: number) => {
     const realm = await Realm.open(LedRealmContext);
     var items:any = realm.objects("PersistLedListRealm").filtered('modeId=$0',index.toFixed());
-    console.log(DataList.staticMode.mode[index].message)
     var led =  {
         modeId: index.toFixed(),
         cycle: DataList.staticMode.mode[index].message?.cycle??1, 
@@ -156,7 +155,6 @@ export const handleBacktoDefault = async (index: number) => {
     try{
         if(items.length>0){
             realm.write( () => {
-                console.log("default change");
                 var LedRealm = realm.objects("PersistLedRealm");
                 realm.delete(LedRealm.filtered('modeId=$0',index.toFixed()));
                 items[0].message = led;
@@ -193,7 +191,6 @@ export const bindListener = async (dispatch:Dispatch<any>) => {
     var LedListRealm = realm.objects("LedRealm");
     try{
         LedListRealm.addListener(async () =>{
-            console.log("listen ");
             await handleCustomName(dispatch);
         });
         await handleCustomName(dispatch);
@@ -205,7 +202,6 @@ export const bindListener = async (dispatch:Dispatch<any>) => {
 
 export const removeListener = async ()=>{
     const realm = await Realm.open(LedRealmContext);
-    console.log("removeListener");
     realm.removeAllListeners();;
 }
 
@@ -217,7 +213,6 @@ export const handleRemoveLed = async (modeId: string) => {
     
     if(LedListRealm.length>0 && LedArrayRealm.length>0 && LedRealm.length>0){
         realm.write(() => {
-            console.log("delete");
             realm.delete(LedRealm.filtered('modeId=$0',modeId))
             realm.delete(LedArrayRealm.filtered('modeId=$0',modeId))
             realm.delete(LedListRealm.filtered('modeId=$0',modeId))
@@ -234,7 +229,6 @@ export const loadStaticData = async () => {
     if(PersistLedListRealm.length<30){
         try{
             realm.write( () => {
-                console.log("delete persist");
                 realm.delete(PersistLedListRealm);
                 realm.delete(PersistLedArrayRealm);
                 realm.delete(PersistLedRealm);
@@ -268,7 +262,6 @@ export const loadStaticData = async () => {
             }
             try{
                 realm.write( () => {
-                    console.log("write persist");
                     realm.create('PersistLedListRealm', data)
                 })
             }
