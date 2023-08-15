@@ -1,4 +1,5 @@
 import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import { Platform } from 'react-native';
 import {BluetoothPeripheral} from '../../models/BluetoothPeripheral'
 
 type BluetoothState = {
@@ -77,6 +78,7 @@ const bluetoothReducer = createSlice({
         if(state.availableDevices.length!=state.shawdomDevices.length){
           state.availableDevices = state.shawdomDevices;
         }
+    if (Platform.OS === "android")
         state.shawdomDevices = []
     },
     bluetoothPeripheralsFound: (
