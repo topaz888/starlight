@@ -91,15 +91,12 @@ class BluetoothLeManager {
     return () => {
       //run this action to stop
       this.bleManager.stopDeviceScan();
-      console.log("stop scan");
     };
   };
 
   BondingPeripherals = async (identifier: string) => {
-    console.log("BondingPeripherals");
     var peripheral = await this.getBondedPeripherals()
     if(!peripheral){
-      console.log("start to bond")
       blemanager.createBond(identifier).then(() => {
           console.log('createBond success or there is already an existing one');
       })
@@ -109,16 +106,11 @@ class BluetoothLeManager {
   };
 
   getBondedPeripherals = async() => {
-    console.log("getBondedPeripherals");
     try{
       const peripheralsArray = await blemanager.getBondedPeripherals();
-      console.log(peripheralsArray)
       var peripheral = peripheralsArray.filter(peripheral => {return peripheral.name?.toLowerCase()?.includes(Server_Name);})
       if(peripheral.length!=0){
-        console.log("Found Bonded Peripherals: " + peripheral[0]?.id??"UnkownName");
         return peripheral[0];
-      }else{
-        console.log("Found Bond Peripherals: Nothing is Bonded")
       }
     }catch(e){
       console.log(e);
@@ -143,17 +135,17 @@ class BluetoothLeManager {
   connectToPeripheral = async (identifier: string) => {
     if(identifier){
       try{this.device = await this.bleManager.connectToDevice(identifier);
-        console.log("Conect Peripherals: " + this.device.id??"UnkownName")
+        // console.log("Conect Peripherals: " + this.device.id??"UnkownName")
         return true
       }catch(e){
-        console.log('Device is disconnected');
+        console.log(e);
       }
     }
     return false
   };
   
   addConnectListener = (identifier:string, emit: (payload: boolean) => void) => {
-    console.log("addConnectListener")
+    // console.log("addConnectListener")
     var subscription = this.bleManager.onDeviceDisconnected(identifier, (error) => {
       if (error) {
         this.device = null;
@@ -179,14 +171,12 @@ class BluetoothLeManager {
       console.log(error);
       return -1;
     } else if (!characteristic?.value) {
-      console.log("No Data was recieved");
       return -1;
     }
     let rvsignal: number = -1;
     const rawData = this.decodeRequest(characteristic.value);
     rvsignal = rawData.charCodeAt(0);
     emitter({payload: rvsignal})
-    console.log(`Receive : ${rvsignal}`);
   };
 
   startStreamingData = async (emitter: (arg0: {payload: number | BleError}) => void,
@@ -208,7 +198,7 @@ class BluetoothLeManager {
     let rawData = '';
     try{
       rawData = Buffer.from(`${val.toString(16)}`, 'utf-8').toString('base64');
-      console.log(`send: ${val.toString(16)} => ${rawData}`);
+      // console.log(`send: ${val.toString(16)} => ${rawData}`);
     }catch(e){
       console.log(e)
     }
@@ -216,9 +206,7 @@ class BluetoothLeManager {
   }
 
   sendSignal = async (message: Message) => {
-    // console.log(message.message);
     const request = this.encodeRequest(message);
-    // console.log(request);
     if(message.deviceId!=null){
         try {
             await this.device?.discoverAllServicesAndCharacteristics();
@@ -230,7 +218,7 @@ class BluetoothLeManager {
             )
         }
         catch (e) {
-            console.log("sned signal"+e);
+            console.log(e);
         };
       }
   }

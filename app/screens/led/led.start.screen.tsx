@@ -40,7 +40,6 @@ const LedStartScreen = (props:LedScreenProps) =>{
 
 
     const handleTurnOffButton = () =>{
-        console.log(isTurnOff)
         if(isTurnOff){
             dispatch(uploadIsTurnOff())
             dispatch(uploadMessage(Number(31).toFixed()))

@@ -60,7 +60,7 @@ const ledReducer = createSlice({
     initialState: initialState,
     reducers: {
         moveNextStaticMode:state =>{
-            console.log("moveNextMode");
+            // console.log("moveNextMode");
             let maxMode: number = 30;
             let minMode: number = 1;
             if(state.ledStaticMode < maxMode)
@@ -69,7 +69,7 @@ const ledReducer = createSlice({
                 state.ledStaticMode = minMode;
         },
         movePrevStaticMode:state =>{
-            console.log("movePrevMode");
+            // console.log("movePrevMode");
             let maxMode: number = 30;
             let minMode: number = 1;
             if(state.ledStaticMode > minMode)
@@ -78,7 +78,7 @@ const ledReducer = createSlice({
                 state.ledStaticMode = maxMode;
         },
         moveNextCustomIndex:state =>{
-            console.log("moveNextCustomIndex");
+            // console.log("moveNextCustomIndex");
             let maxMode: number = state.customNameArray.length-1;
             let minMode: number = 0;
             if(state.customNameIndex < maxMode)
@@ -87,7 +87,7 @@ const ledReducer = createSlice({
                 state.customNameIndex = minMode;
         },
         movePrevCustomIndex:state =>{
-            console.log("movePrevCustomIndex");
+            // console.log("movePrevCustomIndex");
             let maxMode: number = state.customNameArray.length-1;
             let minMode: number = 0;
             if(state.customNameIndex > minMode)
@@ -96,62 +96,62 @@ const ledReducer = createSlice({
                 state.customNameIndex = maxMode;
         },
         updateCustomNameArray: (state,action)=>{
-            console.log("updateCustomNameArray");
+            // console.log("updateCustomNameArray");
             state.customNameArray = action.payload;
             state.isUpdating = true;
         },
         updateledKey: (state,action)=>{
-            console.log("updateledKey");
+            // console.log("updateledKey");
             state.ledKey = action.payload;
             state.isUpdating = true;
         },
         updateledTitleName: (state,action)=>{
-            console.log("updateledTitleName");
+            // console.log("updateledTitleName");
             state.ledTitleName = action.payload;
             state.isUpdating = true;
         },
 
         updateledMode: (state,action)=>{
-            console.log("updateledMode");
+            // console.log("updateledMode");
             state.ledMode = action.payload;
             state.isUpdating = true;
         },
         updateledCycle: (state,action)=>{
-            console.log("updateledCycle");
+            // console.log("updateledCycle");
             state.ledCycle = action.payload;
             state.isUpdating = true;
         },
 
         updatemainScreenledCycle: (state,action)=>{
-            console.log("updatemainScreenledCycle");
+            // console.log("updatemainScreenledCycle");
             state.mainScreenledCycle = action.payload;
             state.isUpdating = true;
         },
 
         updateledCycle2: (state,action)=>{
-            console.log("updateledCycle2");
+            // console.log("updateledCycle2");
             state.ledCycle2 = action.payload;
             state.isUpdating = true;
         },
         updateledDelay: (state,action)=>{
-            console.log("updateledDelay");
+            // console.log("updateledDelay");
             state.ledDelay = action.payload;
             state.isUpdating = true;
         },
         updateledBrightness: (state,action)=>{
-            console.log("updateledBrightness");
+            // console.log("updateledBrightness");
             state.ledBrightness = action.payload;
             state.isUpdating = true;
         },
 
         updatemainScreenledBrightness: (state,action)=>{
-            console.log("updatemainScreenledBrightness");
+            // console.log("updatemainScreenledBrightness");
             state.mainScreenBrightness = action.payload;
             state.isUpdating = true;
         },
 
         updateledCustomMessage: state=>{
-            console.log("updateledCustomMessage");
+            // console.log("updateledCustomMessage");
             const customMessage:messageNumber = {
                                         mode: state.ledMode,
                                         cycle: state.ledCycle,
@@ -166,13 +166,13 @@ const ledReducer = createSlice({
         },
 
         updateledwaitTime: (state,action)=>{
-            console.log("updateledwaitTime");
+            // console.log("updateledwaitTime");
             state.ledwaitTime = action.payload;
             state.isUpdating = true;
         },
 
         updateledwaitTimeLen: (state,action)=>{
-            console.log("updateledwaitTimeLen");
+            // console.log("updateledwaitTimeLen");
             state.ledwaitTimeLen = action.payload;
             state.isUpdating = true;
         },
@@ -198,7 +198,7 @@ const ledReducer = createSlice({
         },
 
         setledCustomMessage: state =>{
-            console.log("setledCustomMessage");
+            // console.log("setledCustomMessage");
             const key = state.ledKey;
             state.ledMode = state.ledCustomMessage[key]?.mode ?? 0;
             state.ledBrightness = state.ledCustomMessage[key]?.brightness ?? 0;

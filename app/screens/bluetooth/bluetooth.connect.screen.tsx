@@ -50,7 +50,6 @@ const BlueToothConnectScreen = (props: BluetoothScreenProps) => {
 
 useEffect(()=>{
   if(isConnected){
-    // console.log(`connect to device: ${isConnected}`);
     props.navigation.navigate({name: 'Light Mode',params: {...props.route.params} })
   }
 },[isConnected])

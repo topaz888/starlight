@@ -77,7 +77,6 @@ const LedControllerScreen = (props:LedControllerProps) => {
     }
 
     const handleStaticPlayButton = async () => {
-        //console.log("handleStaticPlayButton")
         dispatch(uploadIsPlay())
         if(!IsPlay){
             dispatch(uploadMessage(modeId.toString()));
@@ -149,7 +148,6 @@ const LedControllerScreen = (props:LedControllerProps) => {
     }
 
     const sendPackageBymodeId = async (modeId: string) => {
-        // console.log(`modeId : ${modeId}`)
         var result:messageNumber[]
         if(titleName===0){
             dispatch(uploadMessage(modeId));
@@ -177,7 +175,6 @@ const LedControllerScreen = (props:LedControllerProps) => {
     const getCustomMessage = async () => {
         try{
             if(ledConnectedDevice && IsPlay){
-                // console.log(`index : ${customNameArray[Index]}`)
                 if(customNameArray[Index]){
                     await getCustomMessageByModeId(customNameArray[Index], dispatch);
                     await sendPackageBymodeId(customNameArray[Index])
@@ -189,12 +186,10 @@ const LedControllerScreen = (props:LedControllerProps) => {
     }
 
     const setDefaultSetting = async (index: number) => {
-        console.log(ledConnectedDevice)
         if(IsPlay){
             Alert.alert(DataList.LedControllerScreen.Text[0], DataList.LedControllerScreen.Text[1], [
                 {
                 text: DataList.LedControllerScreen.Text[2],
-                // onPress: () => console.log('Cancel Pressed'),
                 style: 'cancel',
                 },
                 { text: DataList.LedControllerScreen.Text[3], 
