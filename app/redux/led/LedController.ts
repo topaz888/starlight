@@ -43,6 +43,7 @@ class LedController {
         this.waitTimeLenlen = 4;
     }
 
+    //Serialize data, if it is null then ignore.
     shiftMessage = (index:number, value: messageNumber) => {
         try{
             

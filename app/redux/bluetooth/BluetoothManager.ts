@@ -49,6 +49,8 @@ class BluetoothLeManager {
       fineLocationPermission === "granted"
     );
   };
+
+  //extract bluetooth state from the device
   getBluetoothState = async () => {
     const state = await this.bleManager.state();
     if(state==='PoweredOn') return true;
@@ -105,6 +107,7 @@ class BluetoothLeManager {
       })}
   };
 
+  //looking for bonded-devices list, first, then if there is one device avialble, it will connect directly. 
   getBondedPeripherals = async() => {
     try{
       const peripheralsArray = await blemanager.getBondedPeripherals();
@@ -144,6 +147,8 @@ class BluetoothLeManager {
     return false
   };
   
+
+  //subscribe a listener and ckeck it weather or not keeping connection
   addConnectListener = (identifier:string, emit: (payload: boolean) => void) => {
     // console.log("addConnectListener")
     var subscription = this.bleManager.onDeviceDisconnected(identifier, (error) => {

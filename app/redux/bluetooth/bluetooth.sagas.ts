@@ -6,6 +6,7 @@ import bluetoothLeManager from "./BluetoothManager";
 import {BluetoothPeripheral, Message} from '../../models/BluetoothPeripheral'
 import { Peripheral } from "react-native-ble-manager";
 import { getTimerFlag } from "../store";
+import { Platform } from "react-native";
 
 function* watchForPeripherals(): Generator<AnyAction, void, any> {
   const isPermissionsEnabled: boolean = yield call(bluetoothLeManager.requestPermissions);
@@ -42,6 +43,8 @@ function* watchForPeripherals(): Generator<AnyAction, void, any> {
 }
 
 function* refreshTimer():Generator<AnyAction, void, any> {
+  if (Platform.OS === "android")
+    return;
   while (true) {
       yield delay(5000);
       var timerFlag = yield select(getTimerFlag);
