@@ -50,7 +50,7 @@ const LedStartScreen = (props:LedScreenProps) =>{
     }
 
     return(
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
             <ImageBackground source={require('../../../assets/image/frontPage.jpg')} resizeMode="cover" style={styles.bgPic}>
                 <CustomText style={styles.versionText}>{DataList.LedStartScreen.Text[4]}</CustomText>
             <View style={styles.buttonContainer}>
@@ -64,7 +64,7 @@ const LedStartScreen = (props:LedScreenProps) =>{
             }
             </View>
             </ImageBackground>
-        </SafeAreaView>
+        </View>
     )
 }
 
@@ -73,7 +73,6 @@ const styles = StyleSheet.create({
         flex: 1,
         zIndex: 0,
         justifyContent: 'center',
-        backgroundColor: '#132D3E',
     },
     dataContainer: {
         justifyContent: "space-around",
