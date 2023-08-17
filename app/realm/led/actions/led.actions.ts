@@ -120,7 +120,6 @@ export const handlePersistAddLed = async (_modeId: string, _message: {cycle:numb
 
 export const handleCustomAddLed = async (_modeId: string, _message: {cycle:number,brightness: number})  => {
     const realm = await Realm.open(LedRealmContext);
-    
     var items:any  = realm.objects("LedListRealm").filtered('modeId=$0',_modeId);
     var led: { modeId: string, cycle: string, brightness: string};
         led =  {
@@ -240,12 +239,12 @@ export const loadStaticData = async () => {
     }else return true
 
     DataList.staticMode.mode.forEach( (obj,modeId) => {
+            if(modeId === 0) return;
             var led =  {
                     modeId: modeId.toString(),
                     cycle: obj.message?.cycle, 
                     brightness: obj.message?.brightness,
             }
-
             var ledArray = {
                     modeId: modeId.toString(),
                     brightness: obj.led?.brightness,
