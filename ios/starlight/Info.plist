@@ -6,7 +6,6 @@
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
 	<string>Starlight</string>
-	<string>Starlight</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -37,9 +36,9 @@
 		</dict>
 	</dict>
 	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>App would like to use Bluetooth to Starlight Device</string>
+	<string>App would like to use Bluetooth to Starlight device</string>
 	<key>NSBluetoothPeripheraUsageDescription</key>
-	<string>App would like to use Bluetooth to Starlight Device</string>
+	<string>App would like to use Bluetooth to Starlight device</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>UIAppFonts</key>
