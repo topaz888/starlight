@@ -43,15 +43,15 @@ function* watchForPeripherals(): Generator<AnyAction, void, any> {
 }
 
 function* refreshTimer():Generator<AnyAction, void, any> {
-  if (Platform.OS === "android")
-    return;
-  while (true) {
-      yield delay(5000);
-      var timerFlag = yield select(getTimerFlag);
-      if(timerFlag){
-        return;
-      }
-      yield put({type: bluetoothActionConstants.REFRESH_FOR_PERIPHERALS});
+  if (Platform.OS === "android"){
+    while (true) {
+        yield delay(5000);
+        var timerFlag = yield select(getTimerFlag);
+        if(timerFlag){
+          return;
+        }
+        yield put({type: bluetoothActionConstants.REFRESH_FOR_PERIPHERALS});
+    }
   }
 }
 

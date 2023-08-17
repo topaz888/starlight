@@ -6,7 +6,7 @@ import { LedRealmContext } from '..';
 import { updateCustomNameArray, updateDefault, updatemainScreenledBrightness, updatemainScreenledCycle } from '../../../redux/led/led.reducer';
 import DataList from '../models/led.default.data';
 
-
+//add or modify data of the custom mode
 export const handleAddLed = async (_modeId: string, _message: {mode:number|null, cycle:number|null, cycle2:number|null,
                         delay:number|null, brightness: number|null, waitTime:number|null, waitTimeLen:number|null}[],
                         )  => {
@@ -40,10 +40,10 @@ export const handleAddLed = async (_modeId: string, _message: {mode:number|null,
                         ledId: index.toString(), 
                         modeId: _modeId.toString(),
                         mode: _message[index]?.mode?.toString()??"0",
-                        cycle: (_message[index]?.mode===0?1:(_message[index]?.cycle?(_message[index]?.cycle??0)/minCycle:0)).toFixed(1),
-                        cycle2: _message[index]?.mode===1?((_message[index]?.cycle??0)/minCycle).toFixed(1):null,
+                        cycle: (_message[index]?.mode===0?1:(_message[index]?.cycle?(_message[index]?.cycle??0)/minCycle:0)).toFixed(5),
+                        cycle2: _message[index]?.mode===1?((_message[index]?.cycle??0)/minCycle).toFixed(5):null,
                         delay: _message[index]?.delay?.toString()??null, 
-                        brightness: (_message[index]?.brightness?(_message[index]?.brightness??0)/minBrightness:0).toFixed(1),
+                        brightness: (_message[index]?.brightness?(_message[index]?.brightness??0)/minBrightness:0).toFixed(5),
                         waitTime: _message[index]?.waitTime?.toString()??null,
                         waitTimeLen: _waitTimeLen,
                     }
