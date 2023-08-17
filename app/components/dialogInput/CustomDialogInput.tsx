@@ -129,11 +129,11 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     flexDirection: 'column',
-    justifyContent: 'center',
     alignItems: 'center',
     ...Platform.select({
       android:{
-        backgroundColor: 'rgba(0,0,0,0.62)'
+        backgroundColor: 'rgba(0,0,0,0.62)',
+        justifyContent: 'center',
       }
     }),
   },
@@ -142,7 +142,8 @@ const styles = StyleSheet.create({
     marginRight: 30,
     ...Platform.select({
       ios: {
-        backgroundColor:'#E3E6E7',
+        top: "32%",
+        backgroundColor:'#e6f1f5',
         borderRadius: 10,
         minWidth: 300,
       },
