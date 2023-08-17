@@ -64,7 +64,7 @@ class LedController {
 
             
             if(value.delay){
-                const rawDelay = value.delay===null?BigInt(0):BigInt(value.delay*4) << BigInt(this.delayLen * index + this.dataTypeLen);
+                const rawDelay = value.delay===null?BigInt(0):BigInt(value.delay) << BigInt(this.delayLen * index + this.dataTypeLen);
                 this.delayStream = this.delayStream | rawDelay;
             }
 

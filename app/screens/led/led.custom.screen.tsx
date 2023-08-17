@@ -148,7 +148,7 @@ const LedCustomScreen = (props:LedScreenProps) =>{
                 <View style={styles.controlPanel}>
                     <View style={styles.dataContainer}>
                         <CustomText style={styles.Text}>{DataList.LedCustomScreen.Text[7]}</CustomText>
-                        <DataSlider minVal={1} maxVal={20} step={2} onPress={updataLedCycle} value={ledCycle}/>
+                        <DataSlider minVal={1} maxVal={40} step={2} onPress={updataLedCycle} value={ledCycle}/>
                     </View>
                     <View style={styles.dataContainer}>
                         <CustomText style={styles.Text}>{DataList.LedCustomScreen.Text[6]}</CustomText>
@@ -164,7 +164,7 @@ const LedCustomScreen = (props:LedScreenProps) =>{
                     </View>
                     <View style={styles.dataContainer}>
                         <CustomText style={styles.Text}>{DataList.LedCustomScreen.Text[8]}</CustomText>
-                        <DataSlider minVal={0} maxVal={10} step={2.5} onPress={updataLedDelay} value={ledDelay}/>
+                        <DataSlider minVal={0} maxVal={3} step={1} onPress={updataLedDelay} value={ledDelay}/>
                     </View>
                     <View style={styles.dataContainer}>
                         <CustomText style={styles.Text}>{DataList.LedCustomScreen.Text[6]}</CustomText>
