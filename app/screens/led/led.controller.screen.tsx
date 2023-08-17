@@ -275,7 +275,7 @@ const LedControllerScreen = (props:LedControllerProps) => {
                     title={DataList.LedControllerScreen.Text[11]}
                     message={DataList.LedControllerScreen.Text[12]}
                     hintInput ={DataList.LedControllerScreen.Text[13]}
-                    errorMessage={DataList.LedControllerScreen.Text[14]}
+                    errorMessage={DataList.LedControllerScreen.Text[16]}
                     submitInput={ (inputText) => {
                     if(customNameArray.includes(inputText)) return(Alert.alert(DataList.LedControllerScreen.Text[14],DataList.LedControllerScreen.Text[15].replace("{VARIABLE}", inputText)), setVisible(false))
                     return (
