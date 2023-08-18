@@ -113,7 +113,7 @@ class BluetoothLeManager {
       const peripheralsArray = await blemanager.getBondedPeripherals();
       var peripheral = peripheralsArray.filter(peripheral => {return peripheral.name?.toLowerCase()?.includes(Server_Name);})
       if(peripheral.length!=0){
-        return peripheral[0];
+        return peripheral;
       }
     }catch(e){
       console.log(e);

@@ -8,7 +8,6 @@ type BluetoothState = {
   isBluetoothEnable:boolean;
   isPermissionsEnabled: boolean;
   isScanning: boolean;
-  isNotBondedDevice:boolean;
   isAutoPairing: boolean;
   isConnectingToDevice: boolean;
   connectedDevice: string|null;
@@ -17,7 +16,6 @@ type BluetoothState = {
   receiveMessage: number;
   isSendMessage: boolean;
   sendMessage: number;
-
   isDisconnecting: boolean;
 };
 
@@ -28,7 +26,6 @@ const initialState: BluetoothState = {
   isBluetoothEnable:false,
   isPermissionsEnabled: false,
   isScanning: false,
-  isNotBondedDevice: true,
   isAutoPairing: false,
   isConnectingToDevice: false,
   connectedDevice: null,
@@ -64,9 +61,6 @@ const bluetoothReducer = createSlice({
     autoPair: state => {
       // console.log("autopair");
       state.isAutoPairing = true;
-    },
-    checkBondedDevice: (state,action) => {
-      state.isNotBondedDevice = action.payload;
     },
     updateTimerFlag: (state, action) => {
       state.timerFlag = action.payload;
@@ -148,7 +142,6 @@ export const bluetoothActionConstants = {
     UPDATE_RECEIVE_MESSAGE: bluetoothReducer.actions.receiveMessage.type,
     SEND_MESSAGE: bluetoothReducer.actions.sendMessage.type,
     AUTO_PAIRING: bluetoothReducer.actions.autoPair.type,
-    CHECK_BONDED_DEVICE: bluetoothReducer.actions.checkBondedDevice.type,
   };
 
 export const {

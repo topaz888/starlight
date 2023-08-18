@@ -41,7 +41,7 @@ function* watchForPeripherals(): Generator<AnyAction, void, any> {
       }
     }
 }
-
+//refresh the list of bluetooth, only work well on android 
 function* refreshTimer():Generator<AnyAction, void, any> {
   if (Platform.OS === "android"){
     while (true) {
@@ -70,6 +70,7 @@ function* connectToPeripheral(action: {
   yield handleBleUnknownDisconnect(action.payload.id)
 }
 
+//subscribe a listener to connection channel
 function* handleBleUnknownDisconnect(identifier:string): Generator<any, void, any> {
   const listener = yield eventChannel(emitter => {
     const  subscription = bluetoothLeManager.addConnectListener(identifier, emitter);
@@ -91,6 +92,7 @@ function* handleBleUnknownDisconnect(identifier:string): Generator<any, void, an
   }
 }
 
+//get transmission data from bluetooth manager (Not using anymore)
 function* getMessage(): Generator<AnyAction, void, any> {
   const onListenMessage = () =>
     eventChannel(emitter => {
@@ -112,6 +114,8 @@ function* getMessage(): Generator<AnyAction, void, any> {
     console.log(e);
   }
 }
+
+//actively disconnect bluetooth
 function* disconnectToPeripheral(action:{
   type: typeof bluetoothActionConstants.DISCONNECTION_PERIPHERAL,
   payload: string,
@@ -121,6 +125,8 @@ function* disconnectToPeripheral(action:{
     type: bluetoothActionConstants.DISCONNECTION_SUCCESSS,
   })
 }
+
+//send data to bluetooth manager => next step is transferring data
 function* setMessage(action: {
   type: typeof bluetoothActionConstants.SEND_MESSAGE,
   payload: Message,
@@ -128,6 +134,8 @@ function* setMessage(action: {
   yield call(bluetoothLeManager.sendSignal, action.payload);
 }
 
+
+//check the bondede devices and try to connect the first starlight device if it is available
 function* autoBlueToothPair() {
   const isPermissionsEnabled: boolean = yield call(bluetoothLeManager.requestPermissions);
   yield put({
@@ -135,27 +143,18 @@ function* autoBlueToothPair() {
     payload:isPermissionsEnabled
   })
   if(isPermissionsEnabled){
-    var peripheral:Peripheral = yield call(bluetoothLeManager.getBondedPeripherals);
-    if(peripheral){
-      yield put({
-        type: bluetoothActionConstants.CHECK_BONDED_DEVICE,
-        payload: true,
-      });
-      var result:boolean = yield call(bluetoothLeManager.connectToPeripheral, peripheral.id);
-      if(result)
-        yield put({
-          type: bluetoothActionConstants.CONNECTION_SUCCESS,
-          payload: peripheral,
-        });
-    }
-    else{
-      yield put({
-        type: bluetoothActionConstants.CHECK_BONDED_DEVICE,
-        payload: false,
-      });
-    }
-    if(peripheral){
-      yield handleBleUnknownDisconnect(peripheral.id)
+    var peripherals:Peripheral[] = yield call(bluetoothLeManager.getBondedPeripherals);
+    if(!peripherals) return
+      for(let i=0; i<peripherals.length; i++){
+        var result:boolean = yield call(bluetoothLeManager.connectToPeripheral, peripherals[i].id);
+        if(result){
+          yield put({
+            type: bluetoothActionConstants.CONNECTION_SUCCESS,
+            payload: peripherals[i],
+          });
+          yield handleBleUnknownDisconnect(peripherals[i].id)
+          return
+        }
     }
   }
 }
