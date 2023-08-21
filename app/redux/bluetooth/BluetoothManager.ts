@@ -137,6 +137,7 @@ class BluetoothLeManager {
 
   connectToPeripheral = async (identifier: string) => {
     if(identifier){
+      if(this.device) return false
       try{this.device = await this.bleManager.connectToDevice(identifier);
         // console.log("Conect Peripherals: " + this.device.id??"UnkownName")
         return true
