@@ -24,7 +24,7 @@ function* uploadMessage(action:{
     if(typeof(action.payload) != "string"){
         const data: messageBigInt = yield call(ledController.deserializeWriteData,action.payload.messages)
         
-        console.log(data);
+        // console.log(data);
         if(data.mode){
             const modeMessage : Message = {deviceId: action.payload.deviceId, message: data.mode.toString()}
             yield put({

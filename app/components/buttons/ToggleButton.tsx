@@ -10,7 +10,6 @@ const LedToggleButton: FC<ToggleButtonProps> = props => {
   const isDarkTheme = props.theme === 'Dark';
 
   useEffect(() => {
-    console.log("how many times ToggleButtonProps")
     onButtonToggle(props.val??0);
     },[props.val]);
 

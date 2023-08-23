@@ -19,13 +19,13 @@ export const handleAddLed = async (_modeId: string, _message: {mode:number|null,
                 (accumulator: number[], currentValue) => {
                     return [
                         accumulator[0] = currentValue.brightness? currentValue.brightness < accumulator[0]? currentValue.brightness:accumulator[0] :accumulator[0],
-                        accumulator[1] = currentValue.cycle? currentValue.cycle < accumulator[1]? currentValue.cycle:accumulator[1] :currentValue?.mode===0?1:accumulator[1]
+                        accumulator[1] = currentValue.cycle? currentValue.cycle < accumulator[1]? currentValue.mode===0?accumulator[1]:currentValue.cycle:accumulator[1] :accumulator[1]
                     ];
                 }, [200, 200]
             );
-            console.log(`${min[0]} ${min[1]}`)
-            var minBrightness = min[0]===200? 0: min[0]
-            var minCycle = min[1]===200? 0: min[1]
+            // console.log(`${min[0]} ${min[1]}`)
+            var minBrightness = min[0]===200? 1: min[0]
+            var minCycle = min[1]===200? 1: min[1]
                     
             for (let index in _message){
                 var _waitTimeLen = null
