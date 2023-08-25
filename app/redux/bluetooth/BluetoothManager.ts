@@ -96,25 +96,29 @@ class BluetoothLeManager {
     };
   };
 
+  //try to actively bond device [android ONLY] (not using anymore)
   BondingPeripherals = async (identifier: string) => {
-    var peripheral = await this.getBondedPeripherals()
-    if(!peripheral){
-      blemanager.createBond(identifier).then(() => {
-          console.log('createBond success or there is already an existing one');
-      })
-      .catch((e) => {
-          console.log("Error: " + e);
-      })}
+    // var peripheral = await this.getBondedPeripherals()
+    // if(!peripheral){
+    //   blemanager.createBond(identifier).then(() => {
+    //       console.log('createBond success or there is already an existing one');
+    //   })
+    //   .catch((e) => {
+    //       console.log("Error: " + e);
+    //   })}
   };
 
   //looking for bonded-devices list, first, then if there is one device avialble, it will connect directly. 
   getBondedPeripherals = async() => {
     try{
-      const peripheralsArray = await blemanager.getBondedPeripherals();
-      var peripheral = peripheralsArray.filter(peripheral => {return peripheral.name?.toLowerCase()?.includes(Server_Name);})
-      if(peripheral.length!=0){
-        return peripheral;
-      }
+      const peripheral = await this.bleManager.connectedDevices([ESP32_UUID,"1801","1800"]);
+      console.log(peripheral);
+      return []
+      // const peripheralsArray = await blemanager.getBondedPeripherals();
+      // var peripheral = peripheralsArray.filter(peripheral => {return peripheral.name?.toLowerCase()?.includes(Server_Name);})
+      // if(peripheral.length!=0){
+      //   return peripheral;
+      // }
     }catch(e){
       console.log(e);
     }
