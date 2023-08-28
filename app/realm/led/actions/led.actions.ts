@@ -90,6 +90,65 @@ export const handleAddLed = async (_modeId: string, _message: {mode:number|null,
             return false;
 };
 
+export const handleAddBTuuid =async (_uuid:string, _name:string) => {
+    const realm = await Realm.open(LedRealmContext);
+    var items:any  = realm.objects("BTUUID");
+    if(items.length > 1){
+        try{
+            realm.write(async () => {
+                var BTRealm = realm.objects("BTUUID");
+                realm.delete(BTRealm);
+            });
+        }catch(e){
+            console.log(e)
+        }
+    }
+    if(items.length > 0){
+        try{
+            realm.write(async () => {
+                console.log(_uuid, _name)
+                items[0].id = _uuid
+                items[0].name = _name
+                items[0].createAt = new Date()
+            })
+        return true;
+        }catch(e){
+            console.log(e)
+        }
+    }else{
+        try{
+            var data = {
+                id: _uuid,
+                name: _name,
+                createAt: new Date(),
+            };
+            realm.write( () => {
+                realm.create('BTUUID', data);
+            })
+            return true
+        }catch(e){
+            console.log(e)
+        }
+    }
+}
+
+export const getUUIDios =async () => {
+    const realm = await Realm.open(LedRealmContext);
+    var items = realm.objects("BTUUID").toJSON() as {id:string, name:string, createAt:Date}[];
+    var result = items.map(({id,name}) => ({id, name}))
+    try{
+        if(result.length>0){
+           return result;
+        }
+        else{
+            throw new Error("getUUIDios");
+        }
+    }catch(e)
+    {
+        console.log(e);
+    }
+    return false; 
+}
 
 export const handlePersistAddLed = async (_modeId: string, _message: {cycle:number,brightness: number})  => {
             const realm = await Realm.open(LedRealmContext);

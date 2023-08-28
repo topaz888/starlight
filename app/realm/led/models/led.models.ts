@@ -66,3 +66,13 @@ export const PERSISTLEDLISTREALM = {
     },
     primaryKey: '_id',
   }
+
+  export const BlueToothUUID = {
+    name: 'BTUUID',
+    properties:{
+      id: 'string',
+      name: 'string',
+      createAt: 'date',
+    },
+    primaryKey: 'id',
+  }

@@ -5,6 +5,8 @@ import { LogBox, PermissionsAndroid, Platform } from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import { ESP32_CHARACTERISTIC, ESP32_CHARACTERISTIC2, ESP32_UUID, Server_Name } from '../../components/constant/constant';
 import { Message } from '../../models/BluetoothPeripheral';
+import { getUUIDios, handleAddBTuuid } from '../../realm/led/actions/led.actions';
+import plugin from '@realm/babel-plugin';
 
 LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
 
@@ -86,7 +88,7 @@ class BluetoothLeManager {
       payload: BleError | Device | null;
     }) => void,
   ) => {
-    this.bleManager.startDeviceScan(null, null, (error, scannedDevice) => {
+    this.bleManager.startDeviceScan([ESP32_UUID], null, (error, scannedDevice) => {
       onDeviceFound({payload: scannedDevice ?? error});
       return;
     });
@@ -98,27 +100,42 @@ class BluetoothLeManager {
 
   //try to actively bond device [android ONLY] (not using anymore)
   BondingPeripherals = async (identifier: string) => {
-    // var peripheral = await this.getBondedPeripherals()
-    // if(!peripheral){
-    //   blemanager.createBond(identifier).then(() => {
-    //       console.log('createBond success or there is already an existing one');
-    //   })
-    //   .catch((e) => {
-    //       console.log("Error: " + e);
-    //   })}
+    var peripheral = await this.getBondedPeripherals()
+    if(!peripheral){
+      blemanager.createBond(identifier).then(() => {
+          console.log('createBond success or there is already an existing one');
+      })
+      .catch((e) => {
+          console.log("Error: " + e);
+      })}
   };
 
   //looking for bonded-devices list, first, then if there is one device avialble, it will connect directly. 
   getBondedPeripherals = async() => {
     try{
-      const peripheral = await this.bleManager.connectedDevices([ESP32_UUID,"1801","1800"]);
-      console.log(peripheral);
-      return []
-      // const peripheralsArray = await blemanager.getBondedPeripherals();
-      // var peripheral = peripheralsArray.filter(peripheral => {return peripheral.name?.toLowerCase()?.includes(Server_Name);})
-      // if(peripheral.length!=0){
-      //   return peripheral;
-      // }
+      if(Platform.OS === 'ios'){
+        const peripheralsArray = await this.bleManager.connectedDevices([ESP32_UUID]);
+        var Device = peripheralsArray.filter(peripheral => {return peripheral.name?.toLowerCase()?.includes(Server_Name);})
+        // console.log("test1")
+        if(Device.length!=0){
+          // console.log("test2")
+          this.setIosUUID(Device[0].id, Device[0].name??Server_Name)
+          var result = Device.map(({id, name})=>({id, name}))
+          // console.log(result)
+          return result
+        }else{
+          console.log("test3")
+          const uuid = await getUUIDios()
+          return uuid
+        }
+      }
+      else{
+        const peripheralsArray = await blemanager.getBondedPeripherals();
+        var peripheral = peripheralsArray.filter(peripheral => {return peripheral.name?.toLowerCase()?.includes(Server_Name);})
+        if(peripheral.length!=0){
+          return peripheral;
+        }
+      }
     }catch(e){
       console.log(e);
     }
@@ -138,12 +155,19 @@ class BluetoothLeManager {
       console.log(e);
     }
   };
+  //decouping uuid setup [ios only]
+  setIosUUID = async (identifier:string, name:string) => {
+    if(Platform.OS === 'ios')
+    await handleAddBTuuid(identifier, name)
+  }
 
   connectToPeripheral = async (identifier: string) => {
     if(identifier){
       if(this.device) return false
       try{this.device = await this.bleManager.connectToDevice(identifier);
-        // console.log("Conect Peripherals: " + this.device.id??"UnkownName")
+        if(Platform.OS === 'ios'){
+        }
+        console.log("Connect Peripherals: " + this.device.id)
         return true
       }catch(e){
         console.log(e);
@@ -216,6 +240,8 @@ class BluetoothLeManager {
   }
 
   sendSignal = async (message: Message) => {
+    // const peripheral = await this.bleManager.connectedDevices([ESP32_UUID,"1801","1800","180A",ESP32_UUID.toUpperCase(),"1BD94698-5CD4-AF90-124A-57B903B40365"]);
+    //   console.log(peripheral);
     const request = this.encodeRequest(message);
     if(message.deviceId!=null){
         try {

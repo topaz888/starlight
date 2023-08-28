@@ -4,7 +4,6 @@ import { AnyAction } from "@reduxjs/toolkit";
 import { TakeableChannel, eventChannel } from "redux-saga";
 import bluetoothLeManager from "./BluetoothManager";
 import {BluetoothPeripheral, Message} from '../../models/BluetoothPeripheral'
-import { Peripheral } from "react-native-ble-manager";
 import { getTimerFlag } from "../store";
 import { Platform } from "react-native";
 
@@ -61,6 +60,7 @@ function* connectToPeripheral(action: {
 }) {
   const peripheral = action.payload;
   yield call(bluetoothLeManager.connectToPeripheral, action.payload.id);
+  yield call(bluetoothLeManager.setIosUUID, action.payload.id, action.payload.name);
   // yield call(bluetoothLeManager.BondingPeripherals, action.payload.id);
   yield put({
     type: bluetoothActionConstants.CONNECTION_SUCCESS,
@@ -143,9 +143,20 @@ function* autoBlueToothPair() {
     payload:isPermissionsEnabled
   })
   if(isPermissionsEnabled){
-    var peripherals:Peripheral[] = yield call(bluetoothLeManager.getBondedPeripherals);
+    var peripherals:any[] = yield call(bluetoothLeManager.getBondedPeripherals);
     if(!peripherals) return
-      for(let i=0; i<peripherals.length; i++){
+    if(Platform.OS==='ios'){
+      var result:boolean = yield call(bluetoothLeManager.connectToPeripheral, peripherals[0].id);
+      if(result){
+        yield put({
+          type: bluetoothActionConstants.CONNECTION_SUCCESS,
+          payload: peripherals[0],
+        });
+        yield handleBleUnknownDisconnect(peripherals[0].id)
+        return
+      }
+    }else{
+    for(let i=0; i<peripherals.length; i++){
         var result:boolean = yield call(bluetoothLeManager.connectToPeripheral, peripherals[i].id);
         if(result){
           yield put({
@@ -155,6 +166,7 @@ function* autoBlueToothPair() {
           yield handleBleUnknownDisconnect(peripherals[i].id)
           return
         }
+      }
     }
   }
 }
