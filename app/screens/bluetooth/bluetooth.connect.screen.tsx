@@ -61,8 +61,9 @@ useEffect(()=>{
       dispatch(updateTimerFlag(true));
   }
 
-  const connectToPeripheral = (device: BluetoothPeripheral) =>
+  const connectToPeripheral = (device: BluetoothPeripheral) => {
     dispatch(initiateConnection(device));
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -85,7 +86,7 @@ useEffect(()=>{
             theme={'Dark'}
             onPress={() => {
               Disconnct(isConnected);
-            } } width={260} height={50}    />
+            } } width={260} height={50}/>
       :
       <CTAButton
             title={DataList.BlueToothConnectScreen.Text[3]}
@@ -93,7 +94,7 @@ useEffect(()=>{
             onPress={() => {
               scanForDevices();
               setIsModalVisible(true);
-            } } width={260} height={50}      />
+            } } width={260} height={50}/>
       }
       </View>
       <DeviceModal

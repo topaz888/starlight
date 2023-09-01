@@ -5,11 +5,13 @@ import { NavigationProp, RouteProp } from '@react-navigation/native';
 import { screenHeight, screenWidth } from '../../components/constant/constant';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { autoPair } from '../../redux/bluetooth/bluetooth.reducer';
+import { autoPair, sendMessage, uploadIsTurnOff } from '../../redux/bluetooth/bluetooth.reducer';
 import { loadStaticData } from '../../realm/led/actions/led.actions';
-import { uploadIsTurnOff, uploadMessage } from '../../redux/led/led.reducer';
+import { uploadMessage } from '../../redux/led/led.reducer';
 import CustomText from '../../components/text/CustomText';
 import DataList from '../../language/EN/language.data';
+import { Message } from '../../models/BluetoothPeripheral';
+import { delay } from 'redux-saga/effects';
 
 interface LedScreenProps {
     navigation: NavigationProp<any,any>;
@@ -27,7 +29,11 @@ const LedStartScreen = (props:LedScreenProps) =>{
     )
 
     const isTurnOff = useSelector(
-        (state: RootState) => state.led.isTurnOff,
+        (state: RootState) => state.bluetooth.isTurnOff,
+    )
+
+    const isloading = useSelector(
+        (state: RootState) => state.bluetooth.isLoading,
     )
 
     useEffect(() => {
@@ -38,6 +44,12 @@ const LedStartScreen = (props:LedScreenProps) =>{
         }
       }, [])
 
+      useEffect(() => {
+        if(ledConnectedDevice && !isloading){
+            delay(1000)
+            dispatch(uploadMessage(Number(33).toFixed()))
+        }
+      }, [ledConnectedDevice])
 
     const handleTurnOffButton = () =>{
         if(isTurnOff){
@@ -114,7 +126,7 @@ const styles = StyleSheet.create({
         fontWeight: '400',
         position:'absolute',
         left: _screenWidth/2-50,
-        top: _screenHeight/2-190
+        top: _screenHeight/2-100
     }
   });
 

@@ -13,6 +13,8 @@ import DialogInput from '../../components/dialogInput/CustomDialogInput';
 import { LedMessage, messageNumber } from '../../models/LedMessage';
 import CustomText from '../../components/text/CustomText';
 import DataList from '../../language/EN/language.data';
+import Progress from '../../components/pregress/CustomProgress';
+import { displayLoading } from '../../redux/bluetooth/bluetooth.reducer';
 
 interface LedControllerProps {
   navigation: NavigationProp<any,any>;
@@ -54,6 +56,10 @@ const LedControllerScreen = (props:LedControllerProps) => {
 
     const Index = useSelector(
         (state: RootState) => state.led.customNameIndex,
+    )
+
+    const isloading = useSelector(
+        (state: RootState) => state.bluetooth.isLoading,
     )
 
     const handleTitleName = (titleId: number) => {
@@ -285,6 +291,10 @@ const LedControllerScreen = (props:LedControllerProps) => {
                     )
                     }}
                     closeDialog={() => setVisible(false)}></DialogInput>
+                <Progress 
+                  isDialogVisible={isloading}
+                  message={"waiting..."} 
+                  closeDialog={() => dispatch(displayLoading(false))}></Progress>
             </Gradient>
         </SafeAreaView>
     );

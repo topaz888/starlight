@@ -100,14 +100,16 @@ class BluetoothLeManager {
 
   //try to actively bond device [android ONLY] (not using anymore)
   BondingPeripherals = async (identifier: string) => {
-    var peripheral = await this.getBondedPeripherals()
-    if(!peripheral){
+    if(identifier){
+      if(this.device) return false
       blemanager.createBond(identifier).then(() => {
           console.log('createBond success or there is already an existing one');
+          return true
       })
       .catch((e) => {
           console.log("Error: " + e);
       })}
+      return false
   };
 
   //looking for bonded-devices list, first, then if there is one device avialble, it will connect directly. 
@@ -116,20 +118,16 @@ class BluetoothLeManager {
       if(Platform.OS === 'ios'){
         const peripheralsArray = await this.bleManager.connectedDevices([ESP32_UUID]);
         var Device = peripheralsArray.filter(peripheral => {return peripheral.name?.toLowerCase()?.includes(Server_Name);})
-        // console.log("test1")
         if(Device.length!=0){
-          // console.log("test2")
           this.setIosUUID(Device[0].id, Device[0].name??Server_Name)
-          var result = Device.map(({id, name})=>({id, name}))
-          // console.log(result)
-          return result
+          var resultIos = Device.map(({id, name})=>({id, name}))
+          return resultIos
         }else{
-          console.log("test3")
           const uuid = await getUUIDios()
           return uuid
         }
       }
-      else{
+      else if(Platform.OS === 'android'){
         const peripheralsArray = await blemanager.getBondedPeripherals();
         var peripheral = peripheralsArray.filter(peripheral => {return peripheral.name?.toLowerCase()?.includes(Server_Name);})
         if(peripheral.length!=0){
@@ -141,20 +139,34 @@ class BluetoothLeManager {
     }
   }
 
+  isbonded = async (id: string) =>{
+    if(Platform.OS === 'android'){
+      const peripheralsArray = await blemanager.getBondedPeripherals();
+      var peripheral = peripheralsArray.filter(peripheral => {return peripheral.id?.toLowerCase()?.includes(id.toLowerCase());})
+      if(peripheral.length!=0){
+        return true
+      }
+    }else{
+      return true
+    }
+    return false
+  }
+
   stopScanningForPeripherals = () => {
     this.bleManager.stopDeviceScan();
-  };
+  }
 
   disconnectToPeripheral = async (identifier: string) => {
     try{
+      this.device = null;
       if(identifier){
         await this.bleManager.cancelDeviceConnection(identifier);
       }
-      this.device = null;
     }catch(e){
-      console.log(e);
+      console.log("disconnectToPeripheral", e);
     }
   };
+
   //decouping uuid setup [ios only]
   setIosUUID = async (identifier:string, name:string) => {
     if(Platform.OS === 'ios')
@@ -164,31 +176,42 @@ class BluetoothLeManager {
   connectToPeripheral = async (identifier: string) => {
     if(identifier){
       if(this.device) return false
-      try{this.device = await this.bleManager.connectToDevice(identifier);
-        if(Platform.OS === 'ios'){
+      try{
+        const connectedDevice = await this.bleManager.connectToDevice(identifier);
+        if(connectedDevice){
+          this.device = connectedDevice;
+          const result = this.isDeviceConnected(this.device.id)
+          return result
         }
-        console.log("Connect Peripherals: " + this.device.id)
-        return true
       }catch(e){
-        console.log(e);
+        console.log("connection error",e);
       }
     }
     return false
   };
+
+  isDeviceConnected = async (identifier:string ) => {
+    const result = await this.bleManager.isDeviceConnected(identifier)
+    return result
+  }
   
 
   //subscribe a listener and ckeck it weather or not keeping connection
   addConnectListener = (identifier:string, emit: (payload: boolean) => void) => {
-    // console.log("addConnectListener")
-    var subscription = this.bleManager.onDeviceDisconnected(identifier, (error) => {
-      if (error) {
-        this.device = null;
-        emit(true)
-      }else{
-        emit(true)
-      }
-    })
-    return subscription
+    try{
+      var subscription = this.bleManager.onDeviceDisconnected(identifier, (error) => {
+        if (error) {
+          console.log("addConnectListener", error)
+          emit(true)
+        }else{
+          emit(true)
+        }
+      })
+      return subscription
+    }catch(e){
+      console.log("addConnectListener", e)
+      emit(true)
+    }
   }
 
   decodeRequest = (val : string) => {
@@ -202,26 +225,29 @@ class BluetoothLeManager {
     emitter: (arg0: {payload: number | BleError}) => void,
   ) => {
     if (error) {
-      console.log(error);
+      // console.log(error);
       return -1;
     } else if (!characteristic?.value) {
       return -1;
     }
-    let rvsignal: number = -1;
-    const rawData = this.decodeRequest(characteristic.value);
-    rvsignal = rawData.charCodeAt(0);
-    emitter({payload: rvsignal})
+    if(characteristic.value){
+      let rvsignal: number = -1;
+      const rawData = this.decodeRequest(characteristic.value);
+      rvsignal = rawData.charCodeAt(0);
+      emitter({payload: rvsignal})
+    }
   };
 
   startStreamingData = async (emitter: (arg0: {payload: number | BleError}) => void,
   ) => {
-        await this.device?.discoverAllServicesAndCharacteristics();
-        this.device?.monitorCharacteristicForService(
-        ESP32_UUID,
-        ESP32_CHARACTERISTIC,
-        (error, characteristic) =>
-        this.rvSignalUpdate(error, characteristic, emitter),
-      );
+          await this.device?.discoverAllServicesAndCharacteristics()
+          const subscription = this.device?.monitorCharacteristicForService(
+          ESP32_UUID,
+          ESP32_CHARACTERISTIC,
+          (error, characteristic) =>
+          this.rvSignalUpdate(error, characteristic, emitter),
+          );
+          return subscription
   }; 
 
   encodeRequest = (message : Message) => {
@@ -234,19 +260,17 @@ class BluetoothLeManager {
       rawData = Buffer.from(`${val.toString(16)}`, 'utf-8').toString('base64');
       // console.log(`send: ${val.toString(16)} => ${rawData}`);
     }catch(e){
-      console.log(e)
+      console.log("encodeRequest", e)
     }
     return rawData;
   }
 
   sendSignal = async (message: Message) => {
-    // const peripheral = await this.bleManager.connectedDevices([ESP32_UUID,"1801","1800","180A",ESP32_UUID.toUpperCase(),"1BD94698-5CD4-AF90-124A-57B903B40365"]);
-    //   console.log(peripheral);
     const request = this.encodeRequest(message);
     if(message.deviceId!=null){
         try {
             await this.device?.discoverAllServicesAndCharacteristics();
-            this.bleManager.writeCharacteristicWithResponseForDevice(
+            this.bleManager.writeCharacteristicWithoutResponseForDevice(
               message.deviceId,
               ESP32_UUID,
               ESP32_CHARACTERISTIC2,
@@ -254,7 +278,7 @@ class BluetoothLeManager {
             )
         }
         catch (e) {
-            console.log(e);
+            console.log("sendSignal", e);
         };
       }
   }

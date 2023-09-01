@@ -59,15 +59,24 @@ function* connectToPeripheral(action: {
   payload: BluetoothPeripheral,
 }) {
   const peripheral = action.payload;
-  yield call(bluetoothLeManager.connectToPeripheral, action.payload.id);
-  yield call(bluetoothLeManager.setIosUUID, action.payload.id, action.payload.name);
-  // yield call(bluetoothLeManager.BondingPeripherals, action.payload.id);
+  yield call(bluetoothLeManager.connectToPeripheral, peripheral.id);
+  yield call(bluetoothLeManager.setIosUUID, peripheral.id, peripheral.name);
   yield put({
     type: bluetoothActionConstants.CONNECTION_SUCCESS,
     payload: peripheral,
   });
+  yield put({
+    type: bluetoothActionConstants.START_RECEIVE_MESSAGE,
+  });
+  var result:boolean = yield call(bluetoothLeManager.isbonded, peripheral.id);
+  if(!result){
+    yield put({
+      type: bluetoothActionConstants.DISPLAY_LOADING,
+      payload: true,
+    });
+  }
   yield call(bluetoothLeManager.stopScanningForPeripherals);
-  yield handleBleUnknownDisconnect(action.payload.id)
+  yield handleBleUnknownDisconnect(peripheral.id)
 }
 
 //subscribe a listener to connection channel
@@ -75,17 +84,20 @@ function* handleBleUnknownDisconnect(identifier:string): Generator<any, void, an
   const listener = yield eventChannel(emitter => {
     const  subscription = bluetoothLeManager.addConnectListener(identifier, emitter);
     return () => {
-      subscription.remove();
+      subscription?.remove();
    }
   });
   try {
     while (true) {
       const result = yield take(listener);
-      if(result)
+      if(result){
         yield put({
-          type: bluetoothActionConstants.DISCONNECTION_SUCCESSS,
+          type: bluetoothActionConstants.DISCONNECTION_PERIPHERAL,
+          payload: identifier
       })
-      listener.close();
+        console.log("handleBleUnknownDisconnect")
+        listener.close();
+      }
     }
   }catch(e){
     console.log(e)
@@ -93,23 +105,19 @@ function* handleBleUnknownDisconnect(identifier:string): Generator<any, void, an
 }
 
 //get transmission data from bluetooth manager (Not using anymore)
-function* getMessage(): Generator<AnyAction, void, any> {
-  const onListenMessage = () =>
-    eventChannel(emitter => {
-      bluetoothLeManager.startStreamingData(emitter);
+function* getMessage(): Generator<any, void, any> {
+  const onListenMessage = yield eventChannel( emitter => {
+      const subscription = bluetoothLeManager.startStreamingData(emitter);
       return () => {
-        bluetoothLeManager.stopScanningForPeripherals();
+        subscription.then(i=>i?.remove())
       };
     });
-  const channel: TakeableChannel<string> = yield call(onListenMessage);
   try {
-    while (true) {
-      const response = yield take(channel);
+      const response = yield take(onListenMessage);
       yield put({
         type: bluetoothActionConstants.UPDATE_RECEIVE_MESSAGE,
         payload: response.payload,
       });
-    }
   } catch (e) {
     console.log(e);
   }
@@ -152,16 +160,22 @@ function* autoBlueToothPair() {
           type: bluetoothActionConstants.CONNECTION_SUCCESS,
           payload: peripherals[0],
         });
+        yield put({
+          type: bluetoothActionConstants.START_RECEIVE_MESSAGE,
+        });
         yield handleBleUnknownDisconnect(peripherals[0].id)
         return
       }
-    }else{
-    for(let i=0; i<peripherals.length; i++){
+    }else if(Platform.OS==='android'){
+    for(let i=0; i<peripherals.length && i<5; i++){
         var result:boolean = yield call(bluetoothLeManager.connectToPeripheral, peripherals[i].id);
         if(result){
           yield put({
             type: bluetoothActionConstants.CONNECTION_SUCCESS,
             payload: peripherals[i],
+          });
+          yield put({
+            type: bluetoothActionConstants.START_RECEIVE_MESSAGE,
           });
           yield handleBleUnknownDisconnect(peripherals[i].id)
           return

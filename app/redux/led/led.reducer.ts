@@ -25,7 +25,6 @@ type ledState = {
     isUpdating: boolean;
     isUploading:boolean;
     isPlaying:boolean;
-    isTurnOff:boolean;
 }
 
 const initialState:ledState = {
@@ -52,7 +51,6 @@ const initialState:ledState = {
     isUpdating: false,
     isUploading: false,
     isPlaying: false,
-    isTurnOff: false,
 }
 
 const ledReducer = createSlice({
@@ -225,10 +223,6 @@ const ledReducer = createSlice({
         uploadIsPlay: state => {
             state.isPlaying = !state.isPlaying
         },
-
-        uploadIsTurnOff: state => {
-            state.isTurnOff = !state.isTurnOff
-        }
     }
 })
 
@@ -266,7 +260,6 @@ export const {
     updatemainScreenledCycle,
     updatemainScreenledBrightness,
     uploadIsPlay,
-    uploadIsTurnOff,
     uploadTabView,
     resetCustomMessage
     } = ledReducer.actions

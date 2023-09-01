@@ -12,11 +12,13 @@ type BluetoothState = {
   isConnectingToDevice: boolean;
   connectedDevice: string|null;
   deviceName: string|null;
-  isStartLEDControl: boolean;
+  isStartLEDListen: boolean;
   receiveMessage: number;
   isSendMessage: boolean;
   sendMessage: number;
   isDisconnecting: boolean;
+  isTurnOff: boolean;
+  isLoading: boolean;
 };
 
 const initialState: BluetoothState = {
@@ -30,11 +32,13 @@ const initialState: BluetoothState = {
   isConnectingToDevice: false,
   connectedDevice: null,
   deviceName: null,
-  isStartLEDControl: false,
+  isStartLEDListen: false,
   receiveMessage: 0,
   isSendMessage: false,
   sendMessage: 0,
-  isDisconnecting:false
+  isDisconnecting:false,
+  isTurnOff: false,
+  isLoading: false,
 };
 
 const bluetoothReducer = createSlice({
@@ -105,6 +109,10 @@ const bluetoothReducer = createSlice({
       state.deviceName = action.payload.name;
     },
 
+    displayLoading: (state, action) =>{
+      state.isLoading = action.payload;
+    },
+
     disconnectPeripheral: (state, _) => {
       state.isDisconnecting = true;
     },
@@ -112,19 +120,31 @@ const bluetoothReducer = createSlice({
     disconnectSuccess: (state) => {
       state.connectedDevice = null;
       state.deviceName = null;
+      state.isStartLEDListen = false; 
     },
 
     startLEDControl: state => {
-      state.isStartLEDControl = true;
+      state.isStartLEDListen = true;
     },
     receiveMessage: (state, action) => {
       state.receiveMessage = action.payload;
+      if(+action.payload===31){
+        state.isTurnOff = false;
+      }
+      if(+action.payload===32){
+        state.isTurnOff = true
+      };
+      state.isLoading = false;
+      console.log(action.payload)
     },
     sendMessage: (state, action) => {
       state.isSendMessage = true;
       if(action.payload.deviceId == null)
         action.payload.deviceId = state.connectedDevice;
     },
+    uploadIsTurnOff: state => {
+      state.isTurnOff = !state.isTurnOff
+    }
   },
 });
 
@@ -142,6 +162,7 @@ export const bluetoothActionConstants = {
     UPDATE_RECEIVE_MESSAGE: bluetoothReducer.actions.receiveMessage.type,
     SEND_MESSAGE: bluetoothReducer.actions.sendMessage.type,
     AUTO_PAIRING: bluetoothReducer.actions.autoPair.type,
+    DISPLAY_LOADING: bluetoothReducer.actions.displayLoading.type,
   };
 
 export const {
@@ -154,6 +175,8 @@ export const {
     startLEDControl,
     sendMessage,
     autoPair,
+    uploadIsTurnOff,
+    displayLoading,
 } = bluetoothReducer.actions
 
 export default bluetoothReducer
