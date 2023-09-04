@@ -160,7 +160,8 @@ class BluetoothLeManager {
     try{
       this.device = null;
       if(identifier){
-        await this.bleManager.cancelDeviceConnection(identifier);
+        if(await this.isDeviceConnected(identifier))
+          await this.bleManager.cancelDeviceConnection(identifier);
       }
     }catch(e){
       console.log("disconnectToPeripheral", e);

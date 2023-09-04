@@ -5,7 +5,7 @@ import { NavigationProp, RouteProp } from '@react-navigation/native';
 import { screenHeight, screenWidth } from '../../components/constant/constant';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
-import { autoPair, sendMessage, uploadIsTurnOff } from '../../redux/bluetooth/bluetooth.reducer';
+import { autoPair, sendMessage, startPeripheralListen, uploadIsTurnOff } from '../../redux/bluetooth/bluetooth.reducer';
 import { loadStaticData } from '../../realm/led/actions/led.actions';
 import { uploadMessage } from '../../redux/led/led.reducer';
 import CustomText from '../../components/text/CustomText';
@@ -72,8 +72,9 @@ const LedStartScreen = (props:LedScreenProps) =>{
                     <CTAButton title={DataList.LedStartScreen.Text[2]} theme={'White'} onPress={() => { props.navigation.navigate({ name: 'Light Mode', params: { ...props.route.params } }); } } width={300} height={50} />
                 </>
                 :
-                <CTAButton title={DataList.LedStartScreen.Text[3]} theme={'White'} onPress={() => { props.navigation.navigate({ name: 'Settings', params: { ...props.route.params } }); } } width={300} height={50} />
+                 <CTAButton title={DataList.LedStartScreen.Text[3]} theme={'White'} onPress={() => { props.navigation.navigate({ name: 'Settings', params: { ...props.route.params } }); } } width={300} height={50} />
             }
+            <CTAButton title={"Listen"} theme={'White'} onPress={() => { dispatch(startPeripheralListen()) } } width={300} height={50} />
             </View>
             </ImageBackground>
         </View>
