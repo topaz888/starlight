@@ -65,9 +65,9 @@ function* connectToPeripheral(action: {
     type: bluetoothActionConstants.CONNECTION_SUCCESS,
     payload: peripheral,
   });
-  yield put({
-    type: bluetoothActionConstants.START_RECEIVE_MESSAGE,
-  });
+  // yield put({
+  //   type: bluetoothActionConstants.START_RECEIVE_MESSAGE,
+  // });
   var result:boolean = yield call(bluetoothLeManager.isbonded, peripheral.id);
   if(!result){
     yield put({
@@ -104,20 +104,22 @@ function* handleBleUnknownDisconnect(identifier:string): Generator<any, void, an
   }
 }
 
-//get transmission data from bluetooth manager (Not using anymore)
+//get transmission data from bluetooth manager
 function* getMessage(): Generator<any, void, any> {
   const onListenMessage = yield eventChannel( emitter => {
-      const subscription = bluetoothLeManager.startStreamingData(emitter);
+      const subscription = bluetoothLeManager.startStreamingData(emitter)
       return () => {
         subscription.then(i=>i?.remove())
       };
     });
   try {
-      const response = yield take(onListenMessage);
-      yield put({
-        type: bluetoothActionConstants.UPDATE_RECEIVE_MESSAGE,
-        payload: response.payload,
-      });
+      while(true){
+        const response = yield take(onListenMessage);
+        yield put({
+          type: bluetoothActionConstants.UPDATE_RECEIVE_MESSAGE,
+          payload: response.payload,
+        });
+      }
   } catch (e) {
     console.log(e);
   }
@@ -160,9 +162,9 @@ function* autoBlueToothPair() {
           type: bluetoothActionConstants.CONNECTION_SUCCESS,
           payload: peripherals[0],
         });
-        yield put({
-          type: bluetoothActionConstants.START_RECEIVE_MESSAGE,
-        });
+        // yield put({
+        //   type: bluetoothActionConstants.START_RECEIVE_MESSAGE,
+        // });
         yield handleBleUnknownDisconnect(peripherals[0].id)
         return
       }
@@ -174,9 +176,9 @@ function* autoBlueToothPair() {
             type: bluetoothActionConstants.CONNECTION_SUCCESS,
             payload: peripherals[i],
           });
-          yield put({
-            type: bluetoothActionConstants.START_RECEIVE_MESSAGE,
-          });
+          // yield put({
+          //   type: bluetoothActionConstants.START_RECEIVE_MESSAGE,
+          // });
           yield handleBleUnknownDisconnect(peripherals[i].id)
           return
         }

@@ -160,7 +160,8 @@ class BluetoothLeManager {
     try{
       this.device = null;
       if(identifier){
-        await this.bleManager.cancelDeviceConnection(identifier);
+        if(await this.isDeviceConnected(identifier))
+          await this.bleManager.cancelDeviceConnection(identifier);
       }
     }catch(e){
       console.log("disconnectToPeripheral", e);
@@ -270,12 +271,21 @@ class BluetoothLeManager {
     if(message.deviceId!=null){
         try {
             await this.device?.discoverAllServicesAndCharacteristics();
+            if(Platform.OS==='android')
             this.bleManager.writeCharacteristicWithoutResponseForDevice(
               message.deviceId,
               ESP32_UUID,
               ESP32_CHARACTERISTIC2,
               `${request}`,
             )
+            else if(Platform.OS==='ios'){
+              this.bleManager.writeCharacteristicWithResponseForDevice(
+                message.deviceId,
+                ESP32_UUID,
+                ESP32_CHARACTERISTIC2,
+                `${request}`,
+              )
+            }
         }
         catch (e) {
             console.log("sendSignal", e);

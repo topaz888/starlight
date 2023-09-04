@@ -123,7 +123,7 @@ const bluetoothReducer = createSlice({
       state.isStartLEDListen = false; 
     },
 
-    startLEDControl: state => {
+    startPeripheralListen: state => {
       state.isStartLEDListen = true;
     },
     receiveMessage: (state, action) => {
@@ -135,6 +135,7 @@ const bluetoothReducer = createSlice({
         state.isTurnOff = true
       };
       state.isLoading = false;
+      console.log("receiveMessage");
       console.log(action.payload)
     },
     sendMessage: (state, action) => {
@@ -158,7 +159,7 @@ export const bluetoothActionConstants = {
     CONNECTION_SUCCESS: bluetoothReducer.actions.connectPeripheral.type,
     DISCONNECTION_PERIPHERAL: bluetoothReducer.actions.disconnectPeripheral.type,
     DISCONNECTION_SUCCESSS: bluetoothReducer.actions.disconnectSuccess.type,
-    START_RECEIVE_MESSAGE: bluetoothReducer.actions.startLEDControl.type,
+    START_RECEIVE_MESSAGE: bluetoothReducer.actions.startPeripheralListen.type,
     UPDATE_RECEIVE_MESSAGE: bluetoothReducer.actions.receiveMessage.type,
     SEND_MESSAGE: bluetoothReducer.actions.sendMessage.type,
     AUTO_PAIRING: bluetoothReducer.actions.autoPair.type,
@@ -172,7 +173,7 @@ export const {
     initiateConnection,
     connectPeripheral,
     disconnectPeripheral,
-    startLEDControl,
+    startPeripheralListen,
     sendMessage,
     autoPair,
     uploadIsTurnOff,
