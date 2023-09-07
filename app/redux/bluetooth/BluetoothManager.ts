@@ -180,6 +180,7 @@ class BluetoothLeManager {
       try{
         const connectedDevice = await this.bleManager.connectToDevice(identifier);
         if(connectedDevice){
+          console.log("connect: ",identifier)
           this.device = connectedDevice;
           const result = this.isDeviceConnected(this.device.id)
           return result
@@ -242,6 +243,7 @@ class BluetoothLeManager {
   startStreamingData = async (emitter: (arg0: {payload: number | BleError}) => void,
   ) => {
           await this.device?.discoverAllServicesAndCharacteristics()
+          if(Platform.OS ==='android'){
           const subscription = this.device?.monitorCharacteristicForService(
           ESP32_UUID,
           ESP32_CHARACTERISTIC,
@@ -249,6 +251,14 @@ class BluetoothLeManager {
           this.rvSignalUpdate(error, characteristic, emitter),
           );
           return subscription
+          }
+          else if(Platform.OS==='ios'){
+            const characteristic = await this.device?.readCharacteristicForService(
+              ESP32_UUID,
+              ESP32_CHARACTERISTIC,
+              )
+            this.rvSignalUpdate(null, characteristic??null, emitter)
+          }
   }; 
 
   encodeRequest = (message : Message) => {

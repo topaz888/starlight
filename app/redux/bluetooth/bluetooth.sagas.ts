@@ -162,9 +162,9 @@ function* autoBlueToothPair() {
           type: bluetoothActionConstants.CONNECTION_SUCCESS,
           payload: peripherals[0],
         });
-        // yield put({
-        //   type: bluetoothActionConstants.START_RECEIVE_MESSAGE,
-        // });
+        yield put({
+          type: bluetoothActionConstants.START_RECEIVE_MESSAGE,
+        });
         yield handleBleUnknownDisconnect(peripherals[0].id)
         return
       }
