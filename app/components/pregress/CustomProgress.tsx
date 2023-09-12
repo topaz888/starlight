@@ -19,13 +19,17 @@ type ProgressProps = {
 }
 
 const Progress: FC<ProgressProps> = props =>{
-    const {isDialogVisible, title, message, closeDialog} = props;
+    const {isDialogVisible, message, closeDialog} = props;
 
     useEffect(() => {
       const timer = setTimeout(() => {
         closeDialog()
-      }, 5000);
-      return () => {clearTimeout(timer)};
+      }, 32000);
+      return () => {clearTimeout(timer)
+        if(isDialogVisible){
+          console.log("Timeout")
+        }
+      };
     }, [isDialogVisible]);
 
     return(

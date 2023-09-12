@@ -65,9 +65,9 @@ function* connectToPeripheral(action: {
     type: bluetoothActionConstants.CONNECTION_SUCCESS,
     payload: peripheral,
   });
-  // yield put({
-  //   type: bluetoothActionConstants.START_RECEIVE_MESSAGE,
-  // });
+  yield put({
+    type: bluetoothActionConstants.START_RECEIVE_MESSAGE,
+  });
   var result:boolean = yield call(bluetoothLeManager.isbonded, peripheral.id);
   if(!result){
     yield put({
@@ -95,7 +95,7 @@ function* handleBleUnknownDisconnect(identifier:string): Generator<any, void, an
           type: bluetoothActionConstants.DISCONNECTION_PERIPHERAL,
           payload: identifier
       })
-        console.log("handleBleUnknownDisconnect")
+        console.log("handleBleUnknownDisconnect disconnect ", identifier)
         listener.close();
       }
     }
@@ -176,9 +176,9 @@ function* autoBlueToothPair() {
             type: bluetoothActionConstants.CONNECTION_SUCCESS,
             payload: peripherals[i],
           });
-          // yield put({
-          //   type: bluetoothActionConstants.START_RECEIVE_MESSAGE,
-          // });
+          yield put({
+            type: bluetoothActionConstants.START_RECEIVE_MESSAGE,
+          });
           yield handleBleUnknownDisconnect(peripherals[i].id)
           return
         }

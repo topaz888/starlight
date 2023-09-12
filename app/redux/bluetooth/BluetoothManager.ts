@@ -6,7 +6,6 @@ import DeviceInfo from 'react-native-device-info';
 import { ESP32_CHARACTERISTIC, ESP32_CHARACTERISTIC2, ESP32_UUID, Server_Name } from '../../components/constant/constant';
 import { Message } from '../../models/BluetoothPeripheral';
 import { getUUIDios, handleAddBTuuid } from '../../realm/led/actions/led.actions';
-import plugin from '@realm/babel-plugin';
 
 LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
 
@@ -160,8 +159,10 @@ class BluetoothLeManager {
     try{
       this.device = null;
       if(identifier){
-        if(await this.isDeviceConnected(identifier))
+        if(await this.isDeviceConnected(identifier)){
           await this.bleManager.cancelDeviceConnection(identifier);
+          console.log("disconnect")
+        }
       }
     }catch(e){
       console.log("disconnectToPeripheral", e);
@@ -178,7 +179,7 @@ class BluetoothLeManager {
     if(identifier){
       if(this.device) return false
       try{
-        const connectedDevice = await this.bleManager.connectToDevice(identifier);
+        const connectedDevice = await this.bleManager.connectToDevice(identifier, {timeout:1000});
         if(connectedDevice){
           console.log("connect: ",identifier)
           this.device = connectedDevice;

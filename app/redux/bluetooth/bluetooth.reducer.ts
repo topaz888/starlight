@@ -120,7 +120,8 @@ const bluetoothReducer = createSlice({
     disconnectSuccess: (state) => {
       state.connectedDevice = null;
       state.deviceName = null;
-      state.isStartLEDListen = false; 
+      state.isStartLEDListen = false;
+      state.isLoading = false;
     },
 
     startPeripheralListen: state => {

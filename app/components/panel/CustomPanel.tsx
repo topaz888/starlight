@@ -39,7 +39,7 @@ const Panel = (props: CustomPanelProps) =>{
                     }
                     <View style={styles.dataContainer}>
                         <CustomText style={styles.Text}>{DataList.components.Text[2]}</CustomText>
-                        <DataSlider minVal={0} maxVal={100} step={10} onPress={props.updataLedBrightness} value={props.brightness} />
+                        <DataSlider minVal={0} maxVal={100} step={1} onPress={props.updataLedBrightness} value={props.brightness} />
                     </View>
                 </View>}
             </View>

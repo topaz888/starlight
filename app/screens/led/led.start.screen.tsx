@@ -44,13 +44,6 @@ const LedStartScreen = (props:LedScreenProps) =>{
         }
       }, [])
 
-      useEffect(() => {
-        if(ledConnectedDevice && !isloading){
-            delay(1000)
-            dispatch(uploadMessage(Number(33).toFixed()))
-        }
-      }, [ledConnectedDevice])
-
     const handleTurnOffButton = () =>{
         if(isTurnOff){
             dispatch(uploadIsTurnOff())
@@ -74,7 +67,6 @@ const LedStartScreen = (props:LedScreenProps) =>{
                 :
                  <CTAButton title={DataList.LedStartScreen.Text[3]} theme={'White'} onPress={() => { props.navigation.navigate({ name: 'Settings', params: { ...props.route.params } }); } } width={300} height={50} />
             }
-            <CTAButton title={"Listen"} theme={'White'} onPress={() => { dispatch(startPeripheralListen()) } } width={300} height={50} />
             </View>
             </ImageBackground>
         </View>
