@@ -32,9 +32,9 @@ const Panel = (props: CustomPanelProps) =>{
                             {(+props.modeId < 16) &&
                             <DataSlider minVal={1} maxVal={40} step={2} onPress={props.updataLedCycle} value={props.cycle} />}
                             {(+props.modeId > 15) &&
-                            <DataSlider minVal={10} maxVal={40} step={2} onPress={props.updataLedCycle} value={props.cycle} />}
+                            <DataSlider minVal={10} maxVal={60} step={2} onPress={props.updataLedCycle} value={props.cycle} />}
                             {(props.titleName === `Custom`) &&
-                            <DataSlider minVal={1} maxVal={40} step={2} onPress={props.updataLedCycle} value={props.cycle} />}
+                            <DataSlider minVal={1} maxVal={60} step={2} onPress={props.updataLedCycle} value={props.cycle} />}
                         </View>
                     }
                     <View style={styles.dataContainer}>
