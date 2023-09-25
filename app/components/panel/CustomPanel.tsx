@@ -17,12 +17,24 @@ interface CustomPanelProps {
     updataLedBrightness: Function,
   }
 const Panel = (props: CustomPanelProps) =>{
+        
+    const displayModeId = () => {
+        if(props.modeId == "29")
+            return "1";
+        else if(props.modeId == "24")
+            return "2";
+        else if(props.modeId == "7")
+            return "3";
+        else if(props.modeId == "15")
+            return "4";
+        else return props.modeId;
+    }
     return (
         <View style={styles.container}>
             <View style={styles.controlPanel}>
                 <View style={styles.titleContainer}>
                     <CustomText style={styles.titleKey}>{props.titleName}</CustomText>
-                    <CustomText style={styles.titleNumber}>{props.modeId}</CustomText>
+                    <CustomText style={styles.titleNumber}>{displayModeId()}</CustomText>
                 </View>
                 <PlayPanel backward={() => { props.backward(); } } forwardward={() => { props.forward(); } } play={() => { props.play(); } } isPlay={props.isPlay} modeId={props.modeId}/>
                 {props.isPlay && <View style={styles.buttonsContainer}>

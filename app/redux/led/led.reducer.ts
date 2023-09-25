@@ -33,7 +33,7 @@ const initialState:ledState = {
     customNameIndex:0,
     ledTitleName:0,
     ledKey: 0,
-    ledStaticMode: 1,
+    ledStaticMode: 29,
     ledMode: 0,
     ledCycle: 1,
     mainScreenledCycle: 0,
@@ -59,21 +59,39 @@ const ledReducer = createSlice({
     reducers: {
         moveNextStaticMode:state =>{
             // console.log("moveNextMode");
-            let maxMode: number = 30;
-            let minMode: number = 1;
-            if(state.ledStaticMode < maxMode)
-                state.ledStaticMode = state.ledStaticMode + Number(1);
-            else if(state.ledStaticMode == maxMode)
-                state.ledStaticMode = minMode;
+            if(state.ledStaticMode == 29)
+                state.ledStaticMode = 24;
+            else if(state.ledStaticMode == 24)
+                state.ledStaticMode = 7;
+            else if(state.ledStaticMode == 7)
+                state.ledStaticMode = 15;
+            else if(state.ledStaticMode == 15)
+                state.ledStaticMode = 29;
+            else state.ledStaticMode = 29;
+            // let maxMode: number = 30;
+            // let minMode: number = 1;
+            // if(state.ledStaticMode < maxMode)
+            //     state.ledStaticMode = state.ledStaticMode + Number(1);
+            // else if(state.ledStaticMode == maxMode)
+            //     state.ledStaticMode = minMode;
         },
         movePrevStaticMode:state =>{
             // console.log("movePrevMode");
-            let maxMode: number = 30;
-            let minMode: number = 1;
-            if(state.ledStaticMode > minMode)
-                state.ledStaticMode = state.ledStaticMode - Number(1);
-            else if(state.ledStaticMode == minMode)
-                state.ledStaticMode = maxMode;
+            if(state.ledStaticMode == 29)
+                state.ledStaticMode = 15;
+            else if(state.ledStaticMode == 15)
+                state.ledStaticMode = 7;
+            else if(state.ledStaticMode == 7)
+                state.ledStaticMode = 24;
+            else if(state.ledStaticMode == 24)
+                state.ledStaticMode = 29;
+            else state.ledStaticMode = 29;
+            // let maxMode: number = 30;
+            // let minMode: number = 1;
+            // if(state.ledStaticMode > minMode)
+            //     state.ledStaticMode = state.ledStaticMode - Number(1);
+            // else if(state.ledStaticMode == minMode)
+            //     state.ledStaticMode = maxMode;
         },
         moveNextCustomIndex:state =>{
             // console.log("moveNextCustomIndex");
