@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { Platform, StyleSheet, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/AntDesign";
 import IconFether from "react-native-vector-icons/Feather";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -56,8 +56,18 @@ const styles = StyleSheet.create({
         height: 140,
         width: 140,
         backgroundColor: '#FFFFFF',
-        elevation: 4,
         borderRadius:100,
+        ...Platform.select({
+            ios:{
+                shadowColor: '#000',
+                shadowOffset: {width:0, height:1},
+                shadowOpacity: 0.5,
+                shadowRadius: 0.8,
+            },
+            android:{
+                elevation: 4
+            }
+        })
     },
     playButtonDisable: {
         alignItems: 'center',
@@ -65,8 +75,18 @@ const styles = StyleSheet.create({
         height: 140,
         width: 140,
         backgroundColor: '#EDEDED',
-        elevation: 4,
         borderRadius:100,
+        ...Platform.select({
+            ios:{
+                shadowColor: '#000',
+                shadowOffset: {width:0, height:1},
+                shadowOpacity: 0.5,
+                shadowRadius: 0.8,
+            },
+            android:{
+                elevation: 4
+            }
+        })
     },
     ItemButton: {
         fontSize: 40,
