@@ -35,7 +35,7 @@ const LedControllerScreen = (props:LedControllerProps) => {
     )
 
     const ledConnectedDevice = useSelector(
-        (state: RootState) => state.bluetooth.connectedDevice,
+        (state: RootState) => !state.bluetooth.connectedDevice,
     )
 
     const ledCycle = useSelector(

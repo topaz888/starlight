@@ -19,6 +19,8 @@ interface CustomPanelProps {
 const Panel = (props: CustomPanelProps) =>{
         
     const displayModeId = () => {
+        if(props.titleName === `Custom`)
+            return props.modeId;
         if(props.modeId == "29")
             return "1";
         else if(props.modeId == "24")

@@ -26,9 +26,9 @@ const PlayPanel : FC<PlayPanelProps>= props=>{
                 </TouchableOpacity>
             </View>
             <View>
-                <TouchableOpacity style={(+props.modeId<8 && props.isPlay)?styles.playButtonDisable:styles.playButton} onPress={()=>{handlePlay()}}>
+                <TouchableOpacity style={(props.isPlay)?styles.playButton:styles.playButton} onPress={()=>{handlePlay()}}>
                     {props.isPlay? 
-                        <Ionicons name="pause" style={+props.modeId<8?styles.ItemButtonDisable:styles.ItemButton} />
+                        <Ionicons name="pause" style={styles.ItemButton} />
                         :
                         <Icon name="caretright" style={styles.ItemButton}/>
                     }
