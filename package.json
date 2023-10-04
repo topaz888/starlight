@@ -20,6 +20,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "@types/react-redux": "^7.1.25",
     "buffer": "^6.0.3",
+    "jetifier": "^2.0.0",
     "react": "18.2.0",
     "react-native": "0.71.7",
     "react-native-base64": "^0.2.1",
