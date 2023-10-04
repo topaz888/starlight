@@ -93,9 +93,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.starlight"
+    namespace "com.edithmin.starlight"
     defaultConfig {
-        applicationId "com.starlight"
+        applicationId "com.edithmin.starlight"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

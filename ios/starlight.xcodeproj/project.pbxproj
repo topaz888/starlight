@@ -22,27 +22,27 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = starlight;
+			remoteInfo = "starlight";
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		00E356EE1AD99517003FC87E /* starlightTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = starlightTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* starlightTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "starlightTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* starlightTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = starlightTests.m; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* starlight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = starlight.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = starlight/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = starlight/AppDelegate.mm; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = starlight/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = starlight/main.m; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* starlightTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "starlightTests.m"; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* starlight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "starlight.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = "starlight/AppDelegate.h"; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = "starlight/AppDelegate.mm"; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "starlight/Info.plist"; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = "starlight/main.m"; sourceTree = "<group>"; };
 		394DBCA80E75F3293B9488B9 /* libPods-starlight.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-starlight.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A0F278AD34ABE294F3FBB56 /* Pods-starlight-starlightTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-starlight-starlightTests.debug.xcconfig"; path = "Target Support Files/Pods-starlight-starlightTests/Pods-starlight-starlightTests.debug.xcconfig"; sourceTree = "<group>"; };
 		846C7679EA1208ED729883E0 /* Pods-starlight-starlightTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-starlight-starlightTests.release.xcconfig"; path = "Target Support Files/Pods-starlight-starlightTests/Pods-starlight-starlightTests.release.xcconfig"; sourceTree = "<group>"; };
 		84D2E7095DFBC718B68CADFA /* Pods-starlight.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-starlight.release.xcconfig"; path = "Target Support Files/Pods-starlight/Pods-starlight.release.xcconfig"; sourceTree = "<group>"; };
 		D1FA2F26243DA69FD3EFA8A1 /* Pods-starlight.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-starlight.debug.xcconfig"; path = "Target Support Files/Pods-starlight/Pods-starlight.debug.xcconfig"; sourceTree = "<group>"; };
 		E5ECF66818BF2B334B3AB632 /* libPods-starlight-starlightTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-starlight-starlightTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E735358E2A8D6C43004643FB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = starlight/Images.xcassets; sourceTree = "<group>"; };
-		E73535902A8D6C5C004643FB /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = starlight/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		E735358E2A8D6C43004643FB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "starlight/Images.xcassets"; sourceTree = "<group>"; };
+		E73535902A8D6C5C004643FB /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = "starlight/LaunchScreen.storyboard"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -72,7 +72,7 @@
 				00E356F21AD99517003FC87E /* starlightTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = starlightTests;
+			path = "starlightTests";
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -93,7 +93,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
-			name = starlight;
+			name = "starlight";
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
@@ -167,8 +167,8 @@
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = starlightTests;
-			productName = starlightTests;
+			name = "starlightTests";
+			productname = "starlightTests";
 			productReference = 00E356EE1AD99517003FC87E /* starlightTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
@@ -189,8 +189,8 @@
 			);
 			dependencies = (
 			);
-			name = starlight;
-			productName = starlight;
+			name = "starlight";
+			productName = "starlight";
 			productReference = 13B07F961A680F5B00A75B9A /* starlight.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -439,7 +439,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = starlightTests/Info.plist;
+				INFOPLIST_FILE = "starlightTests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -451,7 +451,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.edithmin.starlight";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/starlight.app/starlight";
 			};
@@ -464,7 +464,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				INFOPLIST_FILE = starlightTests/Info.plist;
+				INFOPLIST_FILE = "starlightTests/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -476,7 +476,7 @@
 					"-lc++",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.edithmin.starlight";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/starlight.app/starlight";
 			};
@@ -491,7 +491,8 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Q894A7KFUS;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = starlight/Info.plist;
+				INFOPLIST_FILE = "starlight/Info.plist";
+             INFOPLIST_KEY_CFBundleDisplayName = "starlight";
 				INFOPLIST_KEY_CFBundleDisplayName = Starlight;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -503,8 +504,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.starlight;
-				PRODUCT_NAME = starlight;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.edithmin.starlight";
+				PRODUCT_NAME = "starlight";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -519,7 +520,8 @@
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Q894A7KFUS;
-				INFOPLIST_FILE = starlight/Info.plist;
+				INFOPLIST_FILE = "starlight/Info.plist";
+             INFOPLIST_KEY_CFBundleDisplayName = "starlight";
 				INFOPLIST_KEY_CFBundleDisplayName = Starlight;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -531,8 +533,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = org.starlight;
-				PRODUCT_NAME = starlight;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.edithmin.starlight";
+				PRODUCT_NAME = "starlight";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

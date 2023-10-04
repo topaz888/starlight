@@ -1,4 +1,4 @@
-package com.starlight;
+package com.edithmin.starlight;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

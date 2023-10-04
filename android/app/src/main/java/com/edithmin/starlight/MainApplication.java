@@ -1,4 +1,4 @@
-package com.starlight;
+package com.edithmin.starlight;
 
 import android.app.Application;
 import com.facebook.react.PackageList;
