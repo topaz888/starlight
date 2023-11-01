@@ -7,59 +7,38 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* starlightTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* starlightTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		32438B2ACF3DD18F65CB14EC /* libPods-starlight-starlightTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E5ECF66818BF2B334B3AB632 /* libPods-starlight-starlightTests.a */; };
-		A73F7A70658FFA62EB7B581A /* libPods-starlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 394DBCA80E75F3293B9488B9 /* libPods-starlight.a */; };
+		7913E463B91B72D2793AA451 /* libPods-starlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D27484AC3973A223095846D /* libPods-starlight.a */; };
 		E735358F2A8D6C44004643FB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E735358E2A8D6C43004643FB /* Images.xcassets */; };
 		E73535912A8D6C5D004643FB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E73535902A8D6C5C004643FB /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		00E356F41AD99517003FC87E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = "starlight";
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXFileReference section */
-		00E356EE1AD99517003FC87E /* starlightTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "starlightTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* starlightTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "starlightTests.m"; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* starlight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "starlight.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = "starlight/AppDelegate.h"; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = "starlight/AppDelegate.mm"; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "starlight/Info.plist"; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = "starlight/main.m"; sourceTree = "<group>"; };
-		394DBCA80E75F3293B9488B9 /* libPods-starlight.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-starlight.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3A0F278AD34ABE294F3FBB56 /* Pods-starlight-starlightTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-starlight-starlightTests.debug.xcconfig"; path = "Target Support Files/Pods-starlight-starlightTests/Pods-starlight-starlightTests.debug.xcconfig"; sourceTree = "<group>"; };
-		846C7679EA1208ED729883E0 /* Pods-starlight-starlightTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-starlight-starlightTests.release.xcconfig"; path = "Target Support Files/Pods-starlight-starlightTests/Pods-starlight-starlightTests.release.xcconfig"; sourceTree = "<group>"; };
-		84D2E7095DFBC718B68CADFA /* Pods-starlight.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-starlight.release.xcconfig"; path = "Target Support Files/Pods-starlight/Pods-starlight.release.xcconfig"; sourceTree = "<group>"; };
-		D1FA2F26243DA69FD3EFA8A1 /* Pods-starlight.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-starlight.debug.xcconfig"; path = "Target Support Files/Pods-starlight/Pods-starlight.debug.xcconfig"; sourceTree = "<group>"; };
-		E5ECF66818BF2B334B3AB632 /* libPods-starlight-starlightTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-starlight-starlightTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		E735358E2A8D6C43004643FB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "starlight/Images.xcassets"; sourceTree = "<group>"; };
-		E73535902A8D6C5C004643FB /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = "starlight/LaunchScreen.storyboard"; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* starlightTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = starlightTests.m; sourceTree = "<group>"; };
+		026AF38F35E3908C3C465888 /* Pods-starlight.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-starlight.debug.xcconfig"; path = "Target Support Files/Pods-starlight/Pods-starlight.debug.xcconfig"; sourceTree = "<group>"; };
+		08876FE12621178C41D46140 /* Pods-starlight-starlightTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-starlight-starlightTests.debug.xcconfig"; path = "Target Support Files/Pods-starlight-starlightTests/Pods-starlight-starlightTests.debug.xcconfig"; sourceTree = "<group>"; };
+		13B07F961A680F5B00A75B9A /* starlight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = starlight.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = starlight/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = starlight/AppDelegate.mm; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = starlight/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = starlight/main.m; sourceTree = "<group>"; };
+		2BCF40BA667B78F5C878E0F5 /* Pods-starlight-starlightTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-starlight-starlightTests.release.xcconfig"; path = "Target Support Files/Pods-starlight-starlightTests/Pods-starlight-starlightTests.release.xcconfig"; sourceTree = "<group>"; };
+		46538546499E46AC4F394D7F /* libPods-starlight-starlightTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-starlight-starlightTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4D27484AC3973A223095846D /* libPods-starlight.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-starlight.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		ABA6A235C68E3F753ACC7CD3 /* Pods-starlight.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-starlight.release.xcconfig"; path = "Target Support Files/Pods-starlight/Pods-starlight.release.xcconfig"; sourceTree = "<group>"; };
+		E735358E2A8D6C43004643FB /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = starlight/Images.xcassets; sourceTree = "<group>"; };
+		E73535902A8D6C5C004643FB /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = starlight/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		00E356EB1AD99517003FC87E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				32438B2ACF3DD18F65CB14EC /* libPods-starlight-starlightTests.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		13B07F8C1A680F5B00A75B9A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A73F7A70658FFA62EB7B581A /* libPods-starlight.a in Frameworks */,
+				7913E463B91B72D2793AA451 /* libPods-starlight.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,7 +51,7 @@
 				00E356F21AD99517003FC87E /* starlightTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
-			path = "starlightTests";
+			path = starlightTests;
 			sourceTree = "<group>";
 		};
 		00E356F01AD99517003FC87E /* Supporting Files */ = {
@@ -93,15 +72,15 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
-			name = "starlight";
+			name = starlight;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				394DBCA80E75F3293B9488B9 /* libPods-starlight.a */,
-				E5ECF66818BF2B334B3AB632 /* libPods-starlight-starlightTests.a */,
+				4D27484AC3973A223095846D /* libPods-starlight.a */,
+				46538546499E46AC4F394D7F /* libPods-starlight-starlightTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -132,7 +111,6 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* starlight.app */,
-				00E356EE1AD99517003FC87E /* starlightTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -140,10 +118,10 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				D1FA2F26243DA69FD3EFA8A1 /* Pods-starlight.debug.xcconfig */,
-				84D2E7095DFBC718B68CADFA /* Pods-starlight.release.xcconfig */,
-				3A0F278AD34ABE294F3FBB56 /* Pods-starlight-starlightTests.debug.xcconfig */,
-				846C7679EA1208ED729883E0 /* Pods-starlight-starlightTests.release.xcconfig */,
+				026AF38F35E3908C3C465888 /* Pods-starlight.debug.xcconfig */,
+				ABA6A235C68E3F753ACC7CD3 /* Pods-starlight.release.xcconfig */,
+				08876FE12621178C41D46140 /* Pods-starlight-starlightTests.debug.xcconfig */,
+				2BCF40BA667B78F5C878E0F5 /* Pods-starlight-starlightTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -151,46 +129,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* starlightTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "starlightTests" */;
-			buildPhases = (
-				52399CD5AD68FEF40AF43044 /* [CP] Check Pods Manifest.lock */,
-				00E356EA1AD99517003FC87E /* Sources */,
-				00E356EB1AD99517003FC87E /* Frameworks */,
-				00E356EC1AD99517003FC87E /* Resources */,
-				E4A6FE47B80FFCB339A3A4D8 /* [CP] Embed Pods Frameworks */,
-				28E79A1040D08F1FC8BE3284 /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				00E356F51AD99517003FC87E /* PBXTargetDependency */,
-			);
-			name = "starlightTests";
-			productname = "starlightTests";
-			productReference = 00E356EE1AD99517003FC87E /* starlightTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		13B07F861A680F5B00A75B9A /* starlight */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "starlight" */;
 			buildPhases = (
-				542AF6EFB5ED723352F525A5 /* [CP] Check Pods Manifest.lock */,
+				D6F76C6DBEB7E460C042F3D2 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				15F39AE2C585E8BA5B9F17E7 /* [CP] Embed Pods Frameworks */,
-				2015918BD1E2FBEB14A33825 /* [CP] Copy Pods Resources */,
+				5EE5B77ABD60F8F85023B727 /* [CP] Embed Pods Frameworks */,
+				288608E12196C415BEA7C541 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = "starlight";
-			productName = "starlight";
+			name = starlight;
+			productName = starlight;
 			productReference = 13B07F961A680F5B00A75B9A /* starlight.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -203,10 +160,6 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
-					00E356ED1AD99517003FC87E = {
-						CreatedOnToolsVersion = 6.2;
-						TestTargetID = 13B07F861A680F5B00A75B9A;
-					};
 					13B07F861A680F5B00A75B9A = {
 						LastSwiftMigration = 1120;
 					};
@@ -226,19 +179,11 @@
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* starlight */,
-				00E356ED1AD99517003FC87E /* starlightTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		00E356EC1AD99517003FC87E /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		13B07F8E1A680F5B00A75B9A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -267,24 +212,7 @@
 			shellPath = /bin/sh;
 			shellScript = "set -e\n\nWITH_ENVIRONMENT=\"../node_modules/react-native/scripts/xcode/with-environment.sh\"\nREACT_NATIVE_XCODE=\"../node_modules/react-native/scripts/react-native-xcode.sh\"\n\n/bin/sh -c \"$WITH_ENVIRONMENT $REACT_NATIVE_XCODE\"\n";
 		};
-		15F39AE2C585E8BA5B9F17E7 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-starlight/Pods-starlight-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-starlight/Pods-starlight-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-starlight/Pods-starlight-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		2015918BD1E2FBEB14A33825 /* [CP] Copy Pods Resources */ = {
+		288608E12196C415BEA7C541 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -301,46 +229,24 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-starlight/Pods-starlight-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		28E79A1040D08F1FC8BE3284 /* [CP] Copy Pods Resources */ = {
+		5EE5B77ABD60F8F85023B727 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-starlight-starlightTests/Pods-starlight-starlightTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-starlight/Pods-starlight-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-starlight-starlightTests/Pods-starlight-starlightTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-starlight/Pods-starlight-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-starlight-starlightTests/Pods-starlight-starlightTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-starlight/Pods-starlight-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		52399CD5AD68FEF40AF43044 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-starlight-starlightTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		542AF6EFB5ED723352F525A5 /* [CP] Check Pods Manifest.lock */ = {
+		D6F76C6DBEB7E460C042F3D2 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -360,23 +266,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		E4A6FE47B80FFCB339A3A4D8 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-starlight-starlightTests/Pods-starlight-starlightTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-starlight-starlightTests/Pods-starlight-starlightTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-starlight-starlightTests/Pods-starlight-starlightTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -401,14 +290,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		00E356EA1AD99517003FC87E /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				00E356F31AD99517003FC87E /* starlightTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		13B07F871A680F5B00A75B9A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -420,80 +301,19 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* starlight */;
-			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin XCBuildConfiguration section */
-		00E356F61AD99517003FC87E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3A0F278AD34ABE294F3FBB56 /* Pods-starlight-starlightTests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "starlightTests/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lc++",
-					"$(inherited)",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.edithmin.starlight";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/starlight.app/starlight";
-			};
-			name = Debug;
-		};
-		00E356F71AD99517003FC87E /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 846C7679EA1208ED729883E0 /* Pods-starlight-starlightTests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				COPY_PHASE_STRIP = NO;
-				INFOPLIST_FILE = "starlightTests/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lc++",
-					"$(inherited)",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.edithmin.starlight";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/starlight.app/starlight";
-			};
-			name = Release;
-		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D1FA2F26243DA69FD3EFA8A1 /* Pods-starlight.debug.xcconfig */;
+			baseConfigurationReference = 026AF38F35E3908C3C465888 /* Pods-starlight.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Q894A7KFUS;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = "starlight/Info.plist";
-             INFOPLIST_KEY_CFBundleDisplayName = "starlight";
-				INFOPLIST_KEY_CFBundleDisplayName = Starlight;
+				INFOPLIST_FILE = starlight/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Starlight Ceiling";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -504,8 +324,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.edithmin.starlight";
-				PRODUCT_NAME = "starlight";
+				PRODUCT_BUNDLE_IDENTIFIER = com.edithmin.starlight;
+				PRODUCT_NAME = starlight;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -514,15 +334,15 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 84D2E7095DFBC718B68CADFA /* Pods-starlight.release.xcconfig */;
+			baseConfigurationReference = ABA6A235C68E3F753ACC7CD3 /* Pods-starlight.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Q894A7KFUS;
-				INFOPLIST_FILE = "starlight/Info.plist";
-             INFOPLIST_KEY_CFBundleDisplayName = "starlight";
-				INFOPLIST_KEY_CFBundleDisplayName = Starlight;
+				INFOPLIST_FILE = starlight/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Starlight Ceiling";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -533,8 +353,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.edithmin.starlight";
-				PRODUCT_NAME = "starlight";
+				PRODUCT_BUNDLE_IDENTIFIER = com.edithmin.starlight;
+				PRODUCT_NAME = starlight;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -589,6 +409,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_NSFileProviderDomainUsageDescription = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
@@ -654,6 +475,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_NSFileProviderDomainUsageDescription = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					/usr/lib/swift,
@@ -680,15 +502,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "starlightTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				00E356F61AD99517003FC87E /* Debug */,
-				00E356F71AD99517003FC87E /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "starlight" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

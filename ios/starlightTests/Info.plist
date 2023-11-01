@@ -20,5 +20,7 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>NSBluetoothPeripheraUsageDescription</key>
+	<string>App needs to use bluetooth to connect the device of Starlight Ceiling</string>
 </dict>
 </plist>
