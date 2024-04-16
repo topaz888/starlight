@@ -53,7 +53,7 @@
 	<false/>
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>App would like to use Bluetooth to ESP32</string>
-	<key>NSBluetoothPeripheraUsageDescription</key>
+	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>App would like to use Bluetooth to ESP32</string>
 	<key>UIAppFonts</key>
 <array>
