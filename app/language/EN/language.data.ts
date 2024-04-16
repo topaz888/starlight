@@ -1,7 +1,7 @@
 const DataList= {
     "BlueToothConnectScreen":{
         "Text": [
-            `Connected Decvice: `,
+            `Connected Device: `,
             `Please search for your panel by clicking on "Find My Starlight Panel"`,
             "Disconnect",
             "Find My Starlight Panel",
@@ -63,7 +63,7 @@ const DataList= {
             `Turn Off`,
             `Choose`,
             `Connect Your Starlight`,
-            `Version: 1.6.3`,
+            `Version: 1.6.4`,
         ]
     },
     "components":{
