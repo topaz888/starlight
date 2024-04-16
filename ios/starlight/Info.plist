@@ -37,7 +37,7 @@
 	</dict>
 	<key>NSBluetoothAlwaysUsageDescription</key>
 	<string>App would like to use Bluetooth to Starlight device</string>
-	<key>NSBluetoothPeripheraUsageDescription</key>
+	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>App would like to use Bluetooth to Starlight device</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string/>
